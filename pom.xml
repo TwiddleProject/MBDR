@@ -79,7 +79,7 @@
           <jdkVersion>1.8</jdkVersion>
           <processTypes>
             <!-- Tell Heroku how to launch your application -->
-            <web>java -cp target/TweetyPlaygroundApp-1.0-SNAPSHOT-jar-with-dependencies.jar com.tweetyplayground.app.Server</web>
+            <web>java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.Server</web>
           </processTypes>
         </configuration>
       </plugin>
