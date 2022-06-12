@@ -14,7 +14,9 @@ import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 public class Server {
 
     public static void main(String[] args) {
-        Javalin app = Javalin.create().start(getHerokuAssignedPort());
+        Javalin app = Javalin.create(config -> {
+            config.enableCorsForAllOrigins();
+        }).start(getHerokuAssignedPort());
 
         app.get("/rankedmodelrc", ctx -> {
             System.out.println("Body:" + ctx.body());
