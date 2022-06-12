@@ -9,7 +9,8 @@ import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.PlSignature;
 
-import com.mbdr.utils.Parsing;
+import com.mbdr.utils.parsing.KnowledgeBase;
+import com.mbdr.utils.parsing.Parser;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
@@ -29,7 +30,7 @@ public class RationalClosure {
      *             base
      * @return
      */
-    public static ArrayList<Set<NicePossibleWorld>> ConstructRankedModel(PlBeliefSet KB_C, PlBeliefSet KB_D) {
+    public static ArrayList<Set<NicePossibleWorld>> ConstructRankedModel(KnowledgeBase knowledge) {
         // TODO: Clean up more...
         // TODO: Add proper logger
         // TODO: Might want to change name of finite and infinite - maybe infinite and
@@ -40,7 +41,7 @@ public class RationalClosure {
         // System.out.println("Beginning construction of minimal ranked model for
         // RC...");
         // System.out.println("------------------------------------------------------------------------------------");
-        PlBeliefSet KB = Parsing.Union(KB_C, KB_D);
+        PlBeliefSet KB = knowledge.union();
         PlSignature KB_atoms = KB.getMinimalSignature();
         // System.out.println("Atoms:\t" + KB_atoms);
         Set<NicePossibleWorld> KB_U = NicePossibleWorld.getAllPossibleWorlds(KB_atoms.toCollection());
@@ -49,7 +50,7 @@ public class RationalClosure {
         // infinite rank
         Set<NicePossibleWorld> KB_U_infinite = new HashSet<>();
         for (NicePossibleWorld nw : KB_U) {
-            if (!nw.satisfies(KB_C)) {
+            if (!nw.satisfies(knowledge.getPropositionalKnowledge())) {
                 KB_U_infinite.add(nw);
             }
         }
@@ -61,7 +62,7 @@ public class RationalClosure {
         // System.out.println("------------------------------------------------------------------------------------");
 
         // Remaining defeasible formulas to rank
-        PlBeliefSet KB_D_Current = new PlBeliefSet(KB_D);
+        PlBeliefSet KB_D_Current = knowledge.getDefeasibleKnowledge();
         // System.out.println("Defeasible formulas left to check off:\t" +
         // KB_D_Current);
 

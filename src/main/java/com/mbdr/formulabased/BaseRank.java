@@ -7,6 +7,8 @@ import org.tweetyproject.logics.pl.syntax.Negation;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
+import com.mbdr.utils.parsing.KnowledgeBase;
+
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.logics.pl.reasoner.*;
@@ -20,7 +22,7 @@ public class BaseRank {
      * @param KB_D
      * @return
      */
-    public static ArrayList<PlBeliefSet> BaseRankDirectImplementation(PlBeliefSet KB_C, PlBeliefSet KB_D) {
+    public static ArrayList<PlBeliefSet> BaseRankDirectImplementation(KnowledgeBase knowledge) {
         SatSolver.setDefaultSolver(new Sat4jSolver());
         SatReasoner reasoner = new SatReasoner();
         ArrayList<PlBeliefSet> rankedKB = new ArrayList<PlBeliefSet>();
@@ -28,7 +30,7 @@ public class BaseRank {
         PlBeliefSet previousKB = new PlBeliefSet();
         PlBeliefSet currentKB = new PlBeliefSet();
 
-        currentKB.addAll(KB_D);
+        currentKB.addAll(knowledge.getDefeasibleKnowledge());
 
         while (!currentKB.equals(previousKB) || !currentKB.isEmpty()) {
             previousKB = currentKB;
@@ -37,9 +39,7 @@ public class BaseRank {
             // System.out.println("previousKB:\t" + previousKB);
             // System.out.println("currentKB:\t" + currentKB);
 
-            PlBeliefSet KB_C_U_previousKB = new PlBeliefSet();
-            KB_C_U_previousKB.addAll(KB_C);
-            KB_C_U_previousKB.addAll(previousKB);
+            PlBeliefSet KB_C_U_previousKB = KnowledgeBase.union(knowledge.getPropositionalKnowledge(), previousKB);
             // System.out.println("KB_C_U_previousKB:\t" + KB_C_U_previousKB);
 
             for (PlFormula formula : previousKB) {
@@ -66,7 +66,7 @@ public class BaseRank {
             }
 
         }
-        rankedKB.add(KB_C); // Add all classical statements - infinite rank
+        rankedKB.add(knowledge.getPropositionalKnowledge()); // Add all classical statements - infinite rank
 
         return rankedKB;
 

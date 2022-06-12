@@ -9,7 +9,8 @@ import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.PlSignature;
 
-import com.mbdr.utils.Parsing;
+import com.mbdr.utils.parsing.KnowledgeBase;
+import com.mbdr.utils.parsing.Parser;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
@@ -29,21 +30,21 @@ public class RationalClosure {
      * @param query_DI
      * @return
      */
-    public static boolean RationalClosureDirectImplementation(PlBeliefSet KB_C, PlBeliefSet KB_D, Implication query_DI) {
+    public static boolean RationalClosureDirectImplementation(KnowledgeBase knowledge, Implication query_DI) {
         SatSolver.setDefaultSolver(new Sat4jSolver());
         SatReasoner reasoner = new SatReasoner();
 
-        ArrayList<PlBeliefSet> ranked_KB = BaseRank.BaseRankDirectImplementation(KB_C, KB_D);
-        PlBeliefSet R = new PlBeliefSet(KB_D);
+        ArrayList<PlBeliefSet> ranked_KB = BaseRank.BaseRankDirectImplementation(knowledge);
+        PlBeliefSet R = knowledge.getDefeasibleKnowledge();
         Negation query_negated_antecedent = new Negation(query_DI.getFirstFormula());
 
         int i = 0;
-        while (reasoner.query(Parsing.Union(KB_C, R), query_negated_antecedent) && !R.isEmpty()) {
+        while (reasoner.query(KnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_negated_antecedent) && !R.isEmpty()) {
             R.removeAll(ranked_KB.get(i));
             i++;
         }
 
-        return reasoner.query(Parsing.Union(KB_C, R), query_DI);
+        return reasoner.query(KnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_DI);
     }
 
 }
