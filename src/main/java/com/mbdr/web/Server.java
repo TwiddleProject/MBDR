@@ -1,4 +1,4 @@
-package com.mbdr;
+package com.mbdr.web;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -8,6 +8,8 @@ import io.javalin.Javalin;
 import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
+
+import com.mbdr.utils.Parsing;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
@@ -48,7 +50,7 @@ public class Server {
                     System.out.println(line);
 
                     if (line.contains("|~")) {
-                        line = Utils.materialiseDefeasibleImplication(line);
+                        line = Parsing.materialiseDefeasibleImplication(line);
                         KB_D.add((PlFormula) parser.parseFormula(line));
                     } else {
                         KB_C.add((PlFormula) parser.parseFormula(line));
@@ -59,7 +61,7 @@ public class Server {
                 System.out.println("KB_D:\t" + KB_D);
                 System.out.println("----------------------------");
 
-                rankedModel = RationalClosure.ConstructRankedModel(KB_C, KB_D);
+                rankedModel = com.mbdr.modelbased.RationalClosure.ConstructRankedModel(KB_C, KB_D);
 
             } catch (Exception e) {
                 e.printStackTrace();

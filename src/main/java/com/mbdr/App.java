@@ -9,9 +9,15 @@ import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
+import com.mbdr.formulabased.BaseRank;
+import com.mbdr.utils.Parsing;
+
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
 public class App {
+
+    public final static String KNOWLEDGE_BASE_DIR = "knowledge_bases/";
+
     public static void main(String[] args) {
         // TODO: Need to investigate normalising knowledge bases as twiddle statements
 
@@ -21,7 +27,7 @@ public class App {
         String file_name = "penguins.txt";
 
         try {
-            File file = new File("src/main/resources/" + file_name);
+            File file = new File(KNOWLEDGE_BASE_DIR + file_name);
             Scanner reader = new Scanner(file);
             System.out.println("----------------------------");
             System.out.println("KB file lines:");
@@ -31,7 +37,7 @@ public class App {
                 System.out.println(line);
 
                 if (line.contains("|~")) {
-                    line = Utils.materialiseDefeasibleImplication(line);
+                    line = Parsing.materialiseDefeasibleImplication(line);
                     KB_D.add((PlFormula) parser.parseFormula(line));
                 } else {
                     KB_C.add((PlFormula) parser.parseFormula(line));
@@ -52,13 +58,13 @@ public class App {
             System.out.println("----------------------------");
             System.out.println("Testing query:\t" + "p |~ f");
             Implication query = (Implication) parser
-                    .parseFormula(Utils.materialiseDefeasibleImplication("p |~ f"));
+                    .parseFormula(Parsing.materialiseDefeasibleImplication("p |~ f"));
             System.out.println("Materialised query:\t" + query.toString());
             System.out.println(
-                    "Answer to query:\t" + RationalClosure.RationalClosureDirectImplementation(KB_C, KB_D, query));
+                    "Answer to query:\t" + com.mbdr.formulabased.RationalClosure.RationalClosureDirectImplementation(KB_C, KB_D, query));
             System.out.println("----------------------------");
             System.out.println("Rational Closure Ranked Model:");
-            ArrayList<Set<NicePossibleWorld>> RC_Mininal_Model = RationalClosure.ConstructRankedModel(KB_C, KB_D);
+            ArrayList<Set<NicePossibleWorld>> RC_Mininal_Model = com.mbdr.modelbased.RationalClosure.ConstructRankedModel(KB_C, KB_D);
 
             // Print out formatted Rational Closure Ranked Model
             System.out.println("∞" + " :\t" + RC_Mininal_Model.get(RC_Mininal_Model.size() - 1));

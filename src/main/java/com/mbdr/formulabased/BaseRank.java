@@ -1,4 +1,4 @@
-package com.mbdr;
+package com.mbdr.formulabased;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class BaseRank {
      * @param KB_D
      * @return
      */
-    static ArrayList<PlBeliefSet> BaseRankDirectImplementation(PlBeliefSet KB_C, PlBeliefSet KB_D) {
+    public static ArrayList<PlBeliefSet> BaseRankDirectImplementation(PlBeliefSet KB_C, PlBeliefSet KB_D) {
         SatSolver.setDefaultSolver(new Sat4jSolver());
         SatReasoner reasoner = new SatReasoner();
         ArrayList<PlBeliefSet> rankedKB = new ArrayList<PlBeliefSet>();

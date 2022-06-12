@@ -1,4 +1,4 @@
-package com.mbdr;
+package com.mbdr.modelbased;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -9,6 +9,8 @@ import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.PlSignature;
 
+import com.mbdr.utils.Parsing;
+
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
@@ -16,33 +18,6 @@ import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.logics.pl.reasoner.*;
 
 public class RationalClosure {
-
-    /**
-     * Standard, unoptimised RationalClosure algorithm implementation
-     * 
-     * @param KB_C     - Knowledge base containing all the purely classical formulas
-     *                 of the given knowledge base
-     * @param KB_D     - Knowledge base containing all the DIs of the given
-     *                 knowledge base
-     * @param query_DI
-     * @return
-     */
-    static boolean RationalClosureDirectImplementation(PlBeliefSet KB_C, PlBeliefSet KB_D, Implication query_DI) {
-        SatSolver.setDefaultSolver(new Sat4jSolver());
-        SatReasoner reasoner = new SatReasoner();
-
-        ArrayList<PlBeliefSet> ranked_KB = BaseRank.BaseRankDirectImplementation(KB_C, KB_D);
-        PlBeliefSet R = new PlBeliefSet(KB_D);
-        Negation query_negated_antecedent = new Negation(query_DI.getFirstFormula());
-
-        int i = 0;
-        while (reasoner.query(Utils.Union(KB_C, R), query_negated_antecedent) && !R.isEmpty()) {
-            R.removeAll(ranked_KB.get(i));
-            i++;
-        }
-
-        return reasoner.query(Utils.Union(KB_C, R), query_DI);
-    }
 
     /**
      * Constructs the ranked model used to define Rational Closure for a given
@@ -54,7 +29,7 @@ public class RationalClosure {
      *             base
      * @return
      */
-    static ArrayList<Set<NicePossibleWorld>> ConstructRankedModel(PlBeliefSet KB_C, PlBeliefSet KB_D) {
+    public static ArrayList<Set<NicePossibleWorld>> ConstructRankedModel(PlBeliefSet KB_C, PlBeliefSet KB_D) {
         // TODO: Clean up more...
         // TODO: Add proper logger
         // TODO: Might want to change name of finite and infinite - maybe infinite and
@@ -65,7 +40,7 @@ public class RationalClosure {
         // System.out.println("Beginning construction of minimal ranked model for
         // RC...");
         // System.out.println("------------------------------------------------------------------------------------");
-        PlBeliefSet KB = Utils.Union(KB_C, KB_D);
+        PlBeliefSet KB = Parsing.Union(KB_C, KB_D);
         PlSignature KB_atoms = KB.getMinimalSignature();
         // System.out.println("Atoms:\t" + KB_atoms);
         Set<NicePossibleWorld> KB_U = NicePossibleWorld.getAllPossibleWorlds(KB_atoms.toCollection());

@@ -1,8 +1,8 @@
-package com.mbdr;
+package com.mbdr.utils;
 
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 
-public class Utils {
+public class Parsing {
 
     /*
      * The BNF for a propositional belief set is given by (starting symbol is
@@ -20,7 +20,7 @@ public class Utils {
      * @param DI
      * @return
      */
-    static String materialiseDefeasibleImplication(String DI) {
+    public static String materialiseDefeasibleImplication(String DI) {
         return DI.replace("|~", "=>");
     }
 
@@ -31,7 +31,7 @@ public class Utils {
      * @param B
      * @return
      */
-    static PlBeliefSet Union(PlBeliefSet A, PlBeliefSet B) {
+    public static PlBeliefSet Union(PlBeliefSet A, PlBeliefSet B) {
         PlBeliefSet temp = new PlBeliefSet();
         temp.addAll(A);
         temp.addAll(B);

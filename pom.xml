@@ -84,7 +84,7 @@
           <jdkVersion>1.8</jdkVersion>
           <processTypes>
             <!-- Tell Heroku how to launch your application -->
-            <web>java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.Server</web>
+            <web>java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.web.Server</web>
           </processTypes>
         </configuration>
       </plugin>
