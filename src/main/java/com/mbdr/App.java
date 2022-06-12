@@ -4,13 +4,15 @@ import java.io.*;
 import java.util.*;
 
 import org.tweetyproject.logics.pl.parser.PlParser;
-
+import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.formulabased.BaseRank;
-import com.mbdr.utils.Parsing;
+import com.mbdr.utils.parsing.KnowledgeBaseReader;
+import com.mbdr.utils.parsing.KnowledgeBase;
+import com.mbdr.utils.parsing.Parser;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
@@ -21,33 +23,28 @@ public class App {
     public static void main(String[] args) {
         // TODO: Need to investigate normalising knowledge bases as twiddle statements
 
-        PlParser parser = new PlParser();
-        PlBeliefSet KB_C = new PlBeliefSet();
-        PlBeliefSet KB_D = new PlBeliefSet();
-        String file_name = "penguins.txt";
+        String fileName = "penguins.txt";
 
         try {
-            File file = new File(KNOWLEDGE_BASE_DIR + file_name);
-            Scanner reader = new Scanner(file);
+            KnowledgeBaseReader reader = new KnowledgeBaseReader(KNOWLEDGE_BASE_DIR);
+            ArrayList<String> rawFormulas = reader.readFormulasFromFile(fileName);
+
             System.out.println("----------------------------");
             System.out.println("KB file lines:");
             System.out.println("----------------------------");
-            while (reader.hasNextLine()) {
-                String line = reader.nextLine();
-                System.out.println(line);
-
-                if (line.contains("|~")) {
-                    line = Parsing.materialiseDefeasibleImplication(line);
-                    KB_D.add((PlFormula) parser.parseFormula(line));
-                } else {
-                    KB_C.add((PlFormula) parser.parseFormula(line));
-                }
+            for(String rawFormula : rawFormulas){
+                System.out.println(rawFormula);
             }
+
+            KnowledgeBase knowledgeBase = Parser.parseFormulas(rawFormulas);
+
             System.out.println("----------------------------");
-            System.out.println("KB_C:\t" + KB_C);
-            System.out.println("KB_D:\t" + KB_D);
+            System.out.println("KB_C:\t" + knowledgeBase.getPropositionalKnowledge());
+            System.out.println("KB_D:\t" + knowledgeBase.getDefeasibleKnowledge());
             System.out.println("----------------------------");
-            ArrayList<PlBeliefSet> ranked_KB = BaseRank.BaseRankDirectImplementation(KB_C, KB_D);
+
+            ArrayList<PlBeliefSet> ranked_KB = BaseRank.BaseRankDirectImplementation(knowledgeBase);
+
             System.out.println("BaseRank of KB: ");
             System.out.println("----------------------------");
             Object[] ranked_KB_Arr = ranked_KB.toArray();
@@ -57,23 +54,35 @@ public class App {
             }
             System.out.println("----------------------------");
             System.out.println("Testing query:\t" + "p |~ f");
+
+            PlParser parser = new PlParser();
             Implication query = (Implication) parser
-                    .parseFormula(Parsing.materialiseDefeasibleImplication("p |~ f"));
+                    .parseFormula(Parser.materialiseDefeasibleImplication("p |~ f"));
+
             System.out.println("Materialised query:\t" + query.toString());
             System.out.println(
-                    "Answer to query:\t" + com.mbdr.formulabased.RationalClosure.RationalClosureDirectImplementation(KB_C, KB_D, query));
+                    "Answer to query:\t" + com.mbdr.formulabased.RationalClosure.RationalClosureDirectImplementation(knowledgeBase, query));
             System.out.println("----------------------------");
             System.out.println("Rational Closure Ranked Model:");
-            ArrayList<Set<NicePossibleWorld>> RC_Mininal_Model = com.mbdr.modelbased.RationalClosure.ConstructRankedModel(KB_C, KB_D);
+
+            ArrayList<Set<NicePossibleWorld>> RC_Mininal_Model = com.mbdr.modelbased.RationalClosure.ConstructRankedModel(knowledgeBase);
 
             // Print out formatted Rational Closure Ranked Model
             System.out.println("∞" + " :\t" + RC_Mininal_Model.get(RC_Mininal_Model.size() - 1));
             for (int rank_Index = RC_Mininal_Model.size() - 2; rank_Index >= 0; rank_Index--) {
                 System.out.println(rank_Index + " :\t" + RC_Mininal_Model.get(rank_Index));
             }
-
-            reader.close();
-        } catch (Exception e) {
+        } 
+        catch (FileNotFoundException e) {
+            System.out.println("Could not find knowledge base file!");
+            e.printStackTrace();
+        }
+        catch (ParserException e){
+            System.out.println("Invalid formula in knowledge base!");
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            System.out.println("IO issue during formula parsing!");
             e.printStackTrace();
         }
     }

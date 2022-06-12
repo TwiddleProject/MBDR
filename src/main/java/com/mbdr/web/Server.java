@@ -9,7 +9,9 @@ import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.utils.Parsing;
+import com.mbdr.utils.parsing.KnowledgeBase;
+import com.mbdr.utils.parsing.KnowledgeBaseReader;
+import com.mbdr.utils.parsing.Parser;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
@@ -37,31 +39,24 @@ public class Server {
             }
 
             PlParser parser = new PlParser();
-            PlBeliefSet KB_C = new PlBeliefSet();
-            PlBeliefSet KB_D = new PlBeliefSet();
 
             ArrayList<Set<NicePossibleWorld>> rankedModel = new ArrayList<>();
 
             try {
-                String[] lines = data.split("\n");
-                for (int i = 0; i < lines.length; i++) {
-                    String line = lines[i];
+                ArrayList<String> rawFormulas = KnowledgeBaseReader.readFormulasFromString(data);
 
-                    System.out.println(line);
-
-                    if (line.contains("|~")) {
-                        line = Parsing.materialiseDefeasibleImplication(line);
-                        KB_D.add((PlFormula) parser.parseFormula(line));
-                    } else {
-                        KB_C.add((PlFormula) parser.parseFormula(line));
-                    }
+                for (String raw : rawFormulas) {
+                    System.out.println(raw);
                 }
+
+                KnowledgeBase knowledge = Parser.parseFormulas(rawFormulas);
+
                 System.out.println("----------------------------");
-                System.out.println("KB_C:\t" + KB_C);
-                System.out.println("KB_D:\t" + KB_D);
+                System.out.println("KB_C:\t" + knowledge.getPropositionalKnowledge());
+                System.out.println("KB_D:\t" + knowledge.getDefeasibleKnowledge());
                 System.out.println("----------------------------");
 
-                rankedModel = com.mbdr.modelbased.RationalClosure.ConstructRankedModel(KB_C, KB_D);
+                rankedModel = com.mbdr.modelbased.RationalClosure.ConstructRankedModel(knowledge);
 
             } catch (Exception e) {
                 e.printStackTrace();
