@@ -11,6 +11,8 @@ import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
+import org.json.*;
+
 public class Server {
 
     public static void main(String[] args) {
@@ -18,8 +20,19 @@ public class Server {
             config.enableCorsForAllOrigins();
         }).start(getHerokuAssignedPort());
 
-        app.get("/rankedmodelrc", ctx -> {
+        app.post("/rankedmodelrc", ctx -> {
             System.out.println("Body:" + ctx.body());
+            String data = "";
+
+            try {
+                JSONObject jsonObject = new JSONObject(ctx.body());
+                System.out.println("jsonObject:\t" + jsonObject);
+                data = jsonObject.getString("data");
+                System.out.println("data:\t" + data);
+
+            } catch (JSONException err) {
+                err.printStackTrace();
+            }
 
             PlParser parser = new PlParser();
             PlBeliefSet KB_C = new PlBeliefSet();
@@ -28,7 +41,7 @@ public class Server {
             ArrayList<Set<NicePossibleWorld>> rankedModel = new ArrayList<>();
 
             try {
-                String[] lines = ctx.body().split("\n");
+                String[] lines = data.split("\n");
                 for (int i = 0; i < lines.length; i++) {
                     String line = lines[i];
 
@@ -52,8 +65,27 @@ public class Server {
                 e.printStackTrace();
             }
 
-            ctx.contentType("json");
-            ctx.result(rankedModel.toString());
+            String result = "";
+
+            // for (Set<NicePossibleWorld> rank : rankedModel) {
+            // for (NicePossibleWorld w : rank) {
+            // result += w;
+            // }
+            // result += "\n";
+            // }
+
+            result += "∞" + " :\t" + rankedModel.get(rankedModel.size() - 1);
+            for (int rank_Index = rankedModel.size() - 2; rank_Index >= 0; rank_Index--) {
+                result += "\n" + rank_Index + " :\t" + rankedModel.get(rank_Index);
+            }
+
+            // ctx.result(rankedModel.toString());
+            // ctx.result("{data:" + rankedModel.toString() + " }");
+            // ctx.result("{data:" + result + " }");
+            // String resultString = rankedModel.toString();
+            // ctx.header("rankedModel", rankedModel.toString());
+            // ctx.result("'" + resultString + "'");
+            ctx.result(result);
         });
     }
 
