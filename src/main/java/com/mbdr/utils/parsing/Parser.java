@@ -12,23 +12,38 @@ public class Parser {
 
     public final static String TWIDDLE = "|~";
 
+    public static boolean isDefeasible(String formula){
+        return formula.contains(TWIDDLE);
+    }
+
     public static KnowledgeBase parseFormulas(ArrayList<String> formulas) throws ParserException, IOException{
         KnowledgeBase knowledgeBase = new KnowledgeBase();
-        PlParser parser = new PlParser();
         for(String rawFormula : formulas){
             // Defeasible implication
-            if(rawFormula.contains(TWIDDLE)){
-                String materialised = materialiseDefeasibleImplication(rawFormula);
-                PlFormula formula = parser.parseFormula(materialised);
+            if(isDefeasible(rawFormula)){
+                PlFormula formula = parseDefeasibleFormula(rawFormula);
                 knowledgeBase.addDefeasibleFormula(formula);
             }
             // Propositional formula
             else{
-                PlFormula formula = parser.parseFormula(rawFormula);
+                PlFormula formula = parsePropositionalFormula(rawFormula);
                 knowledgeBase.addPropositionalFormula(formula);
             }
         }
         return knowledgeBase;
+    }
+
+    public static PlFormula parsePropositionalFormula(String propositionalFormula) throws ParserException, IOException{
+        PlParser parser = new PlParser();
+        return parser.parseFormula(propositionalFormula);
+    }
+
+    public static PlFormula parseDefeasibleFormula(String defeasibleFormula) throws ParserException, IOException{
+        PlParser parser = new PlParser();
+        if(!isDefeasible(defeasibleFormula)){
+            throw new ParserException("Expected a defeasible formula");
+        }
+        return parser.parseFormula(materialiseDefeasibleImplication(defeasibleFormula));
     }
 
     /*
