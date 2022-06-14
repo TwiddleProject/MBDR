@@ -32,7 +32,7 @@ public class App {
             System.out.println("----------------------------");
             System.out.println("KB file lines:");
             System.out.println("----------------------------");
-            for(String rawFormula : rawFormulas){
+            for (String rawFormula : rawFormulas) {
                 System.out.println(rawFormula);
             }
 
@@ -61,27 +61,26 @@ public class App {
 
             System.out.println("Materialised query:\t" + query.toString());
             System.out.println(
-                    "Answer to query:\t" + com.mbdr.formulabased.RationalClosure.RationalClosureDirectImplementation(knowledgeBase, query));
+                    "Answer to query:\t" + com.mbdr.formulabased.RationalClosure
+                            .RationalClosureDirectImplementation(knowledgeBase, query));
             System.out.println("----------------------------");
             System.out.println("Rational Closure Ranked Model:");
 
-            ArrayList<Set<NicePossibleWorld>> RC_Mininal_Model = com.mbdr.modelbased.RationalClosure.ConstructRankedModel(knowledgeBase);
+            ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model = com.mbdr.modelbased.RationalClosure
+                    .ConstructRankedModel(knowledgeBase);
 
             // Print out formatted Rational Closure Ranked Model
-            System.out.println("∞" + " :\t" + RC_Mininal_Model.get(RC_Mininal_Model.size() - 1));
-            for (int rank_Index = RC_Mininal_Model.size() - 2; rank_Index >= 0; rank_Index--) {
-                System.out.println(rank_Index + " :\t" + RC_Mininal_Model.get(rank_Index));
+            System.out.println("∞" + " :\t" + RC_Minimal_Model.get(RC_Minimal_Model.size() - 1));
+            for (int rank_Index = RC_Minimal_Model.size() - 2; rank_Index >= 0; rank_Index--) {
+                System.out.println(rank_Index + " :\t" + RC_Minimal_Model.get(rank_Index));
             }
-        } 
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("Could not find knowledge base file!");
             e.printStackTrace();
-        }
-        catch (ParserException e){
+        } catch (ParserException e) {
             System.out.println("Invalid formula in knowledge base!");
             e.printStackTrace();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("IO issue during formula parsing!");
             e.printStackTrace();
         }
