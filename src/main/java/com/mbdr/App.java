@@ -11,8 +11,8 @@ import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.formulabased.BaseRank;
 import com.mbdr.modelbased.EntailmentChecker;
+import com.mbdr.structures.KnowledgeBase;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
-import com.mbdr.utils.parsing.KnowledgeBase;
 import com.mbdr.utils.parsing.Parser;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;

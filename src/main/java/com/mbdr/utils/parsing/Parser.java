@@ -8,6 +8,8 @@ import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
+import com.mbdr.structures.KnowledgeBase;
+
 public class Parser {
 
     public final static String TWIDDLE = "|~";

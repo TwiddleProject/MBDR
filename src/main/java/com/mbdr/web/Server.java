@@ -9,7 +9,7 @@ import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.utils.parsing.KnowledgeBase;
+import com.mbdr.structures.KnowledgeBase;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
 import com.mbdr.utils.parsing.Parser;
 

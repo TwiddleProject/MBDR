@@ -8,7 +8,7 @@ import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.utils.parsing.KnowledgeBase;
+import com.mbdr.structures.KnowledgeBase;
 
 public class LexicographicClosure {
     
@@ -94,7 +94,7 @@ public class LexicographicClosure {
     /**
      * Class to represent a world and the number of formulas it satisfies
      */
-    public static class CountedWorld extends com.mbdr.utils.Pair<NicePossibleWorld, Integer>{
+    public static class CountedWorld extends org.tweetyproject.commons.util.Pair<NicePossibleWorld, Integer>{
 
         public CountedWorld(NicePossibleWorld world, int count){
             super(world, count);
