@@ -2,13 +2,20 @@
 
 Provides entailment checking services for Rational and Lexicographic Closure of a knowledge base using ranked models. Construction of these models and entailment checking is benchmarked against exisiting formula-based approaches.
 
+## Requirements
+
+- Maven 3.3+
+- Java 15+
+
 ## Installation
 
-### Requirements
-
-### Instructions
+To build the project, run:
+```mvn package```
 
 ## Usage
+
+To execute the application, run:
+```java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.App```
 
 ## Authors
 - Jaron Cohen
