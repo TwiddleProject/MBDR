@@ -10,6 +10,7 @@ import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.formulabased.BaseRank;
+import com.mbdr.modelbased.EntailmentChecker;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
 import com.mbdr.utils.parsing.KnowledgeBase;
 import com.mbdr.utils.parsing.Parser;
@@ -23,7 +24,7 @@ public class App {
     public static void main(String[] args) {
         // TODO: Need to investigate normalising knowledge bases as twiddle statements
 
-        String fileName = "penguins.txt";
+        String fileName = "platypuses.txt";
 
         try {
             KnowledgeBaseReader reader = new KnowledgeBaseReader(KNOWLEDGE_BASE_DIR);
@@ -52,29 +53,50 @@ public class App {
             for (int rank_Index = ranked_KB_Arr.length - 2; rank_Index >= 0; rank_Index--) {
                 System.out.println(rank_Index + " :\t" + ranked_KB_Arr[rank_Index]);
             }
+
+            String rawQuery = "p |~ w";
+
             System.out.println("----------------------------");
-            System.out.println("Testing query:\t" + "p |~ f");
+            System.out.println("Testing query:\t" + rawQuery);
 
             PlParser parser = new PlParser();
             Implication query = (Implication) parser
-                    .parseFormula(Parser.materialiseDefeasibleImplication("p |~ f"));
+                    .parseFormula(Parser.materialiseDefeasibleImplication(rawQuery));
 
             System.out.println("Materialised query:\t" + query.toString());
             System.out.println(
-                    "Answer to query:\t" + com.mbdr.formulabased.RationalClosure
-                            .RationalClosureDirectImplementation(knowledgeBase, query));
+                    "Answer to query:\t" + com.mbdr.formulabased.RationalClosure.RationalClosureDirectImplementation(knowledgeBase, query));
+
+            ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model = com.mbdr.modelbased.RationalClosure.ConstructRankedModel(knowledgeBase);
+            ArrayList<Set<NicePossibleWorld>> LC_Minimal_Model = com.mbdr.modelbased.LexicographicClosure.refine(knowledgeBase, RC_Minimal_Model);
+            EntailmentChecker rcChecker = new EntailmentChecker(RC_Minimal_Model);
+            EntailmentChecker lcChecker = new EntailmentChecker(LC_Minimal_Model);
+
             System.out.println("----------------------------");
             System.out.println("Rational Closure Ranked Model:");
-
-            ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model = com.mbdr.modelbased.RationalClosure
-                    .ConstructRankedModel(knowledgeBase);
 
             // Print out formatted Rational Closure Ranked Model
             System.out.println("∞" + " :\t" + RC_Minimal_Model.get(RC_Minimal_Model.size() - 1));
             for (int rank_Index = RC_Minimal_Model.size() - 2; rank_Index >= 0; rank_Index--) {
                 System.out.println(rank_Index + " :\t" + RC_Minimal_Model.get(rank_Index));
             }
-        } catch (FileNotFoundException e) {
+
+            System.out.println(
+                    "Answer to query:\t" + rcChecker.query(rawQuery));
+            System.out.println("----------------------------");
+            System.out.println("Lexicographic Closure Ranked Model:");
+
+            // Print out formatted Rational Closure Ranked Model
+            System.out.println("∞" + " :\t" + LC_Minimal_Model.get(LC_Minimal_Model.size() - 1));
+            for (int rank_Index = LC_Minimal_Model.size() - 2; rank_Index >= 0; rank_Index--) {
+                System.out.println(rank_Index + " :\t" + LC_Minimal_Model.get(rank_Index));
+            }
+
+            System.out.println(
+                    "Answer to query:\t" + lcChecker.query(rawQuery));
+            System.out.println("----------------------------");
+        } 
+        catch (FileNotFoundException e) {
             System.out.println("Could not find knowledge base file!");
             e.printStackTrace();
         } catch (ParserException e) {
