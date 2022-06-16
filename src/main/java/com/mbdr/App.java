@@ -65,28 +65,37 @@ public class App {
 
             System.out.println("Materialised query:\t" + query.toString());
             System.out.println(
-                    "Answer to query (direct implementation):\t" + com.mbdr.formulabased.RationalClosure
+                    "Answer to query (RC direct implementation):\t\t" + com.mbdr.formulabased.RationalClosure
                             .RationalClosureDirectImplementation(knowledgeBase, query));
 
             System.out.println(
-                    "Answer to query (Joel's Regular):\t\t"
+                    "Answer to query (RC Joel's Regular):\t\t\t"
                             + com.mbdr.formulabased.RationalClosure.RationalClosureJoelRegular(ranked_KB, query));
 
             com.mbdr.formulabased.RationalClosure RC_Indexing = new com.mbdr.formulabased.RationalClosure();
 
             System.out.println(
-                    "Answer to query (Joel's Regular Indexing):\t"
+                    "Answer to query (RC Joel's Regular Indexing):\t\t"
                             + RC_Indexing.RationalClosureJoelRegularIndexing(ranked_KB, query));
 
             System.out.println(
-                    "Answer to query (Joel's Binary Search):\t\t"
+                    "Answer to query (RC Joel's Binary Search):\t\t"
                             + com.mbdr.formulabased.RationalClosure.RationalClosureJoelBinarySearch(ranked_KB, query));
 
             com.mbdr.formulabased.RationalClosure RC_Binary_Indexing = new com.mbdr.formulabased.RationalClosure();
 
             System.out.println(
-                    "Answer to query (Joel's Binary Indexing Search):\t\t"
+                    "Answer to query (RC Joel's Binary Indexing Search):\t"
                             + RC_Binary_Indexing.RationalClosureJoelBinarySearchIndexing(ranked_KB, query));
+
+            System.out.println(
+                    "Answer to query (LC Daniels's Naive):\t\t\t"
+                            + com.mbdr.formulabased.LexicographicClosure.LexicographicClosureDanielNaive(ranked_KB,
+                                    query));
+            System.out.println(
+                    "Answer to query (LC Daniels's Powerset):\t\t"
+                            + com.mbdr.formulabased.LexicographicClosure.LexicographicClosureDanielPowerset(ranked_KB,
+                                    query));
 
             ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model = com.mbdr.modelbased.RationalClosure
                     .ConstructRankedModel(knowledgeBase);

@@ -233,7 +233,7 @@ public class LexicographicClosure {
      * @throws ParserException
      * @throws IOException
      */
-    static Boolean LexicographicClosureDanielPowerset(ArrayList<PlBeliefSet> rKB, PlFormula formula)
+    public static boolean LexicographicClosureDanielPowerset(ArrayList<PlBeliefSet> rKB, PlFormula formula)
             throws ParserException, IOException {
 
         ArrayList<PlBeliefSet> rankedKB = new ArrayList<>(rKB);
