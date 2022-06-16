@@ -157,13 +157,55 @@ public class RationalClosure {
     }
 
     /**
+     * Joel's implementation of modified RationalClosure algorithm that utilises
+     * Binary Search to find the rank from which all ranks need to be removed, as
+     * opposed to iterating linearly from the top, downwards, as in RationalClosure.
+     * 
+     * @param originalRankedKB
+     * @param formula
+     * @return
+     */
+    public static boolean RationalClosureJoelBinarySearch(ArrayList<PlBeliefSet> originalRankedKB, PlFormula formula) {
+
+        SatSolver.setDefaultSolver(new Sat4jSolver());
+        SatReasoner classicalReasoner = new SatReasoner();
+
+        PlFormula negationOfAntecedent = new Negation(((Implication) formula).getFormulas().getFirst());
+
+        int low = 0;
+        int n = originalRankedKB.size();
+        int high = n;
+
+        while (high > low) {
+            int mid = low + (high - low) / 2;
+            List<PlBeliefSet> R = originalRankedKB.subList(mid + 1, n);
+            PlBeliefSet combinedRankedKBArray = combine(R);
+            if (classicalReasoner.query(combinedRankedKBArray, negationOfAntecedent)) {
+                low = mid + 1;
+            } else {
+                R = originalRankedKB.subList(mid, n);
+                combinedRankedKBArray = combine(R);
+                if (classicalReasoner.query(combinedRankedKBArray, negationOfAntecedent)) {
+                    R = originalRankedKB.subList(mid + 1, n);
+                    combinedRankedKBArray = combine(R);
+                    return classicalReasoner.query(combinedRankedKBArray, formula);
+                } else {
+                    high = mid;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Helper function written by Joel to combine ranked PlBeliefSets into single
      * PlBeliefSet
      * 
      * @param ranks
      * @return
      */
-    public static PlBeliefSet combine(ArrayList<PlBeliefSet> ranks) {
+    public static PlBeliefSet combine(List<PlBeliefSet> ranks) {
         PlBeliefSet combined = new PlBeliefSet();
         for (PlBeliefSet rank : ranks) {
             combined.addAll(rank);
