@@ -253,8 +253,8 @@ public class RationalClosure {
     }
 
     /**
-     * Helper function written by Joel to combine ranked PlBeliefSets into single
-     * PlBeliefSet
+     * Helper function written by Joel/Daniel to combine ranked PlBeliefSets into
+     * single PlBeliefSet
      * 
      * @param ranks
      * @return
