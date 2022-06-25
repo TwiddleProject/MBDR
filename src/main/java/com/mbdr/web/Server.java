@@ -56,7 +56,7 @@ public class Server {
                 System.out.println("KB_D:\t" + knowledge.getDefeasibleKnowledge());
                 System.out.println("----------------------------");
 
-                rankedModel = com.mbdr.modelbased.RationalClosure.ConstructRankedModel(knowledge);
+                rankedModel = com.mbdr.modelbased.RationalClosure.ConstructRankedModel(knowledge, null);
 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -30,7 +30,8 @@ public class RationalClosure {
      *             base
      * @return
      */
-    public static ArrayList<Set<NicePossibleWorld>> ConstructRankedModel(KnowledgeBase knowledge) {
+    public static ArrayList<Set<NicePossibleWorld>> ConstructRankedModel(KnowledgeBase knowledge,
+            Set<NicePossibleWorld> possibleWorlds) {
         // TODO: Clean up more...
         // TODO: Add proper logger
         // TODO: Might want to change name of finite and infinite - maybe infinite and
@@ -44,7 +45,14 @@ public class RationalClosure {
         PlBeliefSet KB = knowledge.union();
         PlSignature KB_atoms = KB.getMinimalSignature();
         // System.out.println("Atoms:\t" + KB_atoms);
-        Set<NicePossibleWorld> KB_U = NicePossibleWorld.getAllPossibleWorlds(KB_atoms.toCollection());
+
+        Set<NicePossibleWorld> KB_U;
+        if (possibleWorlds == null) {
+            KB_U = NicePossibleWorld.getAllPossibleWorlds(KB_atoms.toCollection());
+        } else {
+            KB_U = new HashSet<>(possibleWorlds);
+        }
+
         // System.out.println("All Worlds:\t" + KB_U);
         // Find the worlds that do not satisfy the classical formulas - must have
         // infinite rank
