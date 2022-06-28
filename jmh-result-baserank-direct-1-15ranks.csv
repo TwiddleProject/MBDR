@@ -1,0 +1,16 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: kBFileName"
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,122.757196,9.369549,"ms/op",ranks1.txt
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,151.968746,5.677708,"ms/op",ranks2.txt
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,189.755013,7.804281,"ms/op",ranks3.txt
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,222.917120,21.420733,"ms/op",ranks4.txt
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,254.982938,18.904303,"ms/op",ranks5.txt
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,254.918835,19.165647,"ms/op",ranks6.txt
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,345.371732,46.454221,"ms/op",ranks7.txt
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,424.658695,59.148541,"ms/op",ranks8.txt
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,346.967221,20.926377,"ms/op",ranks9.txt
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,396.063778,33.457329,"ms/op",ranks10.txt
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,524.985248,66.398575,"ms/op",ranks11.txt
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,659.819276,128.349442,"ms/op",ranks12.txt
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,679.117825,67.875699,"ms/op",ranks13.txt
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,764.417952,66.457665,"ms/op",ranks14.txt
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,951.866261,104.504237,"ms/op",ranks15.txt
