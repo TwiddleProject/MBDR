@@ -73,7 +73,8 @@ public class App {
                         System.out.println(
                                         "Answer to query (RC Joel's Regular):\t\t\t"
                                                         + com.mbdr.formulabased.RationalClosure
-                                                                        .RationalClosureJoelRegular(ranked_KB, query));
+                                                                        .RationalClosureJoelRegular(ranked_KB,
+                                                                                        rawQuery));
 
                         com.mbdr.formulabased.RationalClosure RC_Indexing = new com.mbdr.formulabased.RationalClosure();
 
