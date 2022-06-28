@@ -1,5 +1,6 @@
 package com.mbdr.formulabased;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -16,6 +17,7 @@ import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
+import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.reasoner.*;
 
 public class RationalClosure {
@@ -52,15 +54,40 @@ public class RationalClosure {
         return reasoner.query(KnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_DI);
     }
 
+    // This one doesn't build the ranked knowledge base - receives it as parameter
+    public static boolean RationalClosureDirectImplementation(ArrayList<PlBeliefSet> ranked_KB, KnowledgeBase knowledge,
+            Implication query_DI) {
+        SatSolver.setDefaultSolver(new Sat4jSolver());
+        SatReasoner reasoner = new SatReasoner();
+
+        PlBeliefSet R = knowledge.getDefeasibleKnowledge();
+        Negation query_negated_antecedent = new Negation(query_DI.getFirstFormula());
+
+        int i = 0;
+        while (reasoner.query(KnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_negated_antecedent)
+                && !R.isEmpty()) {
+            R.removeAll(ranked_KB.get(i));
+            i++;
+        }
+
+        return reasoner.query(KnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_DI);
+    }
+
     /**
      * Joel's implementation of standard RationalClosure algorithm
      * 
      * @param originalRankedKB - ranked knowledge base output from BaseRank
      *                         algorithm
-     * @param formula          - query to check
+     * @param rawQuery         - defeasible query string to check
      * @return
+     * @throws IOException
+     * @throws ParserException
      */
-    public static boolean RationalClosureJoelRegular(ArrayList<PlBeliefSet> originalRankedKB, PlFormula formula) {
+    public static boolean RationalClosureJoelRegular(ArrayList<PlBeliefSet> originalRankedKB, String rawQuery)
+            throws ParserException, IOException {
+
+        PlFormula formula = Parser.parseDefeasibleFormula(rawQuery);
+
         SatSolver.setDefaultSolver(new Sat4jSolver());
         SatReasoner classicalReasoner = new SatReasoner();
         PlFormula negationOfAntecedent = new Negation(((Implication) formula).getFormulas().getFirst());
