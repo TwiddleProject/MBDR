@@ -1,0 +1,7 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit"
+"com.mbdr.benchmarking.BenchMark.RationalClosureJoelRegular","avgt",1,20,603.534984,38.694997,"ms/op"
+"com.mbdr.benchmarking.BenchMark.baseRankDirectImplementation","avgt",1,20,411.116585,31.287851,"ms/op"
+"com.mbdr.benchmarking.BenchMark.constructRankedModelLC","avgt",1,20,1408.169933,8.491164,"ms/op"
+"com.mbdr.benchmarking.BenchMark.constructRankedModelRC","avgt",1,20,1289.571838,20.188157,"ms/op"
+"com.mbdr.benchmarking.BenchMark.modelbasedEntailmentCheckerLC","avgt",1,20,65.893639,0.248341,"ms/op"
+"com.mbdr.benchmarking.BenchMark.modelbasedEntailmentCheckerRC","avgt",1,20,88.402748,0.603779,"ms/op"
