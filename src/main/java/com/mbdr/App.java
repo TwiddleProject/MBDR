@@ -81,20 +81,20 @@ public class App {
                         System.out.println(
                                         "Answer to query (RC Joel's Regular Indexing):\t\t"
                                                         + RC_Indexing.RationalClosureJoelRegularIndexing(ranked_KB,
-                                                                        query));
+                                                                        rawQuery));
 
                         System.out.println(
                                         "Answer to query (RC Joel's Binary Search):\t\t"
                                                         + com.mbdr.formulabased.RationalClosure
                                                                         .RationalClosureJoelBinarySearch(ranked_KB,
-                                                                                        query));
+                                                                                        rawQuery));
 
                         com.mbdr.formulabased.RationalClosure RC_Binary_Indexing = new com.mbdr.formulabased.RationalClosure();
 
                         System.out.println(
                                         "Answer to query (RC Joel's Binary Indexing Search):\t"
                                                         + RC_Binary_Indexing.RationalClosureJoelBinarySearchIndexing(
-                                                                        ranked_KB, query));
+                                                                        ranked_KB, rawQuery));
 
                         System.out.println(
                                         "Answer to query (LC Daniels's Naive):\t\t\t"
