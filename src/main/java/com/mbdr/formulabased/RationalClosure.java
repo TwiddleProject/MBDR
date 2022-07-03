@@ -18,6 +18,7 @@ import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.commons.ParserException;
+import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.reasoner.*;
 
 public class RationalClosure {
@@ -54,9 +55,15 @@ public class RationalClosure {
         return reasoner.query(KnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_DI);
     }
 
-    // This one doesn't build the ranked knowledge base - receives it as parameter
-    public static boolean RationalClosureDirectImplementation(ArrayList<PlBeliefSet> ranked_KB, KnowledgeBase knowledge,
-            Implication query_DI) {
+    public static boolean RationalClosureDirectImplementation_Benchmarking(ArrayList<PlBeliefSet> ranked_KB,
+            KnowledgeBase knowledge,
+            String rawQuery) throws ParserException, IOException {
+
+        PlParser parser = new PlParser();
+
+        Implication query_DI = (Implication) parser
+                .parseFormula(Parser.materialiseDefeasibleImplication(rawQuery));
+
         SatSolver.setDefaultSolver(new Sat4jSolver());
         SatReasoner reasoner = new SatReasoner();
 
@@ -129,10 +136,16 @@ public class RationalClosure {
      * multiple queries
      * 
      * @param originalRankedKB
-     * @param formula
+     * @param rawQuery
      * @return
+     * @throws IOException
+     * @throws ParserException
      */
-    public boolean RationalClosureJoelRegularIndexing(ArrayList<PlBeliefSet> originalRankedKB, PlFormula formula) {
+    public boolean RationalClosureJoelRegularIndexing(ArrayList<PlBeliefSet> originalRankedKB, String rawQuery)
+            throws ParserException, IOException {
+
+        PlFormula formula = Parser.parseDefeasibleFormula(rawQuery);
+
         SatSolver.setDefaultSolver(new Sat4jSolver());
         SatReasoner classicalReasoner = new SatReasoner();
         PlFormula negationOfAntecedent = new Negation(((Implication) formula).getFormulas().getFirst());
@@ -189,10 +202,15 @@ public class RationalClosure {
      * opposed to iterating linearly from the top, downwards, as in RationalClosure.
      * 
      * @param originalRankedKB
-     * @param formula
+     * @param rawQuery
      * @return
+     * @throws IOException
+     * @throws ParserException
      */
-    public static boolean RationalClosureJoelBinarySearch(ArrayList<PlBeliefSet> originalRankedKB, PlFormula formula) {
+    public static boolean RationalClosureJoelBinarySearch(ArrayList<PlBeliefSet> originalRankedKB, String rawQuery)
+            throws ParserException, IOException {
+
+        PlFormula formula = Parser.parseDefeasibleFormula(rawQuery);
 
         SatSolver.setDefaultSolver(new Sat4jSolver());
         SatReasoner classicalReasoner = new SatReasoner();
@@ -232,10 +250,15 @@ public class RationalClosure {
      * as well as indexing of previous query antecedents.
      * 
      * @param originalRankedKB
-     * @param formula
+     * @param rawQuery
      * @return
+     * @throws IOException
+     * @throws ParserException
      */
-    public boolean RationalClosureJoelBinarySearchIndexing(ArrayList<PlBeliefSet> originalRankedKB, PlFormula formula) {
+    public boolean RationalClosureJoelBinarySearchIndexing(ArrayList<PlBeliefSet> originalRankedKB, String rawQuery)
+            throws ParserException, IOException {
+
+        PlFormula formula = Parser.parseDefeasibleFormula(rawQuery);
 
         SatSolver.setDefaultSolver(new Sat4jSolver());
         SatReasoner classicalReasoner = new SatReasoner();
