@@ -8,6 +8,7 @@ import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
+import org.tweetyproject.logics.pl.syntax.PlSignature;
 
 import com.mbdr.formulabased.BaseRank;
 import com.mbdr.modelbased.EntailmentChecker;
@@ -24,7 +25,7 @@ public class App {
         public static void main(String[] args) {
                 // TODO: Need to investigate normalising knowledge bases as twiddle statements
 
-                String fileName = "testing.txt";
+                String fileName = "platypuses.txt";
 
                 try {
                         KnowledgeBaseReader reader = new KnowledgeBaseReader(KNOWLEDGE_BASE_DIR);
@@ -137,6 +138,27 @@ public class App {
                         System.out.println(
                                         "Answer to query:\t" + lcChecker.query(rawQuery));
                         System.out.println("----------------------------");
+                        System.out.println("ConstructRankedModelBaseRank:");
+                        System.out.println("----------------------------");
+
+                        PlBeliefSet kBunion = knowledgeBase.union();
+                        System.out.println("knowledgeBase union:\t" + kBunion);
+                        PlSignature kBsignature = kBunion.getMinimalSignature();
+                        System.out.println("knowledgeBase signature:\t" + kBsignature);
+
+                        Set<NicePossibleWorld> kB_PossibleWorlds = NicePossibleWorld
+                                        .getAllPossibleWorlds(kBsignature.toCollection());
+                        System.out.println("kB_PossibleWorlds:\t" + kB_PossibleWorlds);
+
+                        ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model_BR = com.mbdr.modelbased.RationalClosure
+                                        .ConstructRankedModelBaseRank(knowledgeBase, kB_PossibleWorlds);
+
+                        // Print out formatted Rational Closure Ranked Model
+                        System.out.println("∞" + " :\t" + RC_Minimal_Model_BR.get(RC_Minimal_Model_BR.size() - 1));
+                        for (int rank_Index = RC_Minimal_Model_BR.size() - 2; rank_Index >= 0; rank_Index--) {
+                                System.out.println(rank_Index + " :\t" + RC_Minimal_Model_BR.get(rank_Index));
+                        }
+
                 } catch (FileNotFoundException e) {
                         System.out.println("Could not find knowledge base file!");
                         e.printStackTrace();
