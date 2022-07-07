@@ -296,6 +296,18 @@ public class BenchMark {
     @Fork(value = 2) // 2 trials in total
     @Measurement(iterations = 10, time = 1) // 10 iterations
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
+    public void modelbased_construct_ranked_model_RC_BR(StateObj stateObj,
+            Blackhole blackhole)
+            throws InterruptedException {
+        ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model = com.mbdr.modelbased.RationalClosure
+                .ConstructRankedModelBaseRank(stateObj.knowledgeBase, stateObj.KB_U);
+        blackhole.consume(RC_Minimal_Model); // consume to avoid dead code elimination just in case?
+    }
+
+    @Benchmark
+    @Fork(value = 2) // 2 trials in total
+    @Measurement(iterations = 10, time = 1) // 10 iterations
+    @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_construct_ranked_model_LC(StateObj stateObj, Blackhole blackhole)
             throws InterruptedException {
         ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model = com.mbdr.modelbased.RationalClosure
@@ -365,7 +377,7 @@ public class BenchMark {
         // Model-based Rational Closure Entailment Benchmarks - 3
         // ------------------------------------------------------------
 
-        final String KB_DIRECTORY = "knowledge_bases/debugging/";
+        final String KB_DIRECTORY = "knowledge_bases/Generated/";
         final String QUERY_FILE = "testingQueries.txt";
 
         System.out.println("Args:");
