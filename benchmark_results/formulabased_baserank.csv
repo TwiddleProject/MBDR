@@ -1,0 +1,18 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: benchmarkGroup","Param: kBDirectory","Param: kBFileName","Param: queriesFileName"
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,13.882253,2.416385,"ms/op",0,knowledge_bases/Generated/,ranks1.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,37.088229,7.507341,"ms/op",0,knowledge_bases/Generated/,ranks2.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,61.954691,13.461832,"ms/op",0,knowledge_bases/Generated/,ranks3.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,346.059156,134.207346,"ms/op",0,knowledge_bases/Generated/,ranks7.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,304.658610,67.239122,"ms/op",0,knowledge_bases/Generated/,ranks6.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,102.925616,28.932869,"ms/op",0,knowledge_bases/Generated/,ranks4.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,152.406982,42.778845,"ms/op",0,knowledge_bases/Generated/,ranks5.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,624.656726,223.591929,"ms/op",0,knowledge_bases/Generated/,ranks10.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,622.750544,146.358055,"ms/op",0,knowledge_bases/Generated/,ranks11.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,990.778019,411.490152,"ms/op",0,knowledge_bases/Generated/,ranks13.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,916.774219,439.531500,"ms/op",0,knowledge_bases/Generated/,ranks12.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,1503.676308,482.889979,"ms/op",0,knowledge_bases/Generated/,ranks16.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,1484.281681,478.850670,"ms/op",0,knowledge_bases/Generated/,ranks17.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,1257.790617,454.853491,"ms/op",0,knowledge_bases/Generated/,ranks15.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,1321.091435,511.934141,"ms/op",0,knowledge_bases/Generated/,ranks14.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,541.409842,162.529519,"ms/op",0,knowledge_bases/Generated/,ranks8.txt,testingQueries.txt
+"com.mbdr.benchmarking.BenchMark.formulabased_baserank_direct_implementation","avgt",1,10,504.431745,213.045068,"ms/op",0,knowledge_bases/Generated/,ranks9.txt,testingQueries.txt
