@@ -7,7 +7,7 @@ import org.tweetyproject.logics.pl.syntax.Negation;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.structures.KnowledgeBase;
+import com.mbdr.structures.DefeasibleKnowledgeBase;
 
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
@@ -22,7 +22,7 @@ public class BaseRank {
      * @param KB_D
      * @return
      */
-    public static ArrayList<PlBeliefSet> BaseRankDirectImplementation(KnowledgeBase knowledge) {
+    public static ArrayList<PlBeliefSet> BaseRankDirectImplementation(DefeasibleKnowledgeBase knowledge) {
         SatSolver.setDefaultSolver(new Sat4jSolver());
         SatReasoner reasoner = new SatReasoner();
         ArrayList<PlBeliefSet> rankedKB = new ArrayList<PlBeliefSet>();
@@ -39,7 +39,7 @@ public class BaseRank {
             // System.out.println("previousKB:\t" + previousKB);
             // System.out.println("currentKB:\t" + currentKB);
 
-            PlBeliefSet KB_C_U_previousKB = KnowledgeBase.union(knowledge.getPropositionalKnowledge(), previousKB);
+            PlBeliefSet KB_C_U_previousKB = DefeasibleKnowledgeBase.union(knowledge.getPropositionalKnowledge(), previousKB);
             // System.out.println("KB_C_U_previousKB:\t" + KB_C_U_previousKB);
 
             for (PlFormula formula : previousKB) {

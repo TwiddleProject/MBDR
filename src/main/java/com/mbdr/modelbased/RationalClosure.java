@@ -9,7 +9,7 @@ import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.PlSignature;
 
-import com.mbdr.structures.KnowledgeBase;
+import com.mbdr.structures.DefeasibleKnowledgeBase;
 import com.mbdr.utils.parsing.Parser;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
@@ -31,7 +31,7 @@ public class RationalClosure {
      *             base
      * @return
      */
-    public static ArrayList<Set<NicePossibleWorld>> ConstructRankedModel(KnowledgeBase knowledge,
+    public static ArrayList<Set<NicePossibleWorld>> ConstructRankedModel(DefeasibleKnowledgeBase knowledge,
             Set<NicePossibleWorld> possibleWorlds) {
         // TODO: Clean up more...
         // TODO: Add proper logger
@@ -159,7 +159,7 @@ public class RationalClosure {
      * @param possibleWorlds
      * @return
      */
-    public static ArrayList<Set<NicePossibleWorld>> ConstructRankedModelBaseRank(KnowledgeBase knowledge,
+    public static ArrayList<Set<NicePossibleWorld>> ConstructRankedModelBaseRank(DefeasibleKnowledgeBase knowledge,
             Set<NicePossibleWorld> possibleWorlds) {
 
         // Apply BaseRank to the knowledge base

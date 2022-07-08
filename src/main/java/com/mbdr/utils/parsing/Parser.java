@@ -8,7 +8,7 @@ import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.structures.KnowledgeBase;
+import com.mbdr.structures.DefeasibleKnowledgeBase;
 
 public class Parser {
 
@@ -18,8 +18,8 @@ public class Parser {
         return formula.contains(TWIDDLE);
     }
 
-    public static KnowledgeBase parseFormulas(ArrayList<String> formulas) throws ParserException, IOException{
-        KnowledgeBase knowledgeBase = new KnowledgeBase();
+    public static DefeasibleKnowledgeBase parseFormulas(ArrayList<String> formulas) throws ParserException, IOException{
+        DefeasibleKnowledgeBase knowledgeBase = new DefeasibleKnowledgeBase();
         for(String rawFormula : formulas){
             // Defeasible implication
             if(isDefeasible(rawFormula)){

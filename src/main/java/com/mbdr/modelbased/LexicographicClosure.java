@@ -10,7 +10,7 @@ import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.structures.KnowledgeBase;
+import com.mbdr.structures.DefeasibleKnowledgeBase;
 
 public class LexicographicClosure {
 
@@ -56,7 +56,7 @@ public class LexicographicClosure {
      * @param rationalClosureModel The ranked model for rational closure
      * @return The model for lexicographic closure
      */
-    public static ArrayList<Set<NicePossibleWorld>> refine(KnowledgeBase knowledge,
+    public static ArrayList<Set<NicePossibleWorld>> refine(DefeasibleKnowledgeBase knowledge,
             ArrayList<Set<NicePossibleWorld>> rationalClosureModel) {
         ArrayList<Set<NicePossibleWorld>> lexicographicClosureModel = new ArrayList<>();
         PlBeliefSet defeasibleKnowledge = knowledge.getDefeasibleKnowledge();
@@ -91,7 +91,7 @@ public class LexicographicClosure {
         return lexicographicClosureModel;
     }
 
-    public static ArrayList<Set<NicePossibleWorld>> refine(KnowledgeBase knowledge) {
+    public static ArrayList<Set<NicePossibleWorld>> refine(DefeasibleKnowledgeBase knowledge) {
         ArrayList<Set<NicePossibleWorld>> rationalClosureModel = RationalClosure.ConstructRankedModel(knowledge, null);
         return refine(knowledge, rationalClosureModel);
     }

@@ -12,7 +12,7 @@ import org.tweetyproject.logics.pl.syntax.PlSignature;
 
 import com.mbdr.formulabased.BaseRank;
 import com.mbdr.modelbased.EntailmentChecker;
-import com.mbdr.structures.KnowledgeBase;
+import com.mbdr.structures.DefeasibleKnowledgeBase;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
 import com.mbdr.utils.parsing.Parser;
 
@@ -38,7 +38,7 @@ public class App {
                                 System.out.println(rawFormula);
                         }
 
-                        KnowledgeBase knowledgeBase = Parser.parseFormulas(rawFormulas);
+                        DefeasibleKnowledgeBase knowledgeBase = Parser.parseFormulas(rawFormulas);
 
                         System.out.println("----------------------------");
                         System.out.println("KB_C:\t" + knowledgeBase.getPropositionalKnowledge());

@@ -3,17 +3,17 @@ package com.mbdr.structures;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-public class KnowledgeBase {
+public class DefeasibleKnowledgeBase {
     
     private PlBeliefSet defeasibleKnowledge;
     private PlBeliefSet propositionalKnowledge;
 
-    public KnowledgeBase(){
+    public DefeasibleKnowledgeBase(){
         this.defeasibleKnowledge = new PlBeliefSet();
         this.propositionalKnowledge = new PlBeliefSet();
     }
 
-    public KnowledgeBase(PlBeliefSet defeasibleKnowledge, PlBeliefSet propositionalKnowledge){
+    public DefeasibleKnowledgeBase(PlBeliefSet defeasibleKnowledge, PlBeliefSet propositionalKnowledge){
         this.defeasibleKnowledge = new PlBeliefSet(defeasibleKnowledge);
         this.propositionalKnowledge = new PlBeliefSet(propositionalKnowledge);
     }

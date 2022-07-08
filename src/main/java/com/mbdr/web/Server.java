@@ -9,7 +9,7 @@ import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.structures.KnowledgeBase;
+import com.mbdr.structures.DefeasibleKnowledgeBase;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
 import com.mbdr.utils.parsing.Parser;
 
@@ -49,7 +49,7 @@ public class Server {
                     System.out.println(raw);
                 }
 
-                KnowledgeBase knowledge = Parser.parseFormulas(rawFormulas);
+                DefeasibleKnowledgeBase knowledge = Parser.parseFormulas(rawFormulas);
 
                 System.out.println("----------------------------");
                 System.out.println("KB_C:\t" + knowledge.getPropositionalKnowledge());

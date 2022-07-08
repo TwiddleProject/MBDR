@@ -10,7 +10,7 @@ import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.PlSignature;
 
-import com.mbdr.structures.KnowledgeBase;
+import com.mbdr.structures.DefeasibleKnowledgeBase;
 import com.mbdr.utils.parsing.Parser;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
@@ -37,7 +37,7 @@ public class RationalClosure {
      * @param query_DI - query to check
      * @return
      */
-    public static boolean RationalClosureDirectImplementation(KnowledgeBase knowledge, Implication query_DI) {
+    public static boolean RationalClosureDirectImplementation(DefeasibleKnowledgeBase knowledge, Implication query_DI) {
         SatSolver.setDefaultSolver(new Sat4jSolver());
         SatReasoner reasoner = new SatReasoner();
 
@@ -46,17 +46,17 @@ public class RationalClosure {
         Negation query_negated_antecedent = new Negation(query_DI.getFirstFormula());
 
         int i = 0;
-        while (reasoner.query(KnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_negated_antecedent)
+        while (reasoner.query(DefeasibleKnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_negated_antecedent)
                 && !R.isEmpty()) {
             R.removeAll(ranked_KB.get(i));
             i++;
         }
 
-        return reasoner.query(KnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_DI);
+        return reasoner.query(DefeasibleKnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_DI);
     }
 
     public static boolean RationalClosureDirectImplementation_Benchmarking(ArrayList<PlBeliefSet> ranked_KB,
-            KnowledgeBase knowledge,
+            DefeasibleKnowledgeBase knowledge,
             String rawQuery) throws ParserException, IOException {
 
         PlParser parser = new PlParser();
@@ -71,13 +71,13 @@ public class RationalClosure {
         Negation query_negated_antecedent = new Negation(query_DI.getFirstFormula());
 
         int i = 0;
-        while (reasoner.query(KnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_negated_antecedent)
+        while (reasoner.query(DefeasibleKnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_negated_antecedent)
                 && !R.isEmpty()) {
             R.removeAll(ranked_KB.get(i));
             i++;
         }
 
-        return reasoner.query(KnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_DI);
+        return reasoner.query(DefeasibleKnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_DI);
     }
 
     /**

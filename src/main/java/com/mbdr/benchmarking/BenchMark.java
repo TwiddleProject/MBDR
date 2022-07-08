@@ -54,7 +54,7 @@ public class BenchMark {
         @Param({ "0" })
         int benchmarkGroup;
 
-        KnowledgeBase knowledgeBase;
+        DefeasibleKnowledgeBase knowledgeBase;
         ArrayList<PlBeliefSet> ranked_KB;
         Set<NicePossibleWorld> KB_U;
         ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model;
