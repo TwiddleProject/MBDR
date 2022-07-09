@@ -1,10 +1,7 @@
 package com.mbdr.modelbased;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
-
-import javax.validation.constraints.Null;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
@@ -98,7 +95,7 @@ public class LexicographicClosure {
     /**
      * Class to represent a world and the number of formulas it satisfies
      */
-    public static class CountedWorld extends org.tweetyproject.commons.util.Pair<NicePossibleWorld, Integer> {
+    private static class CountedWorld extends org.tweetyproject.commons.util.Pair<NicePossibleWorld, Integer> {
 
         public CountedWorld(NicePossibleWorld world, int count) {
             super(world, count);
