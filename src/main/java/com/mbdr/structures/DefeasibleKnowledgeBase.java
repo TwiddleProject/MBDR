@@ -45,4 +45,9 @@ public class DefeasibleKnowledgeBase {
         return temp;
     }
 
+    public String toString(){
+        return  "=> : " + this.propositionalKnowledge + "\n" + 
+                "~> : " + this.defeasibleKnowledge;
+    }
+
 }
