@@ -58,7 +58,7 @@ public class BenchMark {
         ArrayList<PlBeliefSet> ranked_KB;
         Set<NicePossibleWorld> KB_U;
         ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model;
-        ArrayList<Set<NicePossibleWorld>> LC_Minimal_Model;
+        RankedInterpretation LC_Minimal_Model;
         ArrayList<String> rawQueries;
 
         @Setup(Level.Trial) // Level.Trial is the default level. The method is called once for each full run
@@ -123,7 +123,7 @@ public class BenchMark {
                             .ConstructRankedModel(knowledgeBase, this.KB_U);
 
                     this.LC_Minimal_Model = com.mbdr.modelbased.LexicographicClosure
-                            .refine(knowledgeBase, RC_Minimal_Model);
+                            .refine(knowledgeBase, new RankedInterpretation(RC_Minimal_Model));
 
                     System.out.println("reading in:\t" + queriesFileName);
                     // Read in all the queries from the query file
@@ -312,8 +312,8 @@ public class BenchMark {
             throws InterruptedException {
         ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model = com.mbdr.modelbased.RationalClosure
                 .ConstructRankedModel(stateObj.knowledgeBase, stateObj.KB_U);
-        ArrayList<Set<NicePossibleWorld>> LC_Minimal_Model = com.mbdr.modelbased.LexicographicClosure
-                .refine(stateObj.knowledgeBase, RC_Minimal_Model);
+        RankedInterpretation LC_Minimal_Model = com.mbdr.modelbased.LexicographicClosure
+                .refine(stateObj.knowledgeBase, new RankedInterpretation(RC_Minimal_Model));
         blackhole.consume(LC_Minimal_Model); // consume to avoid dead code elimination just in case?
     }
 
@@ -346,7 +346,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_entailment_checker_LC(StateObj stateObj, Blackhole blackhole) throws InterruptedException {
 
-        EntailmentChecker rcChecker = new EntailmentChecker(stateObj.LC_Minimal_Model);
+        EntailmentChecker rcChecker = new EntailmentChecker(stateObj.LC_Minimal_Model.getRanks());
 
         for (String rawQuery : stateObj.rawQueries) {
             try {

@@ -13,6 +13,7 @@ import org.tweetyproject.logics.pl.syntax.PlSignature;
 import com.mbdr.formulabased.BaseRank;
 import com.mbdr.modelbased.EntailmentChecker;
 import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.structures.RankedInterpretation;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
 import com.mbdr.utils.parsing.Parser;
 
@@ -30,24 +31,15 @@ public class App {
                 try {
                         KnowledgeBaseReader reader = new KnowledgeBaseReader(KNOWLEDGE_BASE_DIR);
                         ArrayList<String> rawFormulas = reader.readFormulasFromFile(fileName);
-
-                        System.out.println("----------------------------");
-                        System.out.println("KB file lines:");
-                        System.out.println("----------------------------");
-                        for (String rawFormula : rawFormulas) {
-                                System.out.println(rawFormula);
-                        }
-
                         DefeasibleKnowledgeBase knowledgeBase = Parser.parseFormulas(rawFormulas);
 
                         System.out.println("----------------------------");
-                        System.out.println("KB_C:\t" + knowledgeBase.getPropositionalKnowledge());
-                        System.out.println("KB_D:\t" + knowledgeBase.getDefeasibleKnowledge());
+                        System.out.println(knowledgeBase);
                         System.out.println("----------------------------");
 
                         ArrayList<PlBeliefSet> ranked_KB = BaseRank.BaseRankDirectImplementation(knowledgeBase);
 
-                        System.out.println("BaseRank of KB: ");
+                        System.out.println("BaseRank:");
                         System.out.println("----------------------------");
                         Object[] ranked_KB_Arr = ranked_KB.toArray();
                         System.out.println("∞" + " :\t" + ranked_KB_Arr[ranked_KB_Arr.length - 1]);
@@ -110,10 +102,10 @@ public class App {
 
                         ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model = com.mbdr.modelbased.RationalClosure
                                         .ConstructRankedModel(knowledgeBase, null);
-                        ArrayList<Set<NicePossibleWorld>> LC_Minimal_Model = com.mbdr.modelbased.LexicographicClosure
-                                        .refine(knowledgeBase, RC_Minimal_Model);
+                        RankedInterpretation LC_Minimal_Model = com.mbdr.modelbased.LexicographicClosure
+                                        .refine(knowledgeBase, new RankedInterpretation(RC_Minimal_Model));
                         EntailmentChecker rcChecker = new EntailmentChecker(RC_Minimal_Model);
-                        EntailmentChecker lcChecker = new EntailmentChecker(LC_Minimal_Model);
+                        EntailmentChecker lcChecker = new EntailmentChecker(LC_Minimal_Model.getRanks());
 
                         System.out.println("----------------------------");
                         System.out.println("Rational Closure Ranked Model:");
@@ -130,34 +122,11 @@ public class App {
                         System.out.println("Lexicographic Closure Ranked Model:");
 
                         // Print out formatted Rational Closure Ranked Model
-                        System.out.println("∞" + " :\t" + LC_Minimal_Model.get(LC_Minimal_Model.size() - 1));
-                        for (int rank_Index = LC_Minimal_Model.size() - 2; rank_Index >= 0; rank_Index--) {
-                                System.out.println(rank_Index + " :\t" + LC_Minimal_Model.get(rank_Index));
-                        }
+                        System.out.println(LC_Minimal_Model);
 
                         System.out.println(
                                         "Answer to query:\t" + lcChecker.query(rawQuery));
                         System.out.println("----------------------------");
-                        System.out.println("ConstructRankedModelBaseRank:");
-                        System.out.println("----------------------------");
-
-                        PlBeliefSet kBunion = knowledgeBase.union();
-                        System.out.println("knowledgeBase union:\t" + kBunion);
-                        PlSignature kBsignature = kBunion.getMinimalSignature();
-                        System.out.println("knowledgeBase signature:\t" + kBsignature);
-
-                        Set<NicePossibleWorld> kB_PossibleWorlds = NicePossibleWorld
-                                        .getAllPossibleWorlds(kBsignature.toCollection());
-                        System.out.println("kB_PossibleWorlds:\t" + kB_PossibleWorlds);
-
-                        ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model_BR = com.mbdr.modelbased.RationalClosure
-                                        .ConstructRankedModelBaseRank(knowledgeBase, kB_PossibleWorlds);
-
-                        // Print out formatted Rational Closure Ranked Model
-                        System.out.println("∞" + " :\t" + RC_Minimal_Model_BR.get(RC_Minimal_Model_BR.size() - 1));
-                        for (int rank_Index = RC_Minimal_Model_BR.size() - 2; rank_Index >= 0; rank_Index--) {
-                                System.out.println(rank_Index + " :\t" + RC_Minimal_Model_BR.get(rank_Index));
-                        }
 
                 } catch (FileNotFoundException e) {
                         System.out.println("Could not find knowledge base file!");
