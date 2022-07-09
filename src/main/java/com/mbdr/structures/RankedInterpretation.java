@@ -103,7 +103,7 @@ public class RankedInterpretation {
         return this.ranks;
     }
     
-    private class RankOutOfBounds extends RuntimeException
+    private static class RankOutOfBounds extends RuntimeException
     {
         public RankOutOfBounds() {}
 
