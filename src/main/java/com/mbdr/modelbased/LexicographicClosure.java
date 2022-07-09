@@ -11,6 +11,7 @@ import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.structures.RankedInterpretation;
 
 public class LexicographicClosure {
 
@@ -56,17 +57,16 @@ public class LexicographicClosure {
      * @param rationalClosureModel The ranked model for rational closure
      * @return The model for lexicographic closure
      */
-    public static ArrayList<Set<NicePossibleWorld>> refine(DefeasibleKnowledgeBase knowledge,
-            ArrayList<Set<NicePossibleWorld>> rationalClosureModel) {
-        ArrayList<Set<NicePossibleWorld>> lexicographicClosureModel = new ArrayList<>();
+    public static RankedInterpretation refine(DefeasibleKnowledgeBase knowledge,
+    RankedInterpretation rationalClosureModel) {
+        RankedInterpretation lexicographicClosureModel = new RankedInterpretation(0);
         PlBeliefSet defeasibleKnowledge = knowledge.getDefeasibleKnowledge();
         // For each rank in the model for rational closure
-        for (int index = 0; index < rationalClosureModel.size() - 1; ++index) {
-            Set<NicePossibleWorld> currentRank = rationalClosureModel.get(index);
+        for (int index = 0; index < rationalClosureModel.getRankCount(); ++index) {
             ArrayList<CountedWorld> counts = new ArrayList<>();
             // Count formulas satisfied by each world, and add result to list (sorted by
             // count)
-            for (NicePossibleWorld world : currentRank) {
+            for (NicePossibleWorld world : rationalClosureModel.getRank(index)) {
                 insert(new CountedWorld(world, countSatisfied(world, defeasibleKnowledge)), counts);
             }
             int currentCount = -1;
@@ -76,24 +76,23 @@ public class LexicographicClosure {
                 // model
                 if (world.getCount() != currentCount) {
                     currentCount = world.getCount();
-                    Set<NicePossibleWorld> newRank = new HashSet<NicePossibleWorld>();
-                    newRank.add(world.getWorld());
-                    lexicographicClosureModel.add(newRank);
+                    lexicographicClosureModel.addRank();
+                    lexicographicClosureModel.addToRank(world.getWorld());
                 }
                 // Otherwise, add world to current rank
                 else {
-                    lexicographicClosureModel.get(lexicographicClosureModel.size() - 1).add(world.getWorld());
+                    lexicographicClosureModel.addToRank(world.getWorld());
                 }
             }
         }
         // Add infinite rank
-        lexicographicClosureModel.add(rationalClosureModel.get(rationalClosureModel.size() - 1));
+        lexicographicClosureModel.addToInfiniteRank(rationalClosureModel.getInfiniteRank());
         return lexicographicClosureModel;
     }
 
-    public static ArrayList<Set<NicePossibleWorld>> refine(DefeasibleKnowledgeBase knowledge) {
+    public static RankedInterpretation refine(DefeasibleKnowledgeBase knowledge) {
         ArrayList<Set<NicePossibleWorld>> rationalClosureModel = RationalClosure.ConstructRankedModel(knowledge, null);
-        return refine(knowledge, rationalClosureModel);
+        return refine(knowledge, new RankedInterpretation(rationalClosureModel));
     }
 
     /**
