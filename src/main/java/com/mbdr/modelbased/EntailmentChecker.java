@@ -1,8 +1,6 @@
 package com.mbdr.modelbased;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Set;
 
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.syntax.Implication;
@@ -10,38 +8,44 @@ import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.utils.parsing.Parser;
+import com.mbdr.structures.RankedInterpretation;
 
 public class EntailmentChecker {
     
-    private ArrayList<Set<NicePossibleWorld>> model;
+    private RankedInterpretation model;
 
-    public EntailmentChecker(ArrayList<Set<NicePossibleWorld>> model){
+    public EntailmentChecker(RankedInterpretation model){
         this.model = model;
     }
 
-    public void setModel(ArrayList<Set<NicePossibleWorld>> model){
+    public void setModel(RankedInterpretation model){
         this.model = model;
     }
 
     private boolean checkMinimalWorlds(Implication defeasibleFormula){
         boolean foundMinRank = false;
-        int minRank = -1;
-        rankLoop:
-        for(int i = 0; i < this.model.size()-1; ++i){
-            for(NicePossibleWorld world : this.model.get(i)){
+        for(int i = 0; i < this.model.getRankCount(); ++i){
+            for(NicePossibleWorld world : this.model.getRank(i)){
                 if(world.satisfies(defeasibleFormula.getFirstFormula())){
-                    minRank = i;
                     foundMinRank = true;
-                    break rankLoop;
+                    if(!world.satisfies(defeasibleFormula.getSecondFormula())){
+                        return false;
+                    }
                 }
             }
+            if(foundMinRank){
+                return true;
+            }
         }
-        if(!foundMinRank) {
-            return true;
-        }
-        for(NicePossibleWorld world : this.model.get(minRank)){
-            if(world.satisfies(defeasibleFormula.getFirstFormula()) && !world.satisfies(defeasibleFormula.getSecondFormula())){
-                return false;
+        return true;
+    }
+
+    private boolean checkAllWorlds(PlFormula propositionalFormula){
+        for(int i=0; i < this.model.getRankCount(); ++i){
+            for(NicePossibleWorld world : this.model.getRank(i)){
+                if(!world.satisfies(propositionalFormula)){
+                    return false;
+                }
             }
         }
         return true;
@@ -54,14 +58,7 @@ public class EntailmentChecker {
         } 
         else {
             PlFormula propositionalFormula = Parser.parsePropositionalFormula(formula);
-            for(int i=0; i < this.model.size()-1; ++i){
-                for(NicePossibleWorld world : this.model.get(i)){
-                    if(!world.satisfies(propositionalFormula)){
-                        return false;
-                    }
-                }
-            }
-            return true;
+            return checkAllWorlds(propositionalFormula);
         }
     }
 }
