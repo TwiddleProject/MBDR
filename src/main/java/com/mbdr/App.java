@@ -100,33 +100,44 @@ public class App {
                                                                         .LexicographicClosureDanielPowerset(ranked_KB,
                                                                                         query));
 
-                        ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model = com.mbdr.modelbased.RationalClosure
-                                        .ConstructRankedModel(knowledgeBase, null);
-                        RankedInterpretation LC_Minimal_Model = com.mbdr.modelbased.LexicographicClosure
-                                        .refine(knowledgeBase, new RankedInterpretation(RC_Minimal_Model));
-                        EntailmentChecker rcChecker = new EntailmentChecker(RC_Minimal_Model);
-                        EntailmentChecker lcChecker = new EntailmentChecker(LC_Minimal_Model.getRanks());
+                        RankedInterpretation rationalClosureModel = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
+                                        .ConstructRankedModel(knowledgeBase, null));
+                        RankedInterpretation lexicographicClosureModel = com.mbdr.modelbased.LexicographicClosure
+                                        .refine(knowledgeBase, rationalClosureModel);
+                        EntailmentChecker rcChecker = new EntailmentChecker(rationalClosureModel);
+                        EntailmentChecker lcChecker = new EntailmentChecker(lexicographicClosureModel);
 
                         System.out.println("----------------------------");
                         System.out.println("Rational Closure Ranked Model:");
 
-                        // Print out formatted Rational Closure Ranked Model
-                        System.out.println("∞" + " :\t" + RC_Minimal_Model.get(RC_Minimal_Model.size() - 1));
-                        for (int rank_Index = RC_Minimal_Model.size() - 2; rank_Index >= 0; rank_Index--) {
-                                System.out.println(rank_Index + " :\t" + RC_Minimal_Model.get(rank_Index));
-                        }
+                        System.out.println(rationalClosureModel);
 
                         System.out.println(
                                         "Answer to query:\t" + rcChecker.query(rawQuery));
                         System.out.println("----------------------------");
                         System.out.println("Lexicographic Closure Ranked Model:");
 
-                        // Print out formatted Rational Closure Ranked Model
-                        System.out.println(LC_Minimal_Model);
+                        System.out.println(lexicographicClosureModel);
 
                         System.out.println(
                                         "Answer to query:\t" + lcChecker.query(rawQuery));
                         System.out.println("----------------------------");
+                        System.out.println("ConstructRankedModelBaseRank:");
+                        System.out.println("----------------------------");
+
+                        PlBeliefSet kBunion = knowledgeBase.union();
+                        System.out.println("knowledgeBase union:\t" + kBunion);
+                        PlSignature kBsignature = kBunion.getMinimalSignature();
+                        System.out.println("knowledgeBase signature:\t" + kBsignature);
+
+                        Set<NicePossibleWorld> kB_PossibleWorlds = NicePossibleWorld
+                                        .getAllPossibleWorlds(kBsignature.toCollection());
+                        System.out.println("kB_PossibleWorlds:\t" + kB_PossibleWorlds);
+
+                        RankedInterpretation rationalClosureModelBR = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
+                                        .ConstructRankedModelBaseRank(knowledgeBase, kB_PossibleWorlds));
+
+                        System.out.println(rationalClosureModelBR);
 
                 } catch (FileNotFoundException e) {
                         System.out.println("Could not find knowledge base file!");

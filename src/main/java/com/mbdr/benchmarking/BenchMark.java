@@ -57,8 +57,8 @@ public class BenchMark {
         DefeasibleKnowledgeBase knowledgeBase;
         ArrayList<PlBeliefSet> ranked_KB;
         Set<NicePossibleWorld> KB_U;
-        ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model;
-        RankedInterpretation LC_Minimal_Model;
+        RankedInterpretation rationalModel;
+        RankedInterpretation lexicographicModel;
         ArrayList<String> rawQueries;
 
         @Setup(Level.Trial) // Level.Trial is the default level. The method is called once for each full run
@@ -119,11 +119,11 @@ public class BenchMark {
                     this.KB_U = NicePossibleWorld.getAllPossibleWorlds(KB_atoms.toCollection());
 
                     // Construct the ranked models for RC and LC for query benchmarking
-                    this.RC_Minimal_Model = com.mbdr.modelbased.RationalClosure
-                            .ConstructRankedModel(knowledgeBase, this.KB_U);
+                    this.rationalModel = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
+                            .ConstructRankedModel(knowledgeBase, this.KB_U));
 
-                    this.LC_Minimal_Model = com.mbdr.modelbased.LexicographicClosure
-                            .refine(knowledgeBase, new RankedInterpretation(RC_Minimal_Model));
+                    this.lexicographicModel = com.mbdr.modelbased.LexicographicClosure
+                            .refine(knowledgeBase, rationalModel);
 
                     System.out.println("reading in:\t" + queriesFileName);
                     // Read in all the queries from the query file
@@ -287,8 +287,8 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_construct_ranked_model_RC(StateObj stateObj, Blackhole blackhole)
             throws InterruptedException {
-        ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model = com.mbdr.modelbased.RationalClosure
-                .ConstructRankedModel(stateObj.knowledgeBase, stateObj.KB_U);
+        RankedInterpretation RC_Minimal_Model = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
+                .ConstructRankedModel(stateObj.knowledgeBase, stateObj.KB_U));
         blackhole.consume(RC_Minimal_Model); // consume to avoid dead code elimination just in case?
     }
 
@@ -299,8 +299,8 @@ public class BenchMark {
     public void modelbased_construct_ranked_model_RC_BR(StateObj stateObj,
             Blackhole blackhole)
             throws InterruptedException {
-        ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model = com.mbdr.modelbased.RationalClosure
-                .ConstructRankedModelBaseRank(stateObj.knowledgeBase, stateObj.KB_U);
+                RankedInterpretation RC_Minimal_Model = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
+                .ConstructRankedModelBaseRank(stateObj.knowledgeBase, stateObj.KB_U));
         blackhole.consume(RC_Minimal_Model); // consume to avoid dead code elimination just in case?
     }
 
@@ -310,10 +310,10 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_construct_ranked_model_LC(StateObj stateObj, Blackhole blackhole)
             throws InterruptedException {
-        ArrayList<Set<NicePossibleWorld>> RC_Minimal_Model = com.mbdr.modelbased.RationalClosure
-                .ConstructRankedModel(stateObj.knowledgeBase, stateObj.KB_U);
+            RankedInterpretation RC_Minimal_Model = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
+                .ConstructRankedModel(stateObj.knowledgeBase, stateObj.KB_U));
         RankedInterpretation LC_Minimal_Model = com.mbdr.modelbased.LexicographicClosure
-                .refine(stateObj.knowledgeBase, new RankedInterpretation(RC_Minimal_Model));
+                .refine(stateObj.knowledgeBase, RC_Minimal_Model);
         blackhole.consume(LC_Minimal_Model); // consume to avoid dead code elimination just in case?
     }
 
@@ -327,7 +327,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_entailment_checker_RC(StateObj stateObj, Blackhole blackhole) throws InterruptedException {
 
-        EntailmentChecker rcChecker = new EntailmentChecker(stateObj.RC_Minimal_Model);
+        EntailmentChecker rcChecker = new EntailmentChecker(stateObj.rationalModel);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {
@@ -346,7 +346,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_entailment_checker_LC(StateObj stateObj, Blackhole blackhole) throws InterruptedException {
 
-        EntailmentChecker rcChecker = new EntailmentChecker(stateObj.LC_Minimal_Model.getRanks());
+        EntailmentChecker rcChecker = new EntailmentChecker(stateObj.lexicographicModel);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {
