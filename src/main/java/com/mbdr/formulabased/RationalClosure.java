@@ -2,18 +2,14 @@ package com.mbdr.formulabased;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.Map.Entry;
 
 import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.syntax.Negation;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
-import org.tweetyproject.logics.pl.syntax.PlSignature;
 
 import com.mbdr.structures.DefeasibleKnowledgeBase;
 import com.mbdr.utils.parsing.Parser;
-
-import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
