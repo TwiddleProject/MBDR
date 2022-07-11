@@ -34,6 +34,7 @@ import com.mbdr.utils.parsing.*;
 import com.mbdr.structures.*;
 
 import com.mbdr.formulabased.BaseRank;
+import com.mbdr.modelbased.LexicographicModelConstructor;
 import com.mbdr.modelbased.MinimalRankedEntailmentChecker;
 
 @BenchmarkMode(Mode.AverageTime)
@@ -122,8 +123,8 @@ public class BenchMark {
                     this.rationalModel = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
                             .ConstructRankedModel(knowledgeBase, this.KB_U));
 
-                    this.lexicographicModel = com.mbdr.modelbased.LexicographicClosure
-                            .refine(knowledgeBase, rationalModel);
+                    this.lexicographicModel = new LexicographicModelConstructor(rationalModel)
+                            .construct(knowledgeBase);
 
                     System.out.println("reading in:\t" + queriesFileName);
                     // Read in all the queries from the query file
@@ -312,8 +313,8 @@ public class BenchMark {
             throws InterruptedException {
             RankedInterpretation RC_Minimal_Model = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
                 .ConstructRankedModel(stateObj.knowledgeBase, stateObj.KB_U));
-        RankedInterpretation LC_Minimal_Model = com.mbdr.modelbased.LexicographicClosure
-                .refine(stateObj.knowledgeBase, RC_Minimal_Model);
+        RankedInterpretation LC_Minimal_Model = new LexicographicModelConstructor(RC_Minimal_Model)
+                .construct(stateObj.knowledgeBase);
         blackhole.consume(LC_Minimal_Model); // consume to avoid dead code elimination just in case?
     }
 
