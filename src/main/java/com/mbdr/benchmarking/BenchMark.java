@@ -34,7 +34,7 @@ import com.mbdr.utils.parsing.*;
 import com.mbdr.structures.*;
 
 import com.mbdr.formulabased.BaseRank;
-import com.mbdr.modelbased.EntailmentChecker;
+import com.mbdr.modelbased.MinimalRankedEntailmentChecker;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
@@ -327,7 +327,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_entailment_checker_RC(StateObj stateObj, Blackhole blackhole) throws InterruptedException {
 
-        EntailmentChecker rcChecker = new EntailmentChecker(stateObj.rationalModel);
+        MinimalRankedEntailmentChecker rcChecker = new MinimalRankedEntailmentChecker(stateObj.rationalModel);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {
@@ -346,7 +346,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_entailment_checker_LC(StateObj stateObj, Blackhole blackhole) throws InterruptedException {
 
-        EntailmentChecker rcChecker = new EntailmentChecker(stateObj.lexicographicModel);
+        MinimalRankedEntailmentChecker rcChecker = new MinimalRankedEntailmentChecker(stateObj.lexicographicModel);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {

@@ -11,7 +11,7 @@ import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.PlSignature;
 
 import com.mbdr.formulabased.BaseRank;
-import com.mbdr.modelbased.EntailmentChecker;
+import com.mbdr.modelbased.MinimalRankedEntailmentChecker;
 import com.mbdr.structures.DefeasibleKnowledgeBase;
 import com.mbdr.structures.RankedInterpretation;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
@@ -104,8 +104,8 @@ public class App {
                                         .ConstructRankedModel(knowledgeBase, null));
                         RankedInterpretation lexicographicClosureModel = com.mbdr.modelbased.LexicographicClosure
                                         .refine(knowledgeBase, rationalClosureModel);
-                        EntailmentChecker rcChecker = new EntailmentChecker(rationalClosureModel);
-                        EntailmentChecker lcChecker = new EntailmentChecker(lexicographicClosureModel);
+                        MinimalRankedEntailmentChecker rcChecker = new MinimalRankedEntailmentChecker(rationalClosureModel);
+                        MinimalRankedEntailmentChecker lcChecker = new MinimalRankedEntailmentChecker(lexicographicClosureModel);
 
                         System.out.println("----------------------------");
                         System.out.println("Rational Closure Ranked Model:");
