@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.parser.PlParser;
-import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.structures.DefeasibleKnowledgeBase;
@@ -67,19 +66,5 @@ public class Parser {
     public static String materialiseDefeasibleImplication(String DI) {
         return DI.replace(TWIDDLE, "=>");
     }
-
-    // /**
-    //  * Forms the union of two knowledge bases
-    //  * 
-    //  * @param A
-    //  * @param B
-    //  * @return
-    //  */
-    // public static PlBeliefSet Union(PlBeliefSet A, PlBeliefSet B) {
-    //     PlBeliefSet temp = new PlBeliefSet();
-    //     temp.addAll(A);
-    //     temp.addAll(B);
-    //     return temp;
-    // }
 
 }
