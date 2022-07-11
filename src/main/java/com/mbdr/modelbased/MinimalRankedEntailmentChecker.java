@@ -1,20 +1,18 @@
 package com.mbdr.modelbased;
 
-import java.io.IOException;
-
-import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.utils.parsing.Parser;
 import com.mbdr.structures.RankedInterpretation;
+import com.mbdr.services.DefeasibleQueryChecker;
 
-public class EntailmentChecker {
+public class MinimalRankedEntailmentChecker implements DefeasibleQueryChecker{
     
     private RankedInterpretation model;
 
-    public EntailmentChecker(RankedInterpretation model){
+    public MinimalRankedEntailmentChecker(RankedInterpretation model){
         this.model = model;
     }
 
@@ -51,14 +49,33 @@ public class EntailmentChecker {
         return true;
     }
 
-    public boolean query(String formula) throws ParserException, IOException{
+    @Override
+    public boolean query(String formula){
         if(Parser.isDefeasible(formula)){
-            PlFormula defeasibleFormula = Parser.parseDefeasibleFormula(formula);
-            return checkMinimalWorlds((Implication) defeasibleFormula);
+            try{
+                Implication defeasibleImplication = (Implication)Parser.parseDefeasibleFormula(formula);
+                return queryDefeasible(defeasibleImplication);
+            } catch(Exception e){
+                return false;
+            }
         } 
         else {
-            PlFormula propositionalFormula = Parser.parsePropositionalFormula(formula);
-            return checkAllWorlds(propositionalFormula);
+            try{
+                PlFormula propositionalFormula = Parser.parsePropositionalFormula(formula);
+                return queryPropositional(propositionalFormula);
+            } catch(Exception e){
+                return false;
+            }
         }
+    }
+
+    @Override
+    public boolean queryDefeasible(Implication defeasibleImplication){
+        return checkMinimalWorlds(defeasibleImplication);
+    }
+
+    @Override
+    public boolean queryPropositional(PlFormula formula){
+        return checkAllWorlds(formula);
     }
 }
