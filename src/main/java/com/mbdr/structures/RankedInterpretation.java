@@ -97,11 +97,6 @@ public class RankedInterpretation {
         }
         return output.trim();
     }
-
-    //TODO: Remove
-    public ArrayList<Set<NicePossibleWorld>> getRanks(){
-        return this.ranks;
-    }
     
     private static class RankOutOfBounds extends RuntimeException
     {
