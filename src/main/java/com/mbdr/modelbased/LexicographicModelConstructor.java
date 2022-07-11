@@ -1,18 +1,32 @@
 package com.mbdr.modelbased;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
+import com.mbdr.services.RankConstructor;
 import com.mbdr.structures.DefeasibleKnowledgeBase;
 import com.mbdr.structures.RankedInterpretation;
 
-public class LexicographicClosure {
+public class LexicographicModelConstructor implements RankConstructor<RankedInterpretation>{
 
-    private static int countSatisfied(NicePossibleWorld world, PlBeliefSet formulas) {
+    private RankedInterpretation rationalClosureModel;
+
+    public LexicographicModelConstructor(){
+        this.rationalClosureModel = null;
+    }
+
+    public LexicographicModelConstructor(RankedInterpretation rationalClosureModel){
+        this.rationalClosureModel = rationalClosureModel;
+    }
+
+    public void setRationalClosureModel(RankedInterpretation rationalClosureModel){
+        this.rationalClosureModel = rationalClosureModel;
+    }
+
+    private int countSatisfied(NicePossibleWorld world, PlBeliefSet formulas) {
         int count = 0;
         for (PlFormula formula : formulas) {
             if (world.satisfies(formula)) {
@@ -30,7 +44,7 @@ public class LexicographicClosure {
      * @param start The start index (inclusive)
      * @param end   The end index (inclusive)
      */
-    private static void insert(CountedWorld world, ArrayList<CountedWorld> array, int start, int end) {
+    private void insert(CountedWorld world, ArrayList<CountedWorld> array, int start, int end) {
         if (start == end) {
             array.add(start, world);
         } else {
@@ -43,7 +57,7 @@ public class LexicographicClosure {
         }
     }
 
-    private static void insert(CountedWorld world, ArrayList<CountedWorld> array) {
+    private void insert(CountedWorld world, ArrayList<CountedWorld> array) {
         insert(world, array, 0, array.size());
     }
 
@@ -51,19 +65,21 @@ public class LexicographicClosure {
      * Refines rational closure model to produce lexicographic model
      * 
      * @param knowledge            The knowledge base
-     * @param rationalClosureModel The ranked model for rational closure
      * @return The model for lexicographic closure
      */
-    public static RankedInterpretation refine(DefeasibleKnowledgeBase knowledge,
-    RankedInterpretation rationalClosureModel) {
+    public RankedInterpretation construct(DefeasibleKnowledgeBase knowledge) {
+        if(this.rationalClosureModel == null){
+            //TODO Change once RationalClosure fixed
+            this.rationalClosureModel = new RankedInterpretation(RationalClosure.ConstructRankedModel(knowledge, null));
+        }
         RankedInterpretation lexicographicClosureModel = new RankedInterpretation(0);
         PlBeliefSet defeasibleKnowledge = knowledge.getDefeasibleKnowledge();
         // For each rank in the model for rational closure
-        for (int index = 0; index < rationalClosureModel.getRankCount(); ++index) {
+        for (int index = 0; index < this.rationalClosureModel.getRankCount(); ++index) {
             ArrayList<CountedWorld> counts = new ArrayList<>();
             // Count formulas satisfied by each world, and add result to list (sorted by
             // count)
-            for (NicePossibleWorld world : rationalClosureModel.getRank(index)) {
+            for (NicePossibleWorld world : this.rationalClosureModel.getRank(index)) {
                 insert(new CountedWorld(world, countSatisfied(world, defeasibleKnowledge)), counts);
             }
             int currentCount = -1;
@@ -83,13 +99,8 @@ public class LexicographicClosure {
             }
         }
         // Add infinite rank
-        lexicographicClosureModel.addToInfiniteRank(rationalClosureModel.getInfiniteRank());
+        lexicographicClosureModel.addToInfiniteRank(this.rationalClosureModel.getInfiniteRank());
         return lexicographicClosureModel;
-    }
-
-    public static RankedInterpretation refine(DefeasibleKnowledgeBase knowledge) {
-        ArrayList<Set<NicePossibleWorld>> rationalClosureModel = RationalClosure.ConstructRankedModel(knowledge, null);
-        return refine(knowledge, new RankedInterpretation(rationalClosureModel));
     }
 
     /**
