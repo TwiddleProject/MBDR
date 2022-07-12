@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.parser.PlParser;
+import org.tweetyproject.logics.pl.syntax.Contradiction;
+import org.tweetyproject.logics.pl.syntax.Implication;
+import org.tweetyproject.logics.pl.syntax.Negation;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.structures.DefeasibleKnowledgeBase;
@@ -65,6 +68,10 @@ public class Parser {
      */
     public static String materialiseDefeasibleImplication(String DI) {
         return DI.replace(TWIDDLE, "=>");
+    }
+
+    public static Implication normalizePropositionalFormula(PlFormula formula){
+        return new Implication(new Negation(formula), new Contradiction());
     }
 
 }
