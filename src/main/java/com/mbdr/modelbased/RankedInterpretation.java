@@ -1,11 +1,14 @@
-package com.mbdr.structures;
+package com.mbdr.modelbased;
 
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
-public class RankedInterpretation {
+import com.mbdr.structures.Ranking;
+import com.mbdr.utils.exceptions.RankOutOfBounds;
+
+public class RankedInterpretation implements Ranking<NicePossibleWorld>{
     
     private ArrayList<Set<NicePossibleWorld>> ranks;
 
@@ -98,13 +101,4 @@ public class RankedInterpretation {
         return output.trim();
     }
     
-    private static class RankOutOfBounds extends RuntimeException
-    {
-        public RankOutOfBounds() {}
-
-        public RankOutOfBounds(String message)
-        {
-            super(message);
-        }
-    }
 }
