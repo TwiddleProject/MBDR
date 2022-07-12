@@ -8,7 +8,6 @@ import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.services.RankConstructor;
 import com.mbdr.structures.DefeasibleKnowledgeBase;
-import com.mbdr.structures.RankedInterpretation;
 
 public class LexicographicModelConstructor implements RankConstructor<RankedInterpretation>{
 
