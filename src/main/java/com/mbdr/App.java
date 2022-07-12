@@ -7,14 +7,15 @@ import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
-import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.PlSignature;
 
-import com.mbdr.formulabased.BaseRank;
+import com.mbdr.formulabased.BaseRankConstructor;
+import com.mbdr.formulabased.LexicographicClosureNaive;
 import com.mbdr.modelbased.LexicographicModelConstructor;
 import com.mbdr.modelbased.MinimalRankedEntailmentChecker;
+import com.mbdr.modelbased.RankedInterpretation;
+import com.mbdr.services.DefeasibleQueryChecker;
 import com.mbdr.structures.DefeasibleKnowledgeBase;
-import com.mbdr.structures.RankedInterpretation;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
 import com.mbdr.utils.parsing.Parser;
 
@@ -38,7 +39,7 @@ public class App {
                         System.out.println(knowledgeBase);
                         System.out.println("----------------------------");
 
-                        ArrayList<PlBeliefSet> ranked_KB = BaseRank.BaseRankDirectImplementation(knowledgeBase);
+                        ArrayList<PlBeliefSet> ranked_KB = new BaseRankConstructor().construct(knowledgeBase);
 
                         System.out.println("BaseRank:");
                         System.out.println("----------------------------");
@@ -90,16 +91,14 @@ public class App {
                                                         + RC_Binary_Indexing.RationalClosureJoelBinarySearchIndexing(
                                                                         ranked_KB, rawQuery));
 
+                        DefeasibleQueryChecker naiveLexicographicChecker = new LexicographicClosureNaive(ranked_KB);
+                        DefeasibleQueryChecker powerSetLexicographicChecker = new LexicographicClosureNaive(ranked_KB);
                         System.out.println(
                                         "Answer to query (LC Daniels's Naive):\t\t\t"
-                                                        + com.mbdr.formulabased.LexicographicClosure
-                                                                        .LexicographicClosureDanielNaive(ranked_KB,
-                                                                                        query));
+                                                        + naiveLexicographicChecker.queryDefeasible(query));
                         System.out.println(
                                         "Answer to query (LC Daniels's Powerset):\t\t"
-                                                        + com.mbdr.formulabased.LexicographicClosure
-                                                                        .LexicographicClosureDanielPowerset(ranked_KB,
-                                                                                        query));
+                                                        + powerSetLexicographicChecker.queryDefeasible(query));
 
                         RankedInterpretation rationalClosureModel = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
                                         .ConstructRankedModel(knowledgeBase, null));

@@ -4,20 +4,14 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import org.tweetyproject.logics.pl.syntax.Implication;
-import org.tweetyproject.logics.pl.syntax.Negation;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.PlSignature;
 
+import com.mbdr.formulabased.BaseRankConstructor;
 import com.mbdr.structures.DefeasibleKnowledgeBase;
-import com.mbdr.utils.parsing.Parser;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
-
-import org.tweetyproject.logics.pl.sat.Sat4jSolver;
-import org.tweetyproject.logics.pl.sat.SatSolver;
-import org.tweetyproject.commons.util.Pair;
-import org.tweetyproject.logics.pl.reasoner.*;
 
 public class RationalClosure {
 
@@ -163,7 +157,7 @@ public class RationalClosure {
             Set<NicePossibleWorld> possibleWorlds) {
 
         // Apply BaseRank to the knowledge base
-        ArrayList<PlBeliefSet> ranked_KB = com.mbdr.formulabased.BaseRank.BaseRankDirectImplementation(knowledge);
+        ArrayList<PlBeliefSet> ranked_KB = new BaseRankConstructor().construct(knowledge);
 
         // System.out.println("ranked_KB:\t" + ranked_KB);
 

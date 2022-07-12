@@ -37,7 +37,7 @@ public class RationalClosure {
         SatSolver.setDefaultSolver(new Sat4jSolver());
         SatReasoner reasoner = new SatReasoner();
 
-        ArrayList<PlBeliefSet> ranked_KB = BaseRank.BaseRankDirectImplementation(knowledge);
+        ArrayList<PlBeliefSet> ranked_KB = new BaseRankConstructor().construct(knowledge);
         PlBeliefSet R = knowledge.getDefeasibleKnowledge();
         Negation query_negated_antecedent = new Negation(query_DI.getFirstFormula());
 

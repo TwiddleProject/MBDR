@@ -9,33 +9,23 @@ import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.results.Result;
 import org.openjdk.jmh.results.RunResult;
 import org.openjdk.jmh.results.format.ResultFormatType;
-import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
-import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.PlSignature;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 import com.mbdr.utils.parsing.*;
 import com.mbdr.structures.*;
 
-import com.mbdr.formulabased.BaseRank;
+import com.mbdr.formulabased.BaseRankConstructor;
 import com.mbdr.modelbased.LexicographicModelConstructor;
 import com.mbdr.modelbased.MinimalRankedEntailmentChecker;
+import com.mbdr.modelbased.RankedInterpretation;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
@@ -94,7 +84,7 @@ public class BenchMark {
                 case 1:
                     // Rank the knowledge base using baserank - for benchmarking formulabased
                     // entailment checking
-                    this.ranked_KB = BaseRank.BaseRankDirectImplementation(this.knowledgeBase);
+                    this.ranked_KB = new BaseRankConstructor().construct(this.knowledgeBase);
 
                     System.out.println("reading in:\t" + queriesFileName);
                     // Read in all the queries from the query file
@@ -166,7 +156,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_baserank_direct_implementation(StateObj stateObj, Blackhole blackhole)
             throws InterruptedException {
-        ArrayList<PlBeliefSet> ranked_KB = BaseRank.BaseRankDirectImplementation(stateObj.knowledgeBase);
+        ArrayList<PlBeliefSet> ranked_KB = new BaseRankConstructor().construct(stateObj.knowledgeBase);
         blackhole.consume(ranked_KB);
     }
 
