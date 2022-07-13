@@ -166,7 +166,7 @@ public class LexicographicClosurePowerset implements DefeasibleQueryChecker{
      * @param rank
      * @return
      */
-    private static List<Set<Object>> sortList(Object[] rank) {
+    public static List<Set<Object>> sortList(Object[] rank) {
         class SizeComparator implements Comparator<Set<?>> {
 
             @Override
@@ -193,7 +193,7 @@ public class LexicographicClosurePowerset implements DefeasibleQueryChecker{
      * @param set
      * @return
      */
-    private static ArrayList<String> combineRefine(List<Set<Object>> set) {
+    public static ArrayList<String> combineRefine(List<Set<Object>> set) {
         Map<Integer, List<Set<Object>>> subSet = new HashMap<>();
         for (Set<Object> s : set) {
             if (!subSet.containsKey(s.size())) {
