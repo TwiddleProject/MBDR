@@ -8,24 +8,59 @@ import java.util.Arrays;
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
+
+import com.mbdr.services.DefeasibleQueryChecker;
+import com.mbdr.services.RankConstructor;
+import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.utils.exceptions.MissingRankConstructor;
+
 import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.reasoner.*;
-import java.io.IOException;
-
-import org.tweetyproject.commons.ParserException;
 
 import java.util.*;
 
-public class LexicographicClosureBinary {
+public class LexicographicClosureBinary implements DefeasibleQueryChecker{
 
-    static SatReasoner classicalReasoner = new SatReasoner();
-    
-    static int rankFromWhichToRemove = -1;
     static int counter = 0;
     static int counterR = 0;
-    static Boolean checkEntailmentBinarySearch(PlBeliefSet[] rKB, PlFormula formula, int left, int right
-            ) throws ParserException, IOException {
-        PlFormula negationOfAntecedent = new Negation(((Implication) formula).getFormulas().getFirst());
+
+    private ArrayList<PlBeliefSet> baseRank;
+    private RankConstructor<ArrayList<PlBeliefSet>> constructor;
+
+    public LexicographicClosureBinary(ArrayList<PlBeliefSet> baseRank){
+        this.baseRank = baseRank;
+        this.constructor = null;
+    }
+
+    public LexicographicClosureBinary(RankConstructor<ArrayList<PlBeliefSet>> constructor){
+        this.baseRank = null;
+        this.constructor = constructor;
+    }
+
+    @Override
+    public void build(DefeasibleKnowledgeBase knowledge){
+        if(this.constructor == null) throw new MissingRankConstructor("Cannot build Base Rank without a RankConstructor.");
+        this.baseRank = this.constructor.construct(knowledge);
+    }
+
+    @Override
+    public boolean queryDefeasible(Implication defeasibleImplication){
+        PlBeliefSet[] baseRankCopy = new PlBeliefSet[this.baseRank.size()]; 
+        baseRankCopy = this.baseRank.toArray(baseRankCopy);
+        return this.queryDefeasible(baseRankCopy, defeasibleImplication, 0, baseRankCopy.length);
+    }
+
+    @Override
+    public boolean queryPropositional(PlFormula formula){
+        return queryDefeasible(new Implication(new Negation(formula), new Contradiction()));
+    }
+
+    private boolean queryDefeasible(PlBeliefSet[] rKB, Implication formula, int left, int right){
+        SatReasoner classicalReasoner = new SatReasoner();
+    
+        int rankFromWhichToRemove = -1;
+        
+        PlFormula negationOfAntecedent = new Negation(formula.getFormulas().getFirst());
         SatSolver.setDefaultSolver(new Sat4jSolver());
         PlBeliefSet[] rankedKB = rKB.clone();
         if (right > left) {
@@ -37,7 +72,7 @@ public class LexicographicClosureBinary {
                     negationOfAntecedent)) {
                       
  
-                return checkEntailmentBinarySearch(rankedKB, formula, mid + 1, right);
+                return queryDefeasible(rankedKB, formula, mid + 1, right);
             }
             // Since the query is not compatible after removing the top half, check if adding in one rank back makes the query compatible
             else {
@@ -49,7 +84,7 @@ public class LexicographicClosureBinary {
                     rankFromWhichToRemove = mid;
                 } else { // removing it still means the query is compatible. The corresponding rank is in the bottom half.
 
-                    return checkEntailmentBinarySearch(rankedKB, formula, left, mid);
+                    return queryDefeasible(rankedKB, formula, left, mid);
                 }
             }
         } 
@@ -80,7 +115,12 @@ public class LexicographicClosureBinary {
             for (String f : refinements) { // Checking every subsets
                 PlBeliefSet combSet = new PlBeliefSet();
                 PlParser parser = new PlParser();
-                combSet.add((PlFormula) parser.parseFormula(f));
+                try {
+                    combSet.add((PlFormula) parser.parseFormula(f));
+                } catch (Exception e) {
+                    throw new InvalidFormula("Unexpected formula encountered during entailment.");
+                }
+                
                 rankedKB[rankFromWhichToRemove] = combSet;
                 counterR++;
                 //System.out.println("ranked kb" + rankedKB[rankFromWhichToRemove].toString());
