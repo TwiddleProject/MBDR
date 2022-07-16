@@ -10,7 +10,9 @@ import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlSignature;
 
 import com.mbdr.formulabased.BaseRankConstructor;
+import com.mbdr.formulabased.LexicographicClosureBinary;
 import com.mbdr.formulabased.LexicographicClosureNaive;
+import com.mbdr.formulabased.LexicographicClosureTernary;
 import com.mbdr.modelbased.LexicographicModelConstructor;
 import com.mbdr.modelbased.MinimalRankedEntailmentChecker;
 import com.mbdr.modelbased.RankedInterpretation;
@@ -93,13 +95,20 @@ public class App {
 
                         DefeasibleQueryChecker naiveLexicographicChecker = new LexicographicClosureNaive(ranked_KB);
                         DefeasibleQueryChecker powerSetLexicographicChecker = new LexicographicClosureNaive(ranked_KB);
+                        DefeasibleQueryChecker binaryLexicographicClosure = new LexicographicClosureBinary(ranked_KB);
+                        DefeasibleQueryChecker ternaryLexicographicClosure = new LexicographicClosureTernary(ranked_KB);
                         System.out.println(
                                         "Answer to query (LC Daniels's Naive):\t\t\t"
                                                         + naiveLexicographicChecker.queryDefeasible(query));
                         System.out.println(
                                         "Answer to query (LC Daniels's Powerset):\t\t"
                                                         + powerSetLexicographicChecker.queryDefeasible(query));
-
+                        System.out.println(
+                                        "Answer to query (LC Daniels's Binary):\t\t\t"
+                                                        + binaryLexicographicClosure.queryDefeasible(query));
+                        System.out.println(
+                                        "Answer to query (LC Daniels's Ternary):\t\t\t"
+                                                        + ternaryLexicographicClosure.queryDefeasible(query));
                         RankedInterpretation rationalClosureModel = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
                                         .ConstructRankedModel(knowledgeBase, null));
                         RankedInterpretation lexicographicClosureModel = new LexicographicModelConstructor(rationalClosureModel)
