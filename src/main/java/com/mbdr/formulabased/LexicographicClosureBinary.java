@@ -13,6 +13,7 @@ import com.mbdr.services.DefeasibleQueryChecker;
 import com.mbdr.services.RankConstructor;
 import com.mbdr.structures.DefeasibleKnowledgeBase;
 import com.mbdr.utils.exceptions.MissingRankConstructor;
+import com.mbdr.utils.exceptions.MissingRanking;
 
 import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.reasoner.*;
@@ -23,7 +24,9 @@ public class LexicographicClosureBinary implements DefeasibleQueryChecker{
 
     static int counter = 0;
     static int counterR = 0;
-
+    
+    private SatReasoner classicalReasoner = new SatReasoner();
+    private int rankFromWhichToRemove = -1;
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
@@ -45,21 +48,19 @@ public class LexicographicClosureBinary implements DefeasibleQueryChecker{
 
     @Override
     public boolean queryDefeasible(Implication defeasibleImplication){
+        if(this.baseRank == null) throw new MissingRanking("Base rank of formulas has not been constructed.");
         PlBeliefSet[] baseRankCopy = new PlBeliefSet[this.baseRank.size()]; 
         baseRankCopy = this.baseRank.toArray(baseRankCopy);
-        return this.queryDefeasible(baseRankCopy, defeasibleImplication, 0, baseRankCopy.length);
+        return this.queryDefeasibleBinary(baseRankCopy, defeasibleImplication, 0, baseRankCopy.length);
     }
 
     @Override
     public boolean queryPropositional(PlFormula formula){
+        if(this.baseRank == null) throw new MissingRanking("Base rank of formulas has not been constructed.");
         return queryDefeasible(new Implication(new Negation(formula), new Contradiction()));
     }
 
-    private boolean queryDefeasible(PlBeliefSet[] rKB, Implication formula, int left, int right){
-        SatReasoner classicalReasoner = new SatReasoner();
-    
-        int rankFromWhichToRemove = -1;
-        
+    private boolean queryDefeasibleBinary(PlBeliefSet[] rKB, Implication formula, int left, int right){
         PlFormula negationOfAntecedent = new Negation(formula.getFormulas().getFirst());
         SatSolver.setDefaultSolver(new Sat4jSolver());
         PlBeliefSet[] rankedKB = rKB.clone();
@@ -68,23 +69,23 @@ public class LexicographicClosureBinary implements DefeasibleQueryChecker{
             int mid = left + ((right - left) / 2);
             // If the query is still compatible after removing middle one and the ones above it, remove the top half
             counter++;
-            if (classicalReasoner.query(combine(Arrays.copyOfRange(rankedKB, mid + 1, rankedKB.length)),
+            if (classicalReasoner.query(Utils.combine(Arrays.copyOfRange(rankedKB, mid + 1, rankedKB.length)),
                     negationOfAntecedent)) {
                       
  
-                return queryDefeasible(rankedKB, formula, mid + 1, right);
+                return queryDefeasibleBinary(rankedKB, formula, mid + 1, right);
             }
             // Since the query is not compatible after removing the top half, check if adding in one rank back makes the query compatible
             else {
                 counter++;
-                if (classicalReasoner.query(combine(Arrays.copyOfRange(rankedKB, mid, rankedKB.length)),
+                if (classicalReasoner.query(Utils.combine(Arrays.copyOfRange(rankedKB, mid, rankedKB.length)),
                         negationOfAntecedent)) {
                             
 
                     rankFromWhichToRemove = mid;
                 } else { // removing it still means the query is compatible. The corresponding rank is in the bottom half.
 
-                    return queryDefeasible(rankedKB, formula, left, mid);
+                    return queryDefeasibleBinary(rankedKB, formula, left, mid);
                 }
             }
         } 
@@ -98,7 +99,7 @@ public class LexicographicClosureBinary implements DefeasibleQueryChecker{
         if (rankFromWhichToRemove == 0){
             counter++;
 
-            if (classicalReasoner.query(combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)),
+            if (classicalReasoner.query(Utils.combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)),
                     formula)) {
                      
                 return true;
@@ -124,7 +125,7 @@ public class LexicographicClosureBinary implements DefeasibleQueryChecker{
                 rankedKB[rankFromWhichToRemove] = combSet;
                 counterR++;
                 //System.out.println("ranked kb" + rankedKB[rankFromWhichToRemove].toString());
-                if (!classicalReasoner.query(combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)),
+                if (!classicalReasoner.query(Utils.combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)),
                         new Negation(((Implication) formula).getFormulas().getFirst()))) {
                           
                  //   System.out.println((new Negation(((Implication) formula).getFormulas().getFirst())).toString()
@@ -133,7 +134,7 @@ public class LexicographicClosureBinary implements DefeasibleQueryChecker{
                   //          + " is entailed by " + combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)).toString());
                   counter++;
                     if (classicalReasoner.query(
-                        combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)), formula)) {
+                        Utils.combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)), formula)) {
                            
                         return true;
                     } else {
@@ -154,7 +155,7 @@ public class LexicographicClosureBinary implements DefeasibleQueryChecker{
                   //  + combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)).toString());
                   counter++;
         if (classicalReasoner.query(
-            combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)), formula)){
+            Utils.combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)), formula)){
  
                 return true;
             }
@@ -166,12 +167,6 @@ public class LexicographicClosureBinary implements DefeasibleQueryChecker{
         
     }
 
-    static PlBeliefSet combine(PlBeliefSet[] ranks) {
-        PlBeliefSet combined = new PlBeliefSet();
-        for (PlBeliefSet rank : ranks) {
-            combined.addAll(rank);
-        }
-        return combined;
-    }
+    
 
 }
