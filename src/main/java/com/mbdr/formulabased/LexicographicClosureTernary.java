@@ -8,25 +8,60 @@ import java.util.Arrays;
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
+
+import com.mbdr.services.DefeasibleQueryChecker;
+import com.mbdr.services.RankConstructor;
+import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.utils.exceptions.MissingRankConstructor;
+import com.mbdr.utils.exceptions.MissingRanking;
+
 import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.reasoner.*;
-import java.io.IOException;
-
-
-import org.tweetyproject.commons.ParserException;
 
 import java.util.*;
 
-public class LexicographicClosureTernary {
+public class LexicographicClosureTernary implements DefeasibleQueryChecker{
 
-    static SatReasoner classicalReasoner = new SatReasoner();
-
-    static int rankFromWhichToRemove = -1;
+    private static SatReasoner classicalReasoner = new SatReasoner();
+    private static int rankFromWhichToRemove = -1;
     static int counter = 0;
     static int counterR = 0;
-    static Boolean checkEntailmentTernarySearch(PlBeliefSet[] rKB, PlFormula formula, int left, int right)
-            throws ParserException, IOException {
-        PlFormula negationOfAntecedent = new Negation(((Implication) formula).getFormulas().getFirst());
+
+    private ArrayList<PlBeliefSet> baseRank;
+    private RankConstructor<ArrayList<PlBeliefSet>> constructor;
+
+    public LexicographicClosureTernary(ArrayList<PlBeliefSet> baseRank){
+        this.baseRank = baseRank;
+        this.constructor = null;
+    }
+
+    public LexicographicClosureTernary(RankConstructor<ArrayList<PlBeliefSet>> constructor){
+        this.baseRank = null;
+        this.constructor = constructor;
+    }
+
+    @Override
+    public void build(DefeasibleKnowledgeBase knowledge){
+        if(this.constructor == null) throw new MissingRankConstructor("Cannot build base rank without RankConstructor");
+        this.baseRank = constructor.construct(knowledge);
+    }
+
+    @Override
+    public boolean queryDefeasible(Implication defeasibleImplication){
+        if(this.baseRank == null) throw new MissingRanking("Base rank of formulas has not been constructed.");
+        PlBeliefSet[] baseRankCopy = new PlBeliefSet[this.baseRank.size()]; 
+        baseRankCopy = this.baseRank.toArray(baseRankCopy);
+        return this.queryDefeasibleTernary(baseRankCopy, defeasibleImplication, 0, baseRankCopy.length);
+    }
+
+    @Override
+    public boolean queryPropositional(PlFormula formula){
+        if(this.baseRank == null) throw new MissingRanking("Base rank of formulas has not been constructed.");
+        return queryDefeasible(new Implication(new Negation(formula), new Contradiction()));
+    }
+
+    private boolean queryDefeasibleTernary(PlBeliefSet[] rKB, Implication implication, int left, int right){
+        PlFormula negationOfAntecedent = new Negation(implication.getFormulas().getFirst());
         SatSolver.setDefaultSolver(new Sat4jSolver());
         PlBeliefSet[] rankedKB = rKB.clone();
 
@@ -36,40 +71,40 @@ public class LexicographicClosureTernary {
             int mid2 = right - ((right - left) / 3);
             counter++;
             //If it is the bottom 2/3 of the ranks
-            if (classicalReasoner.query(combine(Arrays.copyOfRange(rankedKB, mid1 + 1, rankedKB.length)),
+            if (classicalReasoner.query(Utils.combine(Arrays.copyOfRange(rankedKB, mid1 + 1, rankedKB.length)),
                     negationOfAntecedent)) {
                         
                 if (mid2 < rankedKB.length) {
                     counter++;
                     //If it is the bottom 1/3 of the ranks
-                    if (classicalReasoner.query(combine(Arrays.copyOfRange(rankedKB, mid2 + 1, rankedKB.length)),
+                    if (classicalReasoner.query(Utils.combine(Arrays.copyOfRange(rankedKB, mid2 + 1, rankedKB.length)),
                             negationOfAntecedent)) {                          
                                 
       
-                        return checkEntailmentTernarySearch(rankedKB, formula, mid2 + 1, right);
+                        return queryDefeasibleTernary(rankedKB, implication, mid2 + 1, right);
                     } else {
                         counter++;
                         //Checking whether adding back one rank changes the compatibility of the query
-                        if (classicalReasoner.query(combine(Arrays.copyOfRange(rankedKB, mid2, rankedKB.length)),
+                        if (classicalReasoner.query(Utils.combine(Arrays.copyOfRange(rankedKB, mid2, rankedKB.length)),
                                 negationOfAntecedent)) {
                             rankFromWhichToRemove = mid2;
                         } else {
-                            return checkEntailmentTernarySearch(rankedKB, formula, mid1 + 1, mid2 - 1);
+                            return queryDefeasibleTernary(rankedKB, implication, mid1 + 1, mid2 - 1);
                         }
                     }
                 } else if (mid2 == rankedKB.length) {
-                    return checkEntailmentTernarySearch(rankedKB, formula, mid1 + 1, mid2 - 1);
+                    return queryDefeasibleTernary(rankedKB, implication, mid1 + 1, mid2 - 1);
 
                 }
             } else {
                 counter++;
                 //Checking whether adding back one rank changes the compatibility of the query
-                if (classicalReasoner.query(combine(Arrays.copyOfRange(rankedKB, mid1, rankedKB.length)),
+                if (classicalReasoner.query(Utils.combine(Arrays.copyOfRange(rankedKB, mid1, rankedKB.length)),
                         negationOfAntecedent)) {
                           
                     rankFromWhichToRemove = mid1;
                 } else {
-                    return checkEntailmentTernarySearch(rankedKB, formula, left, mid1);
+                    return queryDefeasibleTernary(rankedKB, implication, left, mid1);
                 }
             }
         } else {
@@ -81,8 +116,8 @@ public class LexicographicClosureTernary {
         if (rankFromWhichToRemove == 0){
             counter++;
     
-            if (classicalReasoner.query(combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)),
-                    formula)) {
+            if (classicalReasoner.query(Utils.combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)),
+            implication)) {
                         
                 return true;
             } else
@@ -100,13 +135,18 @@ public class LexicographicClosureTernary {
             for (String f : refinements) {
                 PlBeliefSet combSet = new PlBeliefSet();
                 PlParser parser = new PlParser();
-                combSet.add((PlFormula) parser.parseFormula(f));
+                try {
+                    combSet.add((PlFormula) parser.parseFormula(f));
+                } catch (Exception e) {
+                    throw new InvalidFormula("Unexpected formula encountered during entailment.");
+                }
+                
                 rankedKB[rankFromWhichToRemove] = combSet;
               
                 counterR++;
                 if (!classicalReasoner.query(
-                        combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)),
-                        new Negation(((Implication) formula).getFormulas().getFirst()))) {
+                        Utils.combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)),
+                        new Negation(implication.getFormulas().getFirst()))) {
                            
                //     System.out.println((new Negation(((Implication) formula).getFormulas().getFirst())).toString()
                  //           + " is not entailed by this refinement.");
@@ -115,7 +155,7 @@ public class LexicographicClosureTernary {
                    //         + combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)).toString());
                    counter++;
                     if (classicalReasoner.query(
-                            combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)), formula)) {
+                            Utils.combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)), implication)) {
                                 
                         return true;
                     } else {
@@ -135,8 +175,8 @@ public class LexicographicClosureTernary {
              //       + combine(rankedKB).toString());
    
             counter++;
-            if (classicalReasoner.query(combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)),
-                    formula)) {
+            if (classicalReasoner.query(Utils.combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)),
+                    implication)) {
                 return true;
             } else
                 return false;
@@ -144,14 +184,6 @@ public class LexicographicClosureTernary {
             return false;
         }
 
-    }
-
-    static PlBeliefSet combine(PlBeliefSet[] ranks) {
-        PlBeliefSet combined = new PlBeliefSet();
-        for (PlBeliefSet rank : ranks) {
-            combined.addAll(rank);
-        }
-        return combined;
     }
 
 }
