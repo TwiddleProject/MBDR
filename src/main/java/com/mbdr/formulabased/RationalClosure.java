@@ -95,7 +95,7 @@ public class RationalClosure {
         SatReasoner classicalReasoner = new SatReasoner();
         PlFormula negationOfAntecedent = new Negation(((Implication) formula).getFormulas().getFirst());
         ArrayList<PlBeliefSet> rankedKB = (ArrayList<PlBeliefSet>) originalRankedKB.clone();
-        PlBeliefSet combinedRankedKB = combine(rankedKB);
+        PlBeliefSet combinedRankedKB = Utils.combine(rankedKB);
         while (combinedRankedKB.size() != 0) {
             // System.out.println("We are checking whether or not " +
             // negationOfAntecedent.toString() + " is entailed by: " +
@@ -146,7 +146,7 @@ public class RationalClosure {
         SatReasoner classicalReasoner = new SatReasoner();
         PlFormula negationOfAntecedent = new Negation(((Implication) formula).getFormulas().getFirst());
         ArrayList<PlBeliefSet> rankedKB = (ArrayList<PlBeliefSet>) originalRankedKB.clone();
-        PlBeliefSet combinedRankedKB = combine(rankedKB);
+        PlBeliefSet combinedRankedKB = Utils.combine(rankedKB);
         if (antecedentNegationRanksToRemoveFrom.get(negationOfAntecedent) != null) {
             // System.out.println("We know to remove rank " +
             // Integer.toString(antecedentNegationRanksToRemoveFrom.get(negationOfAntecedent))
@@ -220,15 +220,15 @@ public class RationalClosure {
         while (high > low) {
             int mid = low + (high - low) / 2;
             List<PlBeliefSet> R = originalRankedKB.subList(mid + 1, n);
-            PlBeliefSet combinedRankedKBArray = combine(R);
+            PlBeliefSet combinedRankedKBArray = Utils.combine(R);
             if (classicalReasoner.query(combinedRankedKBArray, negationOfAntecedent)) {
                 low = mid + 1;
             } else {
                 R = originalRankedKB.subList(mid, n);
-                combinedRankedKBArray = combine(R);
+                combinedRankedKBArray = Utils.combine(R);
                 if (classicalReasoner.query(combinedRankedKBArray, negationOfAntecedent)) {
                     R = originalRankedKB.subList(mid + 1, n);
-                    combinedRankedKBArray = combine(R);
+                    combinedRankedKBArray = Utils.combine(R);
                     return classicalReasoner.query(combinedRankedKBArray, formula);
                 } else {
                     high = mid;
@@ -270,7 +270,7 @@ public class RationalClosure {
         if (removeFrom != null) {
 
             List<PlBeliefSet> R = originalRankedKB.subList(removeFrom, n);
-            PlBeliefSet combinedRankedKBArray = combine(R);
+            PlBeliefSet combinedRankedKBArray = Utils.combine(R);
             return classicalReasoner.query(combinedRankedKBArray, formula);
 
         } else {
@@ -278,15 +278,15 @@ public class RationalClosure {
             while (high > low) {
                 int mid = low + (high - low) / 2;
                 List<PlBeliefSet> R = originalRankedKB.subList(mid + 1, n);
-                PlBeliefSet combinedRankedKBArray = combine(R);
+                PlBeliefSet combinedRankedKBArray = Utils.combine(R);
                 if (classicalReasoner.query(combinedRankedKBArray, negationOfAntecedent)) {
                     low = mid + 1;
                 } else {
                     R = originalRankedKB.subList(mid, n);
-                    combinedRankedKBArray = combine(R);
+                    combinedRankedKBArray = Utils.combine(R);
                     if (classicalReasoner.query(combinedRankedKBArray, negationOfAntecedent)) {
                         R = originalRankedKB.subList(mid + 1, n);
-                        combinedRankedKBArray = combine(R);
+                        combinedRankedKBArray = Utils.combine(R);
                         return classicalReasoner.query(combinedRankedKBArray, formula);
                     } else {
                         high = mid;
@@ -305,12 +305,6 @@ public class RationalClosure {
      * @param ranks
      * @return
      */
-    public static PlBeliefSet combine(List<PlBeliefSet> ranks) {
-        PlBeliefSet combined = new PlBeliefSet();
-        for (PlBeliefSet rank : ranks) {
-            combined.addAll(rank);
-        }
-        return combined;
-    }
+    
 
 }
