@@ -27,7 +27,7 @@ public class LexicographicClosureNaive implements DefeasibleQueryChecker{
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
     public LexicographicClosureNaive(ArrayList<PlBeliefSet> baseRank){
-        this.baseRank = baseRank;
+        this.baseRank = new ArrayList<>(baseRank);
     }
 
     public LexicographicClosureNaive(RankConstructor<ArrayList<PlBeliefSet>> constructor){

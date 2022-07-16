@@ -32,7 +32,7 @@ public class LexicographicClosurePowerset implements DefeasibleQueryChecker{
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
     public LexicographicClosurePowerset(ArrayList<PlBeliefSet> baseRank){
-        this.baseRank = baseRank;
+        this.baseRank = new ArrayList<>(baseRank);
     }
 
     public LexicographicClosurePowerset(RankConstructor<ArrayList<PlBeliefSet>> constructor){
