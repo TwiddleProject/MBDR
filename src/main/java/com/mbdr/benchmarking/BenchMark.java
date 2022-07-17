@@ -23,9 +23,17 @@ import com.mbdr.utils.parsing.*;
 import com.mbdr.structures.*;
 
 import com.mbdr.formulabased.BaseRankConstructor;
+import com.mbdr.formulabased.RationalClosureBinary;
+import com.mbdr.formulabased.RationalClosureBinaryIndexing;
+import com.mbdr.formulabased.RationalClosureDirect;
+import com.mbdr.formulabased.RationalClosureIndexing;
+import com.mbdr.formulabased.RationalClosureRegular;
 import com.mbdr.modelbased.LexicographicModelConstructor;
 import com.mbdr.modelbased.MinimalRankedEntailmentChecker;
 import com.mbdr.modelbased.RankedInterpretation;
+import com.mbdr.modelbased.RationalModelBaseRankConstructor;
+import com.mbdr.modelbased.RationalModelConstructor;
+import com.mbdr.services.DefeasibleQueryChecker;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
@@ -110,8 +118,9 @@ public class BenchMark {
                     this.KB_U = NicePossibleWorld.getAllPossibleWorlds(KB_atoms.toCollection());
 
                     // Construct the ranked models for RC and LC for query benchmarking
-                    this.rationalModel = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
-                            .ConstructRankedModel(knowledgeBase, this.KB_U));
+                    this.rationalModel = new RankedInterpretation(
+                        new RationalModelConstructor().construct(knowledgeBase)
+                    );
 
                     this.lexicographicModel = new LexicographicModelConstructor(rationalModel)
                             .construct(knowledgeBase);
@@ -170,13 +179,10 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_direct_implementation(StateObj stateObj, Blackhole blackhole) {
 
+        DefeasibleQueryChecker rcDirect = new RationalClosureDirect(stateObj.ranked_KB, stateObj.knowledgeBase);
         for (String rawQuery : stateObj.rawQueries) {
             try {
-                boolean queryAnswer = com.mbdr.formulabased.RationalClosure
-                        .RationalClosureDirectImplementation_Benchmarking(
-                                stateObj.ranked_KB,
-                                stateObj.knowledgeBase,
-                                rawQuery);
+                boolean queryAnswer = rcDirect.query(rawQuery);
                 blackhole.consume(queryAnswer);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -190,11 +196,10 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_Joel_regular(StateObj stateObj, Blackhole blackhole) {
 
+        DefeasibleQueryChecker rcRegular = new RationalClosureRegular(stateObj.ranked_KB);
         for (String rawQuery : stateObj.rawQueries) {
             try {
-                boolean queryAnswer = com.mbdr.formulabased.RationalClosure.RationalClosureJoelRegular(
-                        stateObj.ranked_KB,
-                        rawQuery);
+                boolean queryAnswer = rcRegular.query(rawQuery);
                 blackhole.consume(queryAnswer);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -210,11 +215,11 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_Joel_binary_search(StateObj stateObj, Blackhole blackhole) {
 
+        DefeasibleQueryChecker rcBinary = new RationalClosureBinary(stateObj.ranked_KB);
+
         for (String rawQuery : stateObj.rawQueries) {
             try {
-                boolean queryAnswer = com.mbdr.formulabased.RationalClosure.RationalClosureJoelBinarySearch(
-                        stateObj.ranked_KB,
-                        rawQuery);
+                boolean queryAnswer = rcBinary.query(rawQuery);
                 blackhole.consume(queryAnswer);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -230,13 +235,11 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_Joel_regular_indexing(StateObj stateObj, Blackhole blackhole) {
 
-        com.mbdr.formulabased.RationalClosure RC_Indexing = new com.mbdr.formulabased.RationalClosure();
+        DefeasibleQueryChecker rcIndex = new RationalClosureIndexing(stateObj.ranked_KB);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {
-                boolean queryAnswer = RC_Indexing.RationalClosureJoelRegularIndexing(
-                        stateObj.ranked_KB,
-                        rawQuery);
+                boolean queryAnswer = rcIndex.query(rawQuery);
                 blackhole.consume(queryAnswer);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -252,13 +255,11 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_Joel_binary_search_indexing(StateObj stateObj, Blackhole blackhole) {
 
-        com.mbdr.formulabased.RationalClosure RC_Binary_Indexing = new com.mbdr.formulabased.RationalClosure();
+        DefeasibleQueryChecker rcBinaryIndex = new RationalClosureBinaryIndexing(stateObj.ranked_KB);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {
-                boolean queryAnswer = RC_Binary_Indexing.RationalClosureJoelBinarySearchIndexing(
-                        stateObj.ranked_KB,
-                        rawQuery);
+                boolean queryAnswer = rcBinaryIndex.query(rawQuery);
                 blackhole.consume(queryAnswer);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -278,8 +279,9 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_construct_ranked_model_RC(StateObj stateObj, Blackhole blackhole)
             throws InterruptedException {
-        RankedInterpretation RC_Minimal_Model = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
-                .ConstructRankedModel(stateObj.knowledgeBase, stateObj.KB_U));
+        RankedInterpretation RC_Minimal_Model = new RankedInterpretation(
+            new RationalModelConstructor().construct(stateObj.knowledgeBase)
+        );
         blackhole.consume(RC_Minimal_Model); // consume to avoid dead code elimination just in case?
     }
 
@@ -290,8 +292,9 @@ public class BenchMark {
     public void modelbased_construct_ranked_model_RC_BR(StateObj stateObj,
             Blackhole blackhole)
             throws InterruptedException {
-                RankedInterpretation RC_Minimal_Model = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
-                .ConstructRankedModelBaseRank(stateObj.knowledgeBase, stateObj.KB_U));
+                RankedInterpretation RC_Minimal_Model = new RankedInterpretation(
+                    new RationalModelBaseRankConstructor().construct(stateObj.knowledgeBase)
+                );
         blackhole.consume(RC_Minimal_Model); // consume to avoid dead code elimination just in case?
     }
 
@@ -301,9 +304,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_construct_ranked_model_LC(StateObj stateObj, Blackhole blackhole)
             throws InterruptedException {
-            RankedInterpretation RC_Minimal_Model = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
-                .ConstructRankedModel(stateObj.knowledgeBase, stateObj.KB_U));
-        RankedInterpretation LC_Minimal_Model = new LexicographicModelConstructor(RC_Minimal_Model)
+        RankedInterpretation LC_Minimal_Model = new LexicographicModelConstructor()
                 .construct(stateObj.knowledgeBase);
         blackhole.consume(LC_Minimal_Model); // consume to avoid dead code elimination just in case?
     }

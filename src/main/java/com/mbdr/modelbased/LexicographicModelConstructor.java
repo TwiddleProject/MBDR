@@ -68,8 +68,9 @@ public class LexicographicModelConstructor implements RankConstructor<RankedInte
      */
     public RankedInterpretation construct(DefeasibleKnowledgeBase knowledge) {
         if(this.rationalClosureModel == null){
-            //TODO Change once RationalClosure fixed
-            this.rationalClosureModel = new RankedInterpretation(RationalClosure.ConstructRankedModel(knowledge, null));
+            this.rationalClosureModel = new RankedInterpretation(
+                new RationalModelBaseRankConstructor().construct(knowledge)
+            );
         }
         RankedInterpretation lexicographicClosureModel = new RankedInterpretation(0);
         PlBeliefSet defeasibleKnowledge = knowledge.getDefeasibleKnowledge();

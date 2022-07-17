@@ -12,16 +12,22 @@ import org.tweetyproject.logics.pl.syntax.PlSignature;
 import com.mbdr.formulabased.BaseRankConstructor;
 import com.mbdr.formulabased.LexicographicClosureBinary;
 import com.mbdr.formulabased.LexicographicClosureNaive;
+import com.mbdr.formulabased.LexicographicClosurePowerset;
 import com.mbdr.formulabased.LexicographicClosureTernary;
+import com.mbdr.formulabased.RationalClosureBinary;
+import com.mbdr.formulabased.RationalClosureBinaryIndexing;
+import com.mbdr.formulabased.RationalClosureDirect;
+import com.mbdr.formulabased.RationalClosureIndexing;
+import com.mbdr.formulabased.RationalClosureRegular;
 import com.mbdr.modelbased.LexicographicModelConstructor;
 import com.mbdr.modelbased.MinimalRankedEntailmentChecker;
 import com.mbdr.modelbased.RankedInterpretation;
+import com.mbdr.modelbased.RationalModelBaseRankConstructor;
+import com.mbdr.modelbased.RationalModelConstructor;
 import com.mbdr.services.DefeasibleQueryChecker;
 import com.mbdr.structures.DefeasibleKnowledgeBase;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
 import com.mbdr.utils.parsing.Parser;
-
-import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
 public class App {
 
@@ -59,94 +65,53 @@ public class App {
                         PlParser parser = new PlParser();
                         Implication query = (Implication) parser
                                         .parseFormula(Parser.materialiseDefeasibleImplication(rawQuery));
+                        
+                        System.out.println("----------------------------");
 
-                        System.out.println("Materialised query:\t" + query.toString());
-                        System.out.println(
-                                        "Answer to query (RC direct implementation):\t\t"
-                                                        + com.mbdr.formulabased.RationalClosure
-                                                                        .RationalClosureDirectImplementation(
-                                                                                        knowledgeBase, query));
-
-                        System.out.println(
-                                        "Answer to query (RC Joel's Regular):\t\t\t"
-                                                        + com.mbdr.formulabased.RationalClosure
-                                                                        .RationalClosureJoelRegular(ranked_KB,
-                                                                                        rawQuery));
-
-                        com.mbdr.formulabased.RationalClosure RC_Indexing = new com.mbdr.formulabased.RationalClosure();
-
-                        System.out.println(
-                                        "Answer to query (RC Joel's Regular Indexing):\t\t"
-                                                        + RC_Indexing.RationalClosureJoelRegularIndexing(ranked_KB,
-                                                                        rawQuery));
-
-                        System.out.println(
-                                        "Answer to query (RC Joel's Binary Search):\t\t"
-                                                        + com.mbdr.formulabased.RationalClosure
-                                                                        .RationalClosureJoelBinarySearch(ranked_KB,
-                                                                                        rawQuery));
-
-                        com.mbdr.formulabased.RationalClosure RC_Binary_Indexing = new com.mbdr.formulabased.RationalClosure();
-
-                        System.out.println(
-                                        "Answer to query (RC Joel's Binary Indexing Search):\t"
-                                                        + RC_Binary_Indexing.RationalClosureJoelBinarySearchIndexing(
-                                                                        ranked_KB, rawQuery));
-
-                        DefeasibleQueryChecker naiveLexicographicChecker = new LexicographicClosureNaive(ranked_KB);
-                        DefeasibleQueryChecker powerSetLexicographicChecker = new LexicographicClosureNaive(ranked_KB);
-                        DefeasibleQueryChecker binaryLexicographicClosure = new LexicographicClosureBinary(ranked_KB);
-                        DefeasibleQueryChecker ternaryLexicographicClosure = new LexicographicClosureTernary(ranked_KB);
-                        System.out.println(
-                                        "Answer to query (LC Daniels's Naive):\t\t\t"
-                                                        + naiveLexicographicChecker.queryDefeasible(query));
-                        System.out.println(
-                                        "Answer to query (LC Daniels's Powerset):\t\t"
-                                                        + powerSetLexicographicChecker.queryDefeasible(query));
-                        System.out.println(
-                                        "Answer to query (LC Daniels's Binary):\t\t\t"
-                                                        + binaryLexicographicClosure.queryDefeasible(query));
-                        System.out.println(
-                                        "Answer to query (LC Daniels's Ternary):\t\t\t"
-                                                        + ternaryLexicographicClosure.queryDefeasible(query));
-                        RankedInterpretation rationalClosureModel = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
-                                        .ConstructRankedModel(knowledgeBase, null));
+                        RankedInterpretation rationalClosureModel = new RankedInterpretation(
+                                new RationalModelConstructor()
+                                .construct(knowledgeBase)
+                        );
+                        RankedInterpretation rationalClosureModelBaseRank = new RankedInterpretation(
+                                new RationalModelBaseRankConstructor()
+                                .construct(knowledgeBase)
+                        );
                         RankedInterpretation lexicographicClosureModel = new LexicographicModelConstructor(rationalClosureModel)
                                         .construct(knowledgeBase);
-                        MinimalRankedEntailmentChecker rcChecker = new MinimalRankedEntailmentChecker(rationalClosureModel);
-                        MinimalRankedEntailmentChecker lcChecker = new MinimalRankedEntailmentChecker(lexicographicClosureModel);
 
+                        System.out.println("Rational Closure Ranked Model:\n" + rationalClosureModel);
                         System.out.println("----------------------------");
-                        System.out.println("Rational Closure Ranked Model:");
-
-                        System.out.println(rationalClosureModel);
-
-                        System.out.println(
-                                        "Answer to query:\t" + rcChecker.query(rawQuery));
+                        System.out.println("Rational Closure Ranked Model using BaseRank:\n" + rationalClosureModelBaseRank);
                         System.out.println("----------------------------");
-                        System.out.println("Lexicographic Closure Ranked Model:");
-
-                        System.out.println(lexicographicClosureModel);
-
-                        System.out.println(
-                                        "Answer to query:\t" + lcChecker.query(rawQuery));
-                        System.out.println("----------------------------");
-                        System.out.println("ConstructRankedModelBaseRank:");
+                        System.out.println("Lexicographic Closure Ranked Model:\n" + lexicographicClosureModel);
                         System.out.println("----------------------------");
 
-                        PlBeliefSet kBunion = knowledgeBase.union();
-                        System.out.println("knowledgeBase union:\t" + kBunion);
-                        PlSignature kBsignature = kBunion.getMinimalSignature();
-                        System.out.println("knowledgeBase signature:\t" + kBsignature);
+                        System.out.println("Query Results:");
 
-                        Set<NicePossibleWorld> kB_PossibleWorlds = NicePossibleWorld
-                                        .getAllPossibleWorlds(kBsignature.toCollection());
-                        System.out.println("kB_PossibleWorlds:\t" + kB_PossibleWorlds);
+                        DefeasibleQueryChecker[] checkers = {
+                                new RationalClosureDirect(ranked_KB, knowledgeBase),
+                                new RationalClosureRegular(ranked_KB),
+                                new RationalClosureIndexing(ranked_KB),
+                                new RationalClosureBinary(ranked_KB),
+                                new RationalClosureBinaryIndexing(ranked_KB),
+                                new MinimalRankedEntailmentChecker(rationalClosureModel),
+                                new LexicographicClosureNaive(ranked_KB),
+                                new LexicographicClosurePowerset(ranked_KB),
+                                new LexicographicClosureBinary(ranked_KB),
+                                new LexicographicClosureTernary(ranked_KB),
+                                new MinimalRankedEntailmentChecker(lexicographicClosureModel)
+                        };
 
-                        RankedInterpretation rationalClosureModelBR = new RankedInterpretation(com.mbdr.modelbased.RationalClosure
-                                        .ConstructRankedModelBaseRank(knowledgeBase, kB_PossibleWorlds));
+                        for(DefeasibleQueryChecker checker : checkers){
+                                String template = "%-40s%s";
+                                System.out.println(
+                                        String.format(template, 
+                                                checker.getClass().getSimpleName(), 
+                                                checker.queryDefeasible(query))
+                                );
+                        }
 
-                        System.out.println(rationalClosureModelBR);
+                        System.out.println("----------------------------");
 
                 } catch (FileNotFoundException e) {
                         System.out.println("Could not find knowledge base file!");
