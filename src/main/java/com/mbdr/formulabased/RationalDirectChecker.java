@@ -18,17 +18,17 @@ import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.logics.pl.reasoner.*;
 
-public class RationalClosureDirect implements DefeasibleQueryChecker{
+public class RationalDirectChecker implements DefeasibleQueryChecker{
 
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
     private DefeasibleKnowledgeBase knowledge;
 
-    public RationalClosureDirect(RankConstructor<ArrayList<PlBeliefSet>> constructor){
+    public RationalDirectChecker(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.constructor = constructor;
     }
 
-    public RationalClosureDirect(ArrayList<PlBeliefSet> baseRank, DefeasibleKnowledgeBase knowledge){
+    public RationalDirectChecker(ArrayList<PlBeliefSet> baseRank, DefeasibleKnowledgeBase knowledge){
         this.baseRank = baseRank;
         this.knowledge = knowledge;
     }

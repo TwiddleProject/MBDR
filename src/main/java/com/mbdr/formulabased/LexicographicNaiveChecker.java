@@ -20,17 +20,17 @@ import com.mbdr.utils.exceptions.MissingRankConstructor;
 import com.mbdr.utils.exceptions.MissingRanking;
 import com.mbdr.utils.parsing.Parser;
 
-public class LexicographicClosureNaive implements DefeasibleQueryChecker{
+public class LexicographicNaiveChecker implements DefeasibleQueryChecker{
 
     //TODO Create class for this
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
-    public LexicographicClosureNaive(ArrayList<PlBeliefSet> baseRank){
+    public LexicographicNaiveChecker(ArrayList<PlBeliefSet> baseRank){
         this.baseRank = new ArrayList<>(baseRank);
     }
 
-    public LexicographicClosureNaive(RankConstructor<ArrayList<PlBeliefSet>> constructor){
+    public LexicographicNaiveChecker(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.constructor = constructor;
     }
 

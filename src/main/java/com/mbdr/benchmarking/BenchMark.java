@@ -23,11 +23,11 @@ import com.mbdr.utils.parsing.*;
 import com.mbdr.structures.*;
 
 import com.mbdr.formulabased.BaseRankConstructor;
-import com.mbdr.formulabased.RationalClosureBinary;
-import com.mbdr.formulabased.RationalClosureBinaryIndexing;
-import com.mbdr.formulabased.RationalClosureDirect;
-import com.mbdr.formulabased.RationalClosureIndexing;
-import com.mbdr.formulabased.RationalClosureRegular;
+import com.mbdr.formulabased.RationalBinaryChecker;
+import com.mbdr.formulabased.RationalBinaryIndexingChecker;
+import com.mbdr.formulabased.RationalDirectChecker;
+import com.mbdr.formulabased.RationalIndexingChecker;
+import com.mbdr.formulabased.RationalRegularChecker;
 import com.mbdr.modelbased.LexicographicModelConstructor;
 import com.mbdr.modelbased.MinimalRankedEntailmentChecker;
 import com.mbdr.modelbased.RankedInterpretation;
@@ -179,7 +179,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_direct_implementation(StateObj stateObj, Blackhole blackhole) {
 
-        DefeasibleQueryChecker rcDirect = new RationalClosureDirect(stateObj.ranked_KB, stateObj.knowledgeBase);
+        DefeasibleQueryChecker rcDirect = new RationalDirectChecker(stateObj.ranked_KB, stateObj.knowledgeBase);
         for (String rawQuery : stateObj.rawQueries) {
             try {
                 boolean queryAnswer = rcDirect.query(rawQuery);
@@ -196,7 +196,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_Joel_regular(StateObj stateObj, Blackhole blackhole) {
 
-        DefeasibleQueryChecker rcRegular = new RationalClosureRegular(stateObj.ranked_KB);
+        DefeasibleQueryChecker rcRegular = new RationalRegularChecker(stateObj.ranked_KB);
         for (String rawQuery : stateObj.rawQueries) {
             try {
                 boolean queryAnswer = rcRegular.query(rawQuery);
@@ -215,7 +215,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_Joel_binary_search(StateObj stateObj, Blackhole blackhole) {
 
-        DefeasibleQueryChecker rcBinary = new RationalClosureBinary(stateObj.ranked_KB);
+        DefeasibleQueryChecker rcBinary = new RationalBinaryChecker(stateObj.ranked_KB);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {
@@ -235,7 +235,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_Joel_regular_indexing(StateObj stateObj, Blackhole blackhole) {
 
-        DefeasibleQueryChecker rcIndex = new RationalClosureIndexing(stateObj.ranked_KB);
+        DefeasibleQueryChecker rcIndex = new RationalIndexingChecker(stateObj.ranked_KB);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {
@@ -255,7 +255,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_Joel_binary_search_indexing(StateObj stateObj, Blackhole blackhole) {
 
-        DefeasibleQueryChecker rcBinaryIndex = new RationalClosureBinaryIndexing(stateObj.ranked_KB);
+        DefeasibleQueryChecker rcBinaryIndex = new RationalBinaryIndexingChecker(stateObj.ranked_KB);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {

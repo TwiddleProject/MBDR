@@ -20,7 +20,7 @@ import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.reasoner.*;
 
-public class RationalClosureIndexing implements DefeasibleQueryChecker {
+public class RationalIndexingChecker implements DefeasibleQueryChecker {
     
 
     // (For use with Joel's indexing algorithms) Used to store the rank at which a
@@ -29,12 +29,12 @@ public class RationalClosureIndexing implements DefeasibleQueryChecker {
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
-    public RationalClosureIndexing(RankConstructor<ArrayList<PlBeliefSet>> constructor){
+    public RationalIndexingChecker(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.antecedentNegationRanksToRemoveFrom = new HashMap<PlFormula, Integer>();
         this.constructor = constructor;
     }
 
-    public RationalClosureIndexing(ArrayList<PlBeliefSet> baseRank){
+    public RationalIndexingChecker(ArrayList<PlBeliefSet> baseRank){
         this.antecedentNegationRanksToRemoveFrom = new HashMap<PlFormula, Integer>();
         this.baseRank = baseRank;
     }

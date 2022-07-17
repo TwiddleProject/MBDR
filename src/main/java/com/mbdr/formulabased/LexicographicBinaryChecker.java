@@ -20,7 +20,7 @@ import org.tweetyproject.logics.pl.reasoner.*;
 
 import java.util.*;
 
-public class LexicographicClosureBinary implements DefeasibleQueryChecker{
+public class LexicographicBinaryChecker implements DefeasibleQueryChecker{
 
     static int counter = 0;
     static int counterR = 0;
@@ -30,12 +30,12 @@ public class LexicographicClosureBinary implements DefeasibleQueryChecker{
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
-    public LexicographicClosureBinary(ArrayList<PlBeliefSet> baseRank){
+    public LexicographicBinaryChecker(ArrayList<PlBeliefSet> baseRank){
         this.baseRank = baseRank;
         this.constructor = null;
     }
 
-    public LexicographicClosureBinary(RankConstructor<ArrayList<PlBeliefSet>> constructor){
+    public LexicographicBinaryChecker(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.baseRank = null;
         this.constructor = constructor;
     }
@@ -110,9 +110,9 @@ public class LexicographicClosureBinary implements DefeasibleQueryChecker{
 
             Object[] rank = rankedKB[rankFromWhichToRemove].toArray();
             
-            List<Set<Object>> sortedRank = LexicographicClosurePowerset.sortList(rank);
+            List<Set<Object>> sortedRank = LexicographicPowersetChecker.sortList(rank);
 
-            ArrayList<String> refinements = new ArrayList<>(LexicographicClosurePowerset.combineRefine(sortedRank)); // Calling the powerset function
+            ArrayList<String> refinements = new ArrayList<>(LexicographicPowersetChecker.combineRefine(sortedRank)); // Calling the powerset function
             for (String f : refinements) { // Checking every subsets
                 PlBeliefSet combSet = new PlBeliefSet();
                 PlParser parser = new PlParser();

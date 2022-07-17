@@ -26,16 +26,16 @@ import com.mbdr.utils.exceptions.MissingRankConstructor;
 import com.mbdr.utils.exceptions.MissingRanking;
 import com.mbdr.utils.parsing.Parser;
 
-public class LexicographicClosurePowerset implements DefeasibleQueryChecker{
+public class LexicographicPowersetChecker implements DefeasibleQueryChecker{
 
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
-    public LexicographicClosurePowerset(ArrayList<PlBeliefSet> baseRank){
+    public LexicographicPowersetChecker(ArrayList<PlBeliefSet> baseRank){
         this.baseRank = new ArrayList<>(baseRank);
     }
 
-    public LexicographicClosurePowerset(RankConstructor<ArrayList<PlBeliefSet>> constructor){
+    public LexicographicPowersetChecker(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.constructor = constructor;
     }
 

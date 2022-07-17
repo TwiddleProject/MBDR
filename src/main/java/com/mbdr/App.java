@@ -10,15 +10,15 @@ import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlSignature;
 
 import com.mbdr.formulabased.BaseRankConstructor;
-import com.mbdr.formulabased.LexicographicClosureBinary;
-import com.mbdr.formulabased.LexicographicClosureNaive;
-import com.mbdr.formulabased.LexicographicClosurePowerset;
-import com.mbdr.formulabased.LexicographicClosureTernary;
-import com.mbdr.formulabased.RationalClosureBinary;
-import com.mbdr.formulabased.RationalClosureBinaryIndexing;
-import com.mbdr.formulabased.RationalClosureDirect;
-import com.mbdr.formulabased.RationalClosureIndexing;
-import com.mbdr.formulabased.RationalClosureRegular;
+import com.mbdr.formulabased.LexicographicBinaryChecker;
+import com.mbdr.formulabased.LexicographicNaiveChecker;
+import com.mbdr.formulabased.LexicographicPowersetChecker;
+import com.mbdr.formulabased.LexicographicTernaryChecker;
+import com.mbdr.formulabased.RationalBinaryChecker;
+import com.mbdr.formulabased.RationalBinaryIndexingChecker;
+import com.mbdr.formulabased.RationalDirectChecker;
+import com.mbdr.formulabased.RationalIndexingChecker;
+import com.mbdr.formulabased.RationalRegularChecker;
 import com.mbdr.modelbased.LexicographicModelConstructor;
 import com.mbdr.modelbased.MinimalRankedEntailmentChecker;
 import com.mbdr.modelbased.RankedInterpretation;
@@ -89,16 +89,16 @@ public class App {
                         System.out.println("Query Results:");
 
                         DefeasibleQueryChecker[] checkers = {
-                                new RationalClosureDirect(ranked_KB, knowledgeBase),
-                                new RationalClosureRegular(ranked_KB),
-                                new RationalClosureIndexing(ranked_KB),
-                                new RationalClosureBinary(ranked_KB),
-                                new RationalClosureBinaryIndexing(ranked_KB),
+                                new RationalDirectChecker(ranked_KB, knowledgeBase),
+                                new RationalRegularChecker(ranked_KB),
+                                new RationalIndexingChecker(ranked_KB),
+                                new RationalBinaryChecker(ranked_KB),
+                                new RationalBinaryIndexingChecker(ranked_KB),
                                 new MinimalRankedEntailmentChecker(rationalClosureModel),
-                                new LexicographicClosureNaive(ranked_KB),
-                                new LexicographicClosurePowerset(ranked_KB),
-                                new LexicographicClosureBinary(ranked_KB),
-                                new LexicographicClosureTernary(ranked_KB),
+                                new LexicographicNaiveChecker(ranked_KB),
+                                new LexicographicPowersetChecker(ranked_KB),
+                                new LexicographicBinaryChecker(ranked_KB),
+                                new LexicographicTernaryChecker(ranked_KB),
                                 new MinimalRankedEntailmentChecker(lexicographicClosureModel)
                         };
 

@@ -1,5 +1,6 @@
 package com.mbdr.formulabased;
 
+import java.io.IOException;
 import java.util.*;
 
 import org.tweetyproject.logics.pl.syntax.Contradiction;
@@ -16,18 +17,19 @@ import com.mbdr.utils.exceptions.MissingRanking;
 
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
+import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.reasoner.*;
 
-public class RationalClosureRegular implements DefeasibleQueryChecker{
-
+public class RationalBinaryChecker implements DefeasibleQueryChecker {
+    
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
-    public RationalClosureRegular(RankConstructor<ArrayList<PlBeliefSet>> constructor){
+    public RationalBinaryChecker(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.constructor = constructor;
     }
 
-    public RationalClosureRegular(ArrayList<PlBeliefSet> baseRank){
+    public RationalBinaryChecker(ArrayList<PlBeliefSet> baseRank){
         this.baseRank = baseRank;
     }
 
@@ -37,42 +39,48 @@ public class RationalClosureRegular implements DefeasibleQueryChecker{
         this.baseRank = this.constructor.construct(knowledge);
     }
 
-    @Override
+    /**
+     * Implementation of Joel's RationalClosure algorithm that utilises
+     * Binary Search to find the rank from which all ranks need to be removed, as
+     * opposed to iterating linearly from the top, downwards, as in RationalClosure.
+     * 
+     * @param originalRankedKB
+     * @param rawQuery
+     * @return
+     * @throws IOException
+     * @throws ParserException
+     */
     public boolean queryDefeasible(Implication defeasibleImplication){
         if(this.baseRank == null) throw new MissingRanking("Cannot perform query without both base rank and knowledge base.");
         SatSolver.setDefaultSolver(new Sat4jSolver());
         SatReasoner classicalReasoner = new SatReasoner();
+
         PlFormula negationOfAntecedent = new Negation(defeasibleImplication.getFormulas().getFirst());
-        ArrayList<PlBeliefSet> rankedKB = (ArrayList<PlBeliefSet>) this.baseRank.clone();
-        PlBeliefSet combinedRankedKB = Utils.combine(rankedKB);
-        while (combinedRankedKB.size() != 0) {
-            // System.out.println("We are checking whether or not " +
-            // negationOfAntecedent.toString() + " is entailed by: " +
-            // combinedRankedKB.toString());
-            if (classicalReasoner.query(combinedRankedKB, negationOfAntecedent)) {
-                // System.out.println("It is! so we remove " + rankedKB.get(0).toString());
-                combinedRankedKB.removeAll(rankedKB.get(0));
-                rankedKB.remove(rankedKB.get(0));
+
+        int low = 0;
+        int n = this.baseRank.size();
+        int high = n;
+
+        while (high > low) {
+            int mid = low + (high - low) / 2;
+            List<PlBeliefSet> R = this.baseRank.subList(mid + 1, n);
+            PlBeliefSet combinedRankedKBArray = Utils.combine(R);
+            if (classicalReasoner.query(combinedRankedKBArray, negationOfAntecedent)) {
+                low = mid + 1;
             } else {
-                // System.out.println("It is not!");
-                break;
+                R = this.baseRank.subList(mid, n);
+                combinedRankedKBArray = Utils.combine(R);
+                if (classicalReasoner.query(combinedRankedKBArray, negationOfAntecedent)) {
+                    R = this.baseRank.subList(mid + 1, n);
+                    combinedRankedKBArray = Utils.combine(R);
+                    return classicalReasoner.query(combinedRankedKBArray, defeasibleImplication);
+                } else {
+                    high = mid;
+                }
             }
         }
-        if (combinedRankedKB.size() != 0) {
-            // System.out.println("We now check whether or not the formula" +
-            // formula.toString() + " is entailed by " + combinedRankedKB.toString());
-            if (classicalReasoner.query(combinedRankedKB, defeasibleImplication)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            // System.out.println("There would then be no ranks remaining, which means the
-            // knowledge base entails " + negationOfAntecedent.toString() + ", and thus it
-            // entails " + formula.toString() + ", so we know the defeasible counterpart of
-            // this implication is also entailed!");
-            return true;
-        }
+
+        return true;
     }
 
     @Override
