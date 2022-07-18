@@ -72,7 +72,7 @@ public class BenchMark {
 
             try {
                 // Read in the knowledge base and store in state object
-                ArrayList<String> rawFormulas = reader.readFormulasFromFile(kBFileName);
+                ArrayList<String> rawFormulas = reader.readFileLines(kBFileName);
                 this.knowledgeBase = Parser.parseFormulas(rawFormulas);
 
             } catch (Exception e) {
@@ -100,7 +100,7 @@ public class BenchMark {
                     KnowledgeBaseReader readerTemp = new KnowledgeBaseReader("knowledge_bases/");
 
                     try {
-                        this.rawQueries = readerTemp.readFormulasFromFile(queriesFileName);
+                        this.rawQueries = readerTemp.readFileLines(queriesFileName);
                     } catch (Exception e) {
                         // TODO: handle exception
                     }
@@ -131,7 +131,7 @@ public class BenchMark {
                     KnowledgeBaseReader readerTemp2 = new KnowledgeBaseReader("knowledge_bases/");
 
                     try {
-                        this.rawQueries = readerTemp2.readFormulasFromFile(queriesFileName);
+                        this.rawQueries = readerTemp2.readFileLines(queriesFileName);
                     } catch (Exception e) {
                         // TODO: handle exception
                     }

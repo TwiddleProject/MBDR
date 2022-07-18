@@ -32,7 +32,6 @@ import com.mbdr.utils.parsing.Parser;
 public class App {
 
         public final static String KNOWLEDGE_BASE_DIR = "knowledge_bases/";
-
         public static void main(String[] args) {
                 // TODO: Need to investigate normalising knowledge bases as twiddle statements
 
@@ -40,7 +39,7 @@ public class App {
 
                 try {
                         KnowledgeBaseReader reader = new KnowledgeBaseReader(KNOWLEDGE_BASE_DIR);
-                        ArrayList<String> rawFormulas = reader.readFormulasFromFile(fileName);
+                        ArrayList<String> rawFormulas = reader.readFileLines(fileName);
                         DefeasibleKnowledgeBase knowledgeBase = Parser.parseFormulas(rawFormulas);
 
                         System.out.println("----------------------------");
