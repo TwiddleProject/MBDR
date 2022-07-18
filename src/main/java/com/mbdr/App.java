@@ -35,7 +35,8 @@ public class App {
         public static void main(String[] args) {
                 // TODO: Need to investigate normalising knowledge bases as twiddle statements
 
-                String fileName = "platypuses.txt";
+                String fileName = args.length >= 1 ? args[0] : "platypuses.txt";
+                String rawQuery = args.length == 2 ? args[1] : "p|~w";
 
                 try {
                         KnowledgeBaseReader reader = new KnowledgeBaseReader(KNOWLEDGE_BASE_DIR);
@@ -55,8 +56,6 @@ public class App {
                         for (int rank_Index = ranked_KB_Arr.length - 2; rank_Index >= 0; rank_Index--) {
                                 System.out.println(rank_Index + " :\t" + ranked_KB_Arr[rank_Index]);
                         }
-
-                        String rawQuery = "p |~ w";
 
                         System.out.println("----------------------------");
                         System.out.println("Testing query:\t" + rawQuery);
