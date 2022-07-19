@@ -1,4 +1,4 @@
-package com.mbdr.utils.exceptions;
+package com.mbdr.common.exceptions;
 
 public class MissingRankConstructor extends RuntimeException{
     public MissingRankConstructor(){

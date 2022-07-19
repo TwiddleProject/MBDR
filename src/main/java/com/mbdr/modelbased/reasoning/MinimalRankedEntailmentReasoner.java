@@ -4,12 +4,12 @@ import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
+import com.mbdr.common.exceptions.MissingRankConstructor;
+import com.mbdr.common.exceptions.MissingRanking;
 import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.modelbased.structures.RankedInterpretation;
-import com.mbdr.utils.exceptions.MissingRankConstructor;
-import com.mbdr.utils.exceptions.MissingRanking;
 
 public class MinimalRankedEntailmentReasoner implements DefeasibleReasoner{
     

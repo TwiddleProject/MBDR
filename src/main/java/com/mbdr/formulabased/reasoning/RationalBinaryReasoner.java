@@ -9,12 +9,12 @@ import org.tweetyproject.logics.pl.syntax.Negation;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
+import com.mbdr.common.exceptions.MissingRankConstructor;
+import com.mbdr.common.exceptions.MissingRanking;
 import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.formulabased.Utils;
-import com.mbdr.utils.exceptions.MissingRankConstructor;
-import com.mbdr.utils.exceptions.MissingRanking;
 
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;

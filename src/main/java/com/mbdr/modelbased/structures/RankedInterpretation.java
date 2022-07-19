@@ -5,8 +5,7 @@ import java.util.Set;
 import java.util.HashSet;
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
-// import com.mbdr.structures.Ranking;
-import com.mbdr.utils.exceptions.RankOutOfBounds;
+import com.mbdr.common.exceptions.RankOutOfBounds;
 
 
 public class RankedInterpretation { //implements Ranking<NicePossibleWorld>
