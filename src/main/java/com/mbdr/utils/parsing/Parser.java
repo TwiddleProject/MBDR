@@ -10,7 +10,7 @@ import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.syntax.Negation;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 
 public class Parser {
 

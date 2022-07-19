@@ -1,4 +1,4 @@
-package com.mbdr.formulabased;
+package com.mbdr.formulabased.construction;
 
 import java.util.ArrayList;
 
@@ -7,8 +7,8 @@ import org.tweetyproject.logics.pl.syntax.Negation;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.services.RankConstructor;
-import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.common.services.RankConstructor;
+import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;

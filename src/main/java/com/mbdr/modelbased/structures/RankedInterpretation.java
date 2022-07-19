@@ -1,4 +1,4 @@
-package com.mbdr.modelbased;
+package com.mbdr.modelbased.structures;
 
 import java.util.ArrayList;
 import java.util.Set;

@@ -20,20 +20,19 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import com.mbdr.utils.parsing.*;
-import com.mbdr.structures.*;
-
-import com.mbdr.formulabased.BaseRankConstructor;
-import com.mbdr.formulabased.RationalBinaryChecker;
-import com.mbdr.formulabased.RationalBinaryIndexingChecker;
-import com.mbdr.formulabased.RationalDirectChecker;
-import com.mbdr.formulabased.RationalIndexingChecker;
-import com.mbdr.formulabased.RationalRegularChecker;
-import com.mbdr.modelbased.LexicographicModelConstructor;
-import com.mbdr.modelbased.MinimalRankedEntailmentChecker;
-import com.mbdr.modelbased.RankedInterpretation;
-import com.mbdr.modelbased.RationalModelBaseRankConstructor;
-import com.mbdr.modelbased.RationalModelConstructor;
-import com.mbdr.services.DefeasibleQueryChecker;
+import com.mbdr.common.services.DefeasibleReasoner;
+import com.mbdr.common.structures.*;
+import com.mbdr.formulabased.construction.BaseRankConstructor;
+import com.mbdr.formulabased.reasoning.RationalBinaryReasoner;
+import com.mbdr.formulabased.reasoning.RationalBinaryIndexingChecker;
+import com.mbdr.formulabased.reasoning.RationalDirectReasoner;
+import com.mbdr.formulabased.reasoning.RationalIndexingReasoner;
+import com.mbdr.formulabased.reasoning.RationalRegularReasoner;
+import com.mbdr.modelbased.construction.LexicographicModelConstructor;
+import com.mbdr.modelbased.construction.RationalModelBaseRankConstructor;
+import com.mbdr.modelbased.construction.RationalModelConstructor;
+import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
+import com.mbdr.modelbased.structures.RankedInterpretation;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
@@ -179,7 +178,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_direct_implementation(StateObj stateObj, Blackhole blackhole) {
 
-        DefeasibleQueryChecker rcDirect = new RationalDirectChecker(stateObj.ranked_KB, stateObj.knowledgeBase);
+        DefeasibleReasoner rcDirect = new RationalDirectReasoner(stateObj.ranked_KB, stateObj.knowledgeBase);
         for (String rawQuery : stateObj.rawQueries) {
             try {
                 boolean queryAnswer = rcDirect.query(rawQuery);
@@ -196,7 +195,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_Joel_regular(StateObj stateObj, Blackhole blackhole) {
 
-        DefeasibleQueryChecker rcRegular = new RationalRegularChecker(stateObj.ranked_KB);
+        DefeasibleReasoner rcRegular = new RationalRegularReasoner(stateObj.ranked_KB);
         for (String rawQuery : stateObj.rawQueries) {
             try {
                 boolean queryAnswer = rcRegular.query(rawQuery);
@@ -215,7 +214,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_Joel_binary_search(StateObj stateObj, Blackhole blackhole) {
 
-        DefeasibleQueryChecker rcBinary = new RationalBinaryChecker(stateObj.ranked_KB);
+        DefeasibleReasoner rcBinary = new RationalBinaryReasoner(stateObj.ranked_KB);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {
@@ -235,7 +234,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_Joel_regular_indexing(StateObj stateObj, Blackhole blackhole) {
 
-        DefeasibleQueryChecker rcIndex = new RationalIndexingChecker(stateObj.ranked_KB);
+        DefeasibleReasoner rcIndex = new RationalIndexingReasoner(stateObj.ranked_KB);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {
@@ -255,7 +254,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_Joel_binary_search_indexing(StateObj stateObj, Blackhole blackhole) {
 
-        DefeasibleQueryChecker rcBinaryIndex = new RationalBinaryIndexingChecker(stateObj.ranked_KB);
+        DefeasibleReasoner rcBinaryIndex = new RationalBinaryIndexingChecker(stateObj.ranked_KB);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {
@@ -319,7 +318,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_entailment_checker_RC(StateObj stateObj, Blackhole blackhole) throws InterruptedException {
 
-        MinimalRankedEntailmentChecker rcChecker = new MinimalRankedEntailmentChecker(stateObj.rationalModel);
+        MinimalRankedEntailmentReasoner rcChecker = new MinimalRankedEntailmentReasoner(stateObj.rationalModel);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {
@@ -338,7 +337,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_entailment_checker_LC(StateObj stateObj, Blackhole blackhole) throws InterruptedException {
 
-        MinimalRankedEntailmentChecker rcChecker = new MinimalRankedEntailmentChecker(stateObj.lexicographicModel);
+        MinimalRankedEntailmentReasoner rcChecker = new MinimalRankedEntailmentReasoner(stateObj.lexicographicModel);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {

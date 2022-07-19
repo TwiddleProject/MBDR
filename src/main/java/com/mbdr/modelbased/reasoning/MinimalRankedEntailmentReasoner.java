@@ -1,25 +1,26 @@
-package com.mbdr.modelbased;
+package com.mbdr.modelbased.reasoning;
 
 import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.services.DefeasibleQueryChecker;
-import com.mbdr.services.RankConstructor;
-import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.common.services.DefeasibleReasoner;
+import com.mbdr.common.services.RankConstructor;
+import com.mbdr.common.structures.DefeasibleKnowledgeBase;
+import com.mbdr.modelbased.structures.RankedInterpretation;
 import com.mbdr.utils.exceptions.MissingRankConstructor;
 import com.mbdr.utils.exceptions.MissingRanking;
 
-public class MinimalRankedEntailmentChecker implements DefeasibleQueryChecker{
+public class MinimalRankedEntailmentReasoner implements DefeasibleReasoner{
     
     private RankConstructor<RankedInterpretation> constructor;
     private RankedInterpretation model;
 
-    public MinimalRankedEntailmentChecker(RankedInterpretation model){
+    public MinimalRankedEntailmentReasoner(RankedInterpretation model){
         this.model = model;
     }
 
-    public MinimalRankedEntailmentChecker(RankConstructor<RankedInterpretation> constructor){
+    public MinimalRankedEntailmentReasoner(RankConstructor<RankedInterpretation> constructor){
         this.constructor = constructor;
     }
 

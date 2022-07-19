@@ -9,23 +9,23 @@ import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlSignature;
 
-import com.mbdr.formulabased.BaseRankConstructor;
-import com.mbdr.formulabased.LexicographicBinaryChecker;
-import com.mbdr.formulabased.LexicographicNaiveChecker;
-import com.mbdr.formulabased.LexicographicPowersetChecker;
-import com.mbdr.formulabased.LexicographicTernaryChecker;
-import com.mbdr.formulabased.RationalBinaryChecker;
-import com.mbdr.formulabased.RationalBinaryIndexingChecker;
-import com.mbdr.formulabased.RationalDirectChecker;
-import com.mbdr.formulabased.RationalIndexingChecker;
-import com.mbdr.formulabased.RationalRegularChecker;
-import com.mbdr.modelbased.LexicographicModelConstructor;
-import com.mbdr.modelbased.MinimalRankedEntailmentChecker;
-import com.mbdr.modelbased.RankedInterpretation;
-import com.mbdr.modelbased.RationalModelBaseRankConstructor;
-import com.mbdr.modelbased.RationalModelConstructor;
-import com.mbdr.services.DefeasibleQueryChecker;
-import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.common.services.DefeasibleReasoner;
+import com.mbdr.common.structures.DefeasibleKnowledgeBase;
+import com.mbdr.formulabased.construction.BaseRankConstructor;
+import com.mbdr.formulabased.reasoning.LexicographicBinaryReasoner;
+import com.mbdr.formulabased.reasoning.LexicographicNaiveReasoner;
+import com.mbdr.formulabased.reasoning.LexicographicPowersetReasoner;
+import com.mbdr.formulabased.reasoning.LexicographicTernaryReasoner;
+import com.mbdr.formulabased.reasoning.RationalBinaryReasoner;
+import com.mbdr.formulabased.reasoning.RationalBinaryIndexingChecker;
+import com.mbdr.formulabased.reasoning.RationalDirectReasoner;
+import com.mbdr.formulabased.reasoning.RationalIndexingReasoner;
+import com.mbdr.formulabased.reasoning.RationalRegularReasoner;
+import com.mbdr.modelbased.construction.LexicographicModelConstructor;
+import com.mbdr.modelbased.construction.RationalModelBaseRankConstructor;
+import com.mbdr.modelbased.construction.RationalModelConstructor;
+import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
+import com.mbdr.modelbased.structures.RankedInterpretation;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
 import com.mbdr.utils.parsing.Parser;
 
@@ -86,21 +86,21 @@ public class App {
 
                         System.out.println("Query Results:");
 
-                        DefeasibleQueryChecker[] checkers = {
-                                new RationalDirectChecker(ranked_KB, knowledgeBase),
-                                new RationalRegularChecker(ranked_KB),
-                                new RationalIndexingChecker(ranked_KB),
-                                new RationalBinaryChecker(ranked_KB),
+                        DefeasibleReasoner[] checkers = {
+                                new RationalDirectReasoner(ranked_KB, knowledgeBase),
+                                new RationalRegularReasoner(ranked_KB),
+                                new RationalIndexingReasoner(ranked_KB),
+                                new RationalBinaryReasoner(ranked_KB),
                                 new RationalBinaryIndexingChecker(ranked_KB),
-                                new MinimalRankedEntailmentChecker(rationalClosureModel),
-                                new LexicographicNaiveChecker(ranked_KB),
-                                new LexicographicPowersetChecker(ranked_KB),
-                                new LexicographicBinaryChecker(ranked_KB),
-                                new LexicographicTernaryChecker(ranked_KB),
-                                new MinimalRankedEntailmentChecker(lexicographicClosureModel)
+                                new MinimalRankedEntailmentReasoner(rationalClosureModel),
+                                new LexicographicNaiveReasoner(ranked_KB),
+                                new LexicographicPowersetReasoner(ranked_KB),
+                                new LexicographicBinaryReasoner(ranked_KB),
+                                new LexicographicTernaryReasoner(ranked_KB),
+                                new MinimalRankedEntailmentReasoner(lexicographicClosureModel)
                         };
 
-                        for(DefeasibleQueryChecker checker : checkers){
+                        for(DefeasibleReasoner checker : checkers){
                                 String template = "%-40s%s";
                                 System.out.println(
                                         String.format(template, 

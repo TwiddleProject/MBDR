@@ -10,11 +10,25 @@ import org.junit.Test;
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 
-import com.mbdr.services.DefeasibleQueryChecker;
-import com.mbdr.structures.DefeasibleKnowledgeBase;
 import com.mbdr.utils.parsing.*;
 import com.mbdr.modelbased.*;
+import com.mbdr.modelbased.construction.LexicographicModelConstructor;
+import com.mbdr.modelbased.construction.RationalModelConstructor;
+import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
+import com.mbdr.modelbased.structures.RankedInterpretation;
+import com.mbdr.common.services.DefeasibleReasoner;
+import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.formulabased.*;
+import com.mbdr.formulabased.construction.BaseRankConstructor;
+import com.mbdr.formulabased.reasoning.LexicographicBinaryReasoner;
+import com.mbdr.formulabased.reasoning.LexicographicNaiveReasoner;
+import com.mbdr.formulabased.reasoning.LexicographicPowersetReasoner;
+import com.mbdr.formulabased.reasoning.LexicographicTernaryReasoner;
+import com.mbdr.formulabased.reasoning.RationalBinaryReasoner;
+import com.mbdr.formulabased.reasoning.RationalBinaryIndexingChecker;
+import com.mbdr.formulabased.reasoning.RationalDirectReasoner;
+import com.mbdr.formulabased.reasoning.RationalIndexingReasoner;
+import com.mbdr.formulabased.reasoning.RationalRegularReasoner;
 
 public class AppTest 
 {
@@ -50,26 +64,26 @@ public class AppTest
             );
             RankedInterpretation lexicographicClosureModel = new LexicographicModelConstructor().construct(knowledgeBase);
 
-            DefeasibleQueryChecker[] rationalClosureCheckers = {
-                new RationalDirectChecker(baseRank, knowledgeBase),
-                new RationalRegularChecker(baseRank),
-                new RationalIndexingChecker(baseRank),
-                new RationalBinaryChecker(baseRank),
+            DefeasibleReasoner[] rationalClosureCheckers = {
+                new RationalDirectReasoner(baseRank, knowledgeBase),
+                new RationalRegularReasoner(baseRank),
+                new RationalIndexingReasoner(baseRank),
+                new RationalBinaryReasoner(baseRank),
                 new RationalBinaryIndexingChecker(baseRank),
-                new MinimalRankedEntailmentChecker(rationalClosureModel)
+                new MinimalRankedEntailmentReasoner(rationalClosureModel)
             };
 
-            DefeasibleQueryChecker[] lexicographicClosureCheckers = {
-                new LexicographicNaiveChecker(baseRank),
-                new LexicographicPowersetChecker(baseRank),
-                new LexicographicBinaryChecker(baseRank),
-                new LexicographicTernaryChecker(baseRank),
-                new MinimalRankedEntailmentChecker(lexicographicClosureModel)
+            DefeasibleReasoner[] lexicographicClosureCheckers = {
+                new LexicographicNaiveReasoner(baseRank),
+                new LexicographicPowersetReasoner(baseRank),
+                new LexicographicBinaryReasoner(baseRank),
+                new LexicographicTernaryReasoner(baseRank),
+                new MinimalRankedEntailmentReasoner(lexicographicClosureModel)
             };
 
             // For each type of entailment checker
-            for(DefeasibleQueryChecker[] checkers : 
-            new DefeasibleQueryChecker[][]{
+            for(DefeasibleReasoner[] checkers : 
+            new DefeasibleReasoner[][]{
                 rationalClosureCheckers, 
                 lexicographicClosureCheckers
             }){
@@ -77,7 +91,7 @@ public class AppTest
                 for(String query: queries){
                     ArrayList<Boolean> results = new ArrayList<>(checkers.length);
                     System.out.println("Query: " + query);
-                    for(DefeasibleQueryChecker checker : checkers){
+                    for(DefeasibleReasoner checker : checkers){
                         results.add(
                             checker.query(query)
                         );

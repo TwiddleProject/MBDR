@@ -9,8 +9,8 @@ import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.modelbased.RationalModelConstructor;
-import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.common.structures.DefeasibleKnowledgeBase;
+import com.mbdr.modelbased.construction.RationalModelConstructor;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
 import com.mbdr.utils.parsing.Parser;
 

@@ -1,4 +1,4 @@
-package com.mbdr.modelbased;
+package com.mbdr.modelbased.construction;
 
 import java.util.ArrayList;
 
@@ -6,8 +6,10 @@ import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.services.RankConstructor;
-import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.common.services.RankConstructor;
+import com.mbdr.common.structures.DefeasibleKnowledgeBase;
+import com.mbdr.modelbased.construction.RationalModelBaseRankConstructor;
+import com.mbdr.modelbased.structures.RankedInterpretation;
 
 public class LexicographicModelConstructor implements RankConstructor<RankedInterpretation>{
 

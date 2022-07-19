@@ -1,4 +1,4 @@
-package com.mbdr.formulabased;
+package com.mbdr.formulabased.reasoning;
 
 import java.io.IOException;
 import java.util.*;
@@ -9,9 +9,10 @@ import org.tweetyproject.logics.pl.syntax.Negation;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.services.DefeasibleQueryChecker;
-import com.mbdr.services.RankConstructor;
-import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.common.services.DefeasibleReasoner;
+import com.mbdr.common.services.RankConstructor;
+import com.mbdr.common.structures.DefeasibleKnowledgeBase;
+import com.mbdr.formulabased.Utils;
 import com.mbdr.utils.exceptions.MissingRankConstructor;
 import com.mbdr.utils.exceptions.MissingRanking;
 
@@ -20,7 +21,7 @@ import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.reasoner.*;
 
-public class RationalIndexingChecker implements DefeasibleQueryChecker {
+public class RationalIndexingReasoner implements DefeasibleReasoner {
     
 
     // (For use with Joel's indexing algorithms) Used to store the rank at which a
@@ -29,12 +30,12 @@ public class RationalIndexingChecker implements DefeasibleQueryChecker {
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
-    public RationalIndexingChecker(RankConstructor<ArrayList<PlBeliefSet>> constructor){
+    public RationalIndexingReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.antecedentNegationRanksToRemoveFrom = new HashMap<PlFormula, Integer>();
         this.constructor = constructor;
     }
 
-    public RationalIndexingChecker(ArrayList<PlBeliefSet> baseRank){
+    public RationalIndexingReasoner(ArrayList<PlBeliefSet> baseRank){
         this.antecedentNegationRanksToRemoveFrom = new HashMap<PlFormula, Integer>();
         this.baseRank = baseRank;
     }

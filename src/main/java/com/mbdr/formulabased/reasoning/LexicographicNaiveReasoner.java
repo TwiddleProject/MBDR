@@ -1,4 +1,4 @@
-package com.mbdr.formulabased;
+package com.mbdr.formulabased.reasoning;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,24 +13,25 @@ import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.services.DefeasibleQueryChecker;
-import com.mbdr.services.RankConstructor;
-import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.common.services.DefeasibleReasoner;
+import com.mbdr.common.services.RankConstructor;
+import com.mbdr.common.structures.DefeasibleKnowledgeBase;
+import com.mbdr.formulabased.Utils;
 import com.mbdr.utils.exceptions.MissingRankConstructor;
 import com.mbdr.utils.exceptions.MissingRanking;
 import com.mbdr.utils.parsing.Parser;
 
-public class LexicographicNaiveChecker implements DefeasibleQueryChecker{
+public class LexicographicNaiveReasoner implements DefeasibleReasoner{
 
     //TODO Create class for this
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
-    public LexicographicNaiveChecker(ArrayList<PlBeliefSet> baseRank){
+    public LexicographicNaiveReasoner(ArrayList<PlBeliefSet> baseRank){
         this.baseRank = new ArrayList<>(baseRank);
     }
 
-    public LexicographicNaiveChecker(RankConstructor<ArrayList<PlBeliefSet>> constructor){
+    public LexicographicNaiveReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.constructor = constructor;
     }
 

@@ -1,4 +1,4 @@
-package com.mbdr.formulabased;
+package com.mbdr.formulabased.reasoning;
 
 import org.tweetyproject.logics.pl.syntax.*;
 
@@ -9,9 +9,10 @@ import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 
-import com.mbdr.services.DefeasibleQueryChecker;
-import com.mbdr.services.RankConstructor;
-import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.common.services.DefeasibleReasoner;
+import com.mbdr.common.services.RankConstructor;
+import com.mbdr.common.structures.DefeasibleKnowledgeBase;
+import com.mbdr.formulabased.Utils;
 import com.mbdr.utils.exceptions.MissingRankConstructor;
 import com.mbdr.utils.exceptions.MissingRanking;
 
@@ -20,7 +21,7 @@ import org.tweetyproject.logics.pl.reasoner.*;
 
 import java.util.*;
 
-public class LexicographicBinaryChecker implements DefeasibleQueryChecker{
+public class LexicographicBinaryReasoner implements DefeasibleReasoner{
 
     static int counter = 0;
     static int counterR = 0;
@@ -30,12 +31,12 @@ public class LexicographicBinaryChecker implements DefeasibleQueryChecker{
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
-    public LexicographicBinaryChecker(ArrayList<PlBeliefSet> baseRank){
+    public LexicographicBinaryReasoner(ArrayList<PlBeliefSet> baseRank){
         this.baseRank = baseRank;
         this.constructor = null;
     }
 
-    public LexicographicBinaryChecker(RankConstructor<ArrayList<PlBeliefSet>> constructor){
+    public LexicographicBinaryReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.baseRank = null;
         this.constructor = constructor;
     }
@@ -110,9 +111,9 @@ public class LexicographicBinaryChecker implements DefeasibleQueryChecker{
 
             Object[] rank = rankedKB[rankFromWhichToRemove].toArray();
             
-            List<Set<Object>> sortedRank = LexicographicPowersetChecker.sortList(rank);
+            List<Set<Object>> sortedRank = LexicographicPowersetReasoner.sortList(rank);
 
-            ArrayList<String> refinements = new ArrayList<>(LexicographicPowersetChecker.combineRefine(sortedRank)); // Calling the powerset function
+            ArrayList<String> refinements = new ArrayList<>(LexicographicPowersetReasoner.combineRefine(sortedRank)); // Calling the powerset function
             for (String f : refinements) { // Checking every subsets
                 PlBeliefSet combSet = new PlBeliefSet();
                 PlParser parser = new PlParser();

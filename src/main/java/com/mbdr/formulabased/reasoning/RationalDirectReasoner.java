@@ -1,4 +1,4 @@
-package com.mbdr.formulabased;
+package com.mbdr.formulabased.reasoning;
 
 import java.util.*;
 
@@ -8,9 +8,9 @@ import org.tweetyproject.logics.pl.syntax.Negation;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.services.DefeasibleQueryChecker;
-import com.mbdr.services.RankConstructor;
-import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.common.services.DefeasibleReasoner;
+import com.mbdr.common.services.RankConstructor;
+import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.utils.exceptions.MissingRankConstructor;
 import com.mbdr.utils.exceptions.MissingRanking;
 
@@ -18,17 +18,17 @@ import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.logics.pl.reasoner.*;
 
-public class RationalDirectChecker implements DefeasibleQueryChecker{
+public class RationalDirectReasoner implements DefeasibleReasoner{
 
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
     private DefeasibleKnowledgeBase knowledge;
 
-    public RationalDirectChecker(RankConstructor<ArrayList<PlBeliefSet>> constructor){
+    public RationalDirectReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.constructor = constructor;
     }
 
-    public RationalDirectChecker(ArrayList<PlBeliefSet> baseRank, DefeasibleKnowledgeBase knowledge){
+    public RationalDirectReasoner(ArrayList<PlBeliefSet> baseRank, DefeasibleKnowledgeBase knowledge){
         this.baseRank = baseRank;
         this.knowledge = knowledge;
     }

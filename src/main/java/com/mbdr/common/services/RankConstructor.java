@@ -1,6 +1,6 @@
-package com.mbdr.services;
+package com.mbdr.common.services;
 
-import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 
 public interface RankConstructor<T> {
     

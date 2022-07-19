@@ -1,4 +1,4 @@
-package com.mbdr.formulabased;
+package com.mbdr.formulabased.reasoning;
 
 import java.io.IOException;
 import java.util.*;
@@ -9,9 +9,10 @@ import org.tweetyproject.logics.pl.syntax.Negation;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.services.DefeasibleQueryChecker;
-import com.mbdr.services.RankConstructor;
-import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.common.services.DefeasibleReasoner;
+import com.mbdr.common.services.RankConstructor;
+import com.mbdr.common.structures.DefeasibleKnowledgeBase;
+import com.mbdr.formulabased.Utils;
 import com.mbdr.utils.exceptions.MissingRankConstructor;
 
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
@@ -19,7 +20,7 @@ import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.reasoner.*;
 
-public class RationalBinaryIndexingChecker implements DefeasibleQueryChecker{
+public class RationalBinaryIndexingChecker implements DefeasibleReasoner{
 
     // (For use with Joel's indexing algorithms) Used to store the rank at which a
     // given query is no longer exceptional with the knowledge base

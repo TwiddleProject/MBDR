@@ -1,4 +1,4 @@
-package com.mbdr.structures;
+package com.mbdr.common.structures;
 
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;

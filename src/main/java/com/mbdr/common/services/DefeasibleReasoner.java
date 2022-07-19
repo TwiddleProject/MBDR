@@ -1,12 +1,12 @@
-package com.mbdr.services;
+package com.mbdr.common.services;
 
 import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.structures.DefeasibleKnowledgeBase;
+import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.utils.parsing.Parser;
 
-public interface DefeasibleQueryChecker {
+public interface DefeasibleReasoner {
     
     default boolean query(String formula){
         if(Parser.isDefeasible(formula)){
