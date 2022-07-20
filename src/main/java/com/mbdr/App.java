@@ -27,7 +27,7 @@ import com.mbdr.modelbased.construction.RationalModelConstructor;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
 import com.mbdr.modelbased.structures.RankedInterpretation;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
-import com.mbdr.utils.parsing.Parser;
+import com.mbdr.utils.parsing.Parsing;
 
 public class App {
 
@@ -40,8 +40,7 @@ public class App {
 
                 try {
                         KnowledgeBaseReader reader = new KnowledgeBaseReader(KNOWLEDGE_BASE_DIR);
-                        ArrayList<String> rawFormulas = reader.readFileLines(fileName);
-                        DefeasibleKnowledgeBase knowledgeBase = Parser.parseFormulas(rawFormulas);
+                        DefeasibleKnowledgeBase knowledgeBase = reader.parse(fileName);
 
                         System.out.println("----------------------------");
                         System.out.println(knowledgeBase);
@@ -62,7 +61,7 @@ public class App {
 
                         PlParser parser = new PlParser();
                         Implication query = (Implication) parser
-                                        .parseFormula(Parser.materialiseDefeasibleImplication(rawQuery));
+                                        .parseFormula(Parsing.materialiseDefeasibleImplication(rawQuery));
                         
                         System.out.println("----------------------------");
 

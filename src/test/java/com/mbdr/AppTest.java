@@ -50,9 +50,7 @@ public class AppTest
 
             System.out.println("Query File: " + knowledgeBaseFileName);
 
-            DefeasibleKnowledgeBase knowledgeBase = Parser.parseFormulas(
-                reader.readFileLines(knowledgeBaseFileName)
-            );
+            DefeasibleKnowledgeBase knowledgeBase = reader.parse(knowledgeBaseFileName);
 
             QueryReader queryReader = new QueryReader(TEST_QUERIES);
             ArrayList<String> queries = queryReader.readFileLines(queryReader.getQueryFileName(knowledgeBaseFileName));

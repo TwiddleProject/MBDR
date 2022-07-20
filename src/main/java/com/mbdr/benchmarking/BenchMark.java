@@ -71,8 +71,7 @@ public class BenchMark {
 
             try {
                 // Read in the knowledge base and store in state object
-                ArrayList<String> rawFormulas = reader.readFileLines(kBFileName);
-                this.knowledgeBase = Parser.parseFormulas(rawFormulas);
+                this.knowledgeBase = reader.parse(kBFileName);
 
             } catch (Exception e) {
                 // TODO: handle exception
