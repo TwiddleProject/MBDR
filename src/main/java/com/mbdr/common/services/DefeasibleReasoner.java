@@ -4,14 +4,14 @@ import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
-import com.mbdr.utils.parsing.Parser;
+import com.mbdr.utils.parsing.Parsing;
 
 public interface DefeasibleReasoner {
     
     default boolean query(String formula){
-        if(Parser.isDefeasible(formula)){
+        if(Parsing.isDefeasible(formula)){
             try{
-                Implication defeasibleImplication = (Implication)Parser.parseDefeasibleFormula(formula);
+                Implication defeasibleImplication = (Implication)Parsing.parseDefeasibleFormula(formula);
                 return queryDefeasible(defeasibleImplication);
             } catch(Exception e){
                 throw new InvalidFormula("Invalid formula for defeasible query.");
@@ -19,7 +19,7 @@ public interface DefeasibleReasoner {
         } 
         else {
             try{
-                PlFormula propositionalFormula = Parser.parsePropositionalFormula(formula);
+                PlFormula propositionalFormula = Parsing.parsePropositionalFormula(formula);
                 return queryPropositional(propositionalFormula);
             } catch(Exception e){
                 throw new InvalidFormula("Invalid formula for propositional query.");

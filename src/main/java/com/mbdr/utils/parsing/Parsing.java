@@ -1,7 +1,10 @@
 package com.mbdr.utils.parsing;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.parser.PlParser;
@@ -10,9 +13,9 @@ import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.syntax.Negation;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
-import com.mbdr.common.structures.DefeasibleKnowledgeBase;
+import com.mbdr.common.structures.DefeasibleFormulaCollection;
 
-public class Parser {
+public class Parsing {
 
     public final static String TWIDDLE = "|~";
 
@@ -20,21 +23,21 @@ public class Parser {
         return formula.contains(TWIDDLE);
     }
 
-    public static DefeasibleKnowledgeBase parseFormulas(ArrayList<String> formulas) throws ParserException, IOException{
-        DefeasibleKnowledgeBase knowledgeBase = new DefeasibleKnowledgeBase();
+    public static DefeasibleFormulaCollection parseFormulas(List<String> formulas) throws ParserException, IOException{
+        DefeasibleFormulaCollection collection = new DefeasibleFormulaCollection();
         for(String rawFormula : formulas){
             // Defeasible implication
             if(isDefeasible(rawFormula)){
                 PlFormula formula = parseDefeasibleFormula(rawFormula);
-                knowledgeBase.addDefeasibleFormula(formula);
+                collection.addDefeasibleFormula(formula);
             }
             // Propositional formula
             else{
                 PlFormula formula = parsePropositionalFormula(rawFormula);
-                knowledgeBase.addPropositionalFormula(formula);
+                collection.addPropositionalFormula(formula);
             }
         }
-        return knowledgeBase;
+        return collection;
     }
 
     public static PlFormula parsePropositionalFormula(String propositionalFormula) throws ParserException, IOException{
@@ -48,6 +51,16 @@ public class Parser {
             throw new ParserException("Expected a defeasible formula");
         }
         return parser.parseFormula(materialiseDefeasibleImplication(defeasibleFormula));
+    }
+
+    public static ArrayList<String> readFormulasFromString(String data) {
+        ArrayList<String> formulas = new ArrayList<String>();
+        Scanner reader = new Scanner(data);
+        while (reader.hasNext()) {
+            formulas.add(reader.nextLine());
+        }
+        reader.close();
+        return formulas;
     }
 
     /*

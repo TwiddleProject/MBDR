@@ -9,10 +9,11 @@ import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
+import com.mbdr.common.structures.DefeasibleFormulaCollection;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.modelbased.construction.RationalModelConstructor;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
-import com.mbdr.utils.parsing.Parser;
+import com.mbdr.utils.parsing.Parsing;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
@@ -44,20 +45,20 @@ public class Server {
             ArrayList<Set<NicePossibleWorld>> rankedModel = new ArrayList<>();
 
             try {
-                ArrayList<String> rawFormulas = KnowledgeBaseReader.readFormulasFromString(data);
+                ArrayList<String> rawFormulas = Parsing.readFormulasFromString(data);
 
                 for (String raw : rawFormulas) {
                     System.out.println(raw);
                 }
 
-                DefeasibleKnowledgeBase knowledge = Parser.parseFormulas(rawFormulas);
+                DefeasibleFormulaCollection knowledge = Parsing.parseFormulas(rawFormulas);
 
                 System.out.println("----------------------------");
                 System.out.println("KB_C:\t" + knowledge.getPropositionalKnowledge());
                 System.out.println("KB_D:\t" + knowledge.getDefeasibleKnowledge());
                 System.out.println("----------------------------");
 
-                rankedModel = new RationalModelConstructor().construct(knowledge);
+                rankedModel = new RationalModelConstructor().construct(new DefeasibleKnowledgeBase(knowledge));
 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -19,7 +19,7 @@ import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.formulabased.Utils;
-import com.mbdr.utils.parsing.Parser;
+import com.mbdr.utils.parsing.Parsing;
 
 public class LexicographicNaiveReasoner implements DefeasibleReasoner{
 
@@ -152,7 +152,7 @@ public class LexicographicNaiveReasoner implements DefeasibleReasoner{
     @Override
     public boolean queryPropositional(PlFormula formula){
         if(this.baseRank == null) throw new MissingRanking("Base rank of formulas has not been constructed.");
-        return queryDefeasible(Parser.normalizePropositionalFormula(formula));
+        return queryDefeasible(Parsing.normalizePropositionalFormula(formula));
     }
 
 }
