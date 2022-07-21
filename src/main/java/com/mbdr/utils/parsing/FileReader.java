@@ -33,9 +33,25 @@ public class FileReader {
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
-                files.add(child.getName());
+                if (child.isFile()){
+                    files.add(child.getName());
+                }
             }
         } 
         return files;
+    }
+
+    public ArrayList<String> getDirectoryNames(){
+        ArrayList<String> dirs = new ArrayList<String>();
+        File dir = new File(getDirectory());
+        File[] directoryListing = dir.listFiles();
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                if (child.isDirectory()){
+                    dirs.add(child.getName());
+                }
+            }
+        } 
+        return dirs;
     }
 }
