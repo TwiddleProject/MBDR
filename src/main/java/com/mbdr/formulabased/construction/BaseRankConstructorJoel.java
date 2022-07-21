@@ -48,18 +48,18 @@ public class BaseRankConstructorJoel implements RankConstructor<ArrayList<PlBeli
             // System.out.println("newRank:\t" + newRank);
             if (newRank.size() != 0) {
                 rankedKB.add(newRank);
-                System.out.println("Added rank " + Integer.toString(rankedKB.size() - 1));
+                // System.out.println("Added rank " + Integer.toString(rankedKB.size() - 1));
             } else {
                 knowledgeBase.getPropositionalKnowledge().addAll(currentMaterialisation);
             }
         }
         rankedKB.add(knowledgeBase.getPropositionalKnowledge());
-        System.out.println("Base Ranking of Knowledge Base:");
+        // System.out.println("Base Ranking of Knowledge Base:");
         for (PlBeliefSet rank : rankedKB) {
             if (rankedKB.indexOf(rank) == rankedKB.size() - 1) {
-                System.out.println("Infinite Rank:" + rank.toString());
+                // System.out.println("Infinite Rank:" + rank.toString());
             } else {
-                System.out.println("Rank " + Integer.toString(rankedKB.indexOf(rank)) + ":" + rank.toString());
+                // System.out.println("Rank " + Integer.toString(rankedKB.indexOf(rank)) + ":" + rank.toString());
             }
         }
         return rankedKB;
