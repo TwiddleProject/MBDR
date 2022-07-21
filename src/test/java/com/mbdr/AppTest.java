@@ -36,7 +36,7 @@ public class AppTest
 
     private static final String TEST_DIR_ROOT = "test_files/";
     private static final String TEST_KNOWLEDGE_BASES = TEST_DIR_ROOT + "knowledge_bases/";
-    private static final String TEST_QUERIES = TEST_DIR_ROOT + "queries/";
+    private static final String TEST_QUERIES = TEST_DIR_ROOT + "query_sets/";
     private static final String TEST_MODELS = TEST_DIR_ROOT + "models/";
     private static final String TEST_BASE_RANKS = TEST_DIR_ROOT + "base_ranks/";
 
