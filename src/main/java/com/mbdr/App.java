@@ -21,7 +21,7 @@ import com.mbdr.formulabased.reasoning.RationalBinaryIndexingChecker;
 import com.mbdr.formulabased.reasoning.RationalDirectReasoner;
 import com.mbdr.formulabased.reasoning.RationalIndexingReasoner;
 import com.mbdr.formulabased.reasoning.RationalRegularReasoner;
-import com.mbdr.modelbased.construction.LexicographicModelConstructor;
+import com.mbdr.modelbased.construction.LexicographicRefineConstructor;
 import com.mbdr.modelbased.construction.RationalModelBaseRankConstructor;
 import com.mbdr.modelbased.construction.RationalModelConstructor;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
@@ -73,7 +73,7 @@ public class App {
                                 new RationalModelBaseRankConstructor()
                                 .construct(knowledgeBase)
                         );
-                        RankedInterpretation lexicographicClosureModel = new LexicographicModelConstructor(rationalClosureModel)
+                        RankedInterpretation lexicographicClosureModel = new LexicographicRefineConstructor(rationalClosureModel)
                                         .construct(knowledgeBase);
 
                         System.out.println("Rational Closure Ranked Model:\n" + rationalClosureModel);

@@ -12,7 +12,7 @@ import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 
 import com.mbdr.utils.parsing.*;
 import com.mbdr.modelbased.*;
-import com.mbdr.modelbased.construction.LexicographicModelConstructor;
+import com.mbdr.modelbased.construction.LexicographicRefineConstructor;
 import com.mbdr.modelbased.construction.RationalModelConstructor;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
 import com.mbdr.modelbased.structures.RankedInterpretation;
@@ -60,7 +60,7 @@ public class AppTest
             RankedInterpretation rationalClosureModel = new RankedInterpretation(
                 new RationalModelConstructor().construct(knowledgeBase)
             );
-            RankedInterpretation lexicographicClosureModel = new LexicographicModelConstructor().construct(knowledgeBase);
+            RankedInterpretation lexicographicClosureModel = new LexicographicRefineConstructor().construct(knowledgeBase);
 
             DefeasibleReasoner[] rationalClosureCheckers = {
                 new RationalDirectReasoner(baseRank, knowledgeBase),
