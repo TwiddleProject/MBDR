@@ -8,18 +8,17 @@ import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
-import com.mbdr.modelbased.construction.RationalModelBaseRankConstructor;
 import com.mbdr.modelbased.structures.RankedInterpretation;
 
-public class LexicographicModelConstructor implements RankConstructor<RankedInterpretation>{
+public class LexicographicRefineConstructor implements RankConstructor<RankedInterpretation>{
 
     private RankedInterpretation rationalClosureModel;
 
-    public LexicographicModelConstructor(){
+    public LexicographicRefineConstructor(){
         this.rationalClosureModel = null;
     }
 
-    public LexicographicModelConstructor(RankedInterpretation rationalClosureModel){
+    public LexicographicRefineConstructor(RankedInterpretation rationalClosureModel){
         this.rationalClosureModel = rationalClosureModel;
     }
 
