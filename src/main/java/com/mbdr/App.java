@@ -31,7 +31,7 @@ import com.mbdr.utils.parsing.Parsing;
 
 public class App {
 
-        public final static String KNOWLEDGE_BASE_DIR = "knowledge_bases/";
+        public final static String KNOWLEDGE_BASE_DIR = "data/";
         public static void main(String[] args) {
                 // TODO: Need to investigate normalising knowledge bases as twiddle statements
 
