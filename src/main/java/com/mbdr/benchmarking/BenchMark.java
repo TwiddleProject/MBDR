@@ -28,7 +28,7 @@ import com.mbdr.formulabased.reasoning.RationalBinaryIndexingChecker;
 import com.mbdr.formulabased.reasoning.RationalDirectReasoner;
 import com.mbdr.formulabased.reasoning.RationalIndexingReasoner;
 import com.mbdr.formulabased.reasoning.RationalRegularReasoner;
-import com.mbdr.modelbased.construction.LexicographicModelConstructor;
+import com.mbdr.modelbased.construction.LexicographicRefineConstructor;
 import com.mbdr.modelbased.construction.RationalModelBaseRankConstructor;
 import com.mbdr.modelbased.construction.RationalModelConstructor;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
@@ -120,7 +120,7 @@ public class BenchMark {
                         new RationalModelConstructor().construct(knowledgeBase)
                     );
 
-                    this.lexicographicModel = new LexicographicModelConstructor(rationalModel)
+                    this.lexicographicModel = new LexicographicRefineConstructor(rationalModel)
                             .construct(knowledgeBase);
 
                     System.out.println("reading in:\t" + queriesFileName);
@@ -302,7 +302,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_construct_ranked_model_LC(StateObj stateObj, Blackhole blackhole)
             throws InterruptedException {
-        RankedInterpretation LC_Minimal_Model = new LexicographicModelConstructor()
+        RankedInterpretation LC_Minimal_Model = new LexicographicRefineConstructor()
                 .construct(stateObj.knowledgeBase);
         blackhole.consume(LC_Minimal_Model); // consume to avoid dead code elimination just in case?
     }
