@@ -24,7 +24,7 @@ import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.structures.*;
 import com.mbdr.formulabased.construction.BaseRankConstructor;
 import com.mbdr.formulabased.reasoning.RationalBinaryReasoner;
-import com.mbdr.formulabased.reasoning.RationalBinaryIndexingChecker;
+import com.mbdr.formulabased.reasoning.RationalBinaryIndexingReasoner;
 import com.mbdr.formulabased.reasoning.RationalDirectReasoner;
 import com.mbdr.formulabased.reasoning.RationalIndexingReasoner;
 import com.mbdr.formulabased.reasoning.RationalRegularReasoner;
@@ -253,7 +253,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_RC_Joel_binary_search_indexing(StateObj stateObj, Blackhole blackhole) {
 
-        DefeasibleReasoner rcBinaryIndex = new RationalBinaryIndexingChecker(stateObj.ranked_KB);
+        DefeasibleReasoner rcBinaryIndex = new RationalBinaryIndexingReasoner(stateObj.ranked_KB);
 
         for (String rawQuery : stateObj.rawQueries) {
             try {

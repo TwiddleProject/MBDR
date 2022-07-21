@@ -25,7 +25,7 @@ import com.mbdr.formulabased.reasoning.LexicographicNaiveReasoner;
 import com.mbdr.formulabased.reasoning.LexicographicPowersetReasoner;
 import com.mbdr.formulabased.reasoning.LexicographicTernaryReasoner;
 import com.mbdr.formulabased.reasoning.RationalBinaryReasoner;
-import com.mbdr.formulabased.reasoning.RationalBinaryIndexingChecker;
+import com.mbdr.formulabased.reasoning.RationalBinaryIndexingReasoner;
 import com.mbdr.formulabased.reasoning.RationalDirectReasoner;
 import com.mbdr.formulabased.reasoning.RationalIndexingReasoner;
 import com.mbdr.formulabased.reasoning.RationalRegularReasoner;
@@ -67,7 +67,7 @@ public class AppTest
                 new RationalRegularReasoner(baseRank),
                 new RationalIndexingReasoner(baseRank),
                 new RationalBinaryReasoner(baseRank),
-                new RationalBinaryIndexingChecker(baseRank),
+                new RationalBinaryIndexingReasoner(baseRank),
                 new MinimalRankedEntailmentReasoner(rationalClosureModel)
             };
 

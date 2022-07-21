@@ -20,7 +20,7 @@ import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.reasoner.*;
 
-public class RationalBinaryIndexingChecker implements DefeasibleReasoner{
+public class RationalBinaryIndexingReasoner implements DefeasibleReasoner{
 
     // (For use with Joel's indexing algorithms) Used to store the rank at which a
     // given query is no longer exceptional with the knowledge base
@@ -28,12 +28,12 @@ public class RationalBinaryIndexingChecker implements DefeasibleReasoner{
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
-    public RationalBinaryIndexingChecker(RankConstructor<ArrayList<PlBeliefSet>> constructor){
+    public RationalBinaryIndexingReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.antecedentNegationRanksToRemoveFrom = new HashMap<PlFormula, Integer>();
         this.constructor = constructor;
     }
 
-    public RationalBinaryIndexingChecker(ArrayList<PlBeliefSet> baseRank){
+    public RationalBinaryIndexingReasoner(ArrayList<PlBeliefSet> baseRank){
         this.antecedentNegationRanksToRemoveFrom = new HashMap<PlFormula, Integer>();
         this.baseRank = baseRank;
     }

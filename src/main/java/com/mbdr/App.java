@@ -17,7 +17,7 @@ import com.mbdr.formulabased.reasoning.LexicographicNaiveReasoner;
 import com.mbdr.formulabased.reasoning.LexicographicPowersetReasoner;
 import com.mbdr.formulabased.reasoning.LexicographicTernaryReasoner;
 import com.mbdr.formulabased.reasoning.RationalBinaryReasoner;
-import com.mbdr.formulabased.reasoning.RationalBinaryIndexingChecker;
+import com.mbdr.formulabased.reasoning.RationalBinaryIndexingReasoner;
 import com.mbdr.formulabased.reasoning.RationalDirectReasoner;
 import com.mbdr.formulabased.reasoning.RationalIndexingReasoner;
 import com.mbdr.formulabased.reasoning.RationalRegularReasoner;
@@ -90,7 +90,7 @@ public class App {
                                 new RationalRegularReasoner(ranked_KB),
                                 new RationalIndexingReasoner(ranked_KB),
                                 new RationalBinaryReasoner(ranked_KB),
-                                new RationalBinaryIndexingChecker(ranked_KB),
+                                new RationalBinaryIndexingReasoner(ranked_KB),
                                 new MinimalRankedEntailmentReasoner(rationalClosureModel),
                                 new LexicographicNaiveReasoner(ranked_KB),
                                 new LexicographicPowersetReasoner(ranked_KB),
