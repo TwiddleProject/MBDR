@@ -15,6 +15,7 @@ import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.formulabased.Utils;
+import com.mbdr.formulabased.construction.BaseRankConstructor;
 
 import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.reasoner.*;
@@ -30,6 +31,10 @@ public class LexicographicTernaryReasoner implements DefeasibleReasoner{
 
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
+
+    public LexicographicTernaryReasoner(){
+        this(new BaseRankConstructor());
+    }
 
     public LexicographicTernaryReasoner(ArrayList<PlBeliefSet> baseRank){
         this.baseRank = baseRank;

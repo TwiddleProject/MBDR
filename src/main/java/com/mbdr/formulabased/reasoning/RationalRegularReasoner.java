@@ -14,6 +14,7 @@ import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.formulabased.Utils;
+import com.mbdr.formulabased.construction.BaseRankConstructor;
 
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
@@ -23,6 +24,10 @@ public class RationalRegularReasoner implements DefeasibleReasoner{
 
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
+
+    public RationalRegularReasoner(){
+        this(new BaseRankConstructor());
+    }
 
     public RationalRegularReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.constructor = constructor;

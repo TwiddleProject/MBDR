@@ -15,6 +15,7 @@ import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.formulabased.Utils;
+import com.mbdr.formulabased.construction.BaseRankConstructor;
 
 import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.reasoner.*;
@@ -30,6 +31,10 @@ public class LexicographicBinaryReasoner implements DefeasibleReasoner{
     private int rankFromWhichToRemove = -1;
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
+
+    public LexicographicBinaryReasoner(){
+        this(new BaseRankConstructor());
+    }
 
     public LexicographicBinaryReasoner(ArrayList<PlBeliefSet> baseRank){
         this.baseRank = baseRank;

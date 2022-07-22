@@ -25,12 +25,17 @@ import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.formulabased.Utils;
+import com.mbdr.formulabased.construction.BaseRankConstructor;
 import com.mbdr.utils.parsing.Parsing;
 
 public class LexicographicPowersetReasoner implements DefeasibleReasoner{
 
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
+
+    public LexicographicPowersetReasoner(){
+        this(new BaseRankConstructor());
+    }
 
     public LexicographicPowersetReasoner(ArrayList<PlBeliefSet> baseRank){
         this.baseRank = new ArrayList<>(baseRank);
