@@ -3,12 +3,10 @@ package com.mbdr.utils.parsing;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.tweetyproject.commons.ParserException;
 
 import com.mbdr.common.structures.DefeasibleFormulaCollection;
-import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.common.structures.DefeasibleQuerySet;
 
 //TODO: refactor to no longer require fixed path to allow for reading from different directories - e.g. KB files and query files may be in different directories
