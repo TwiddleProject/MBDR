@@ -15,7 +15,15 @@ To build the project, run:
 ## Usage
 
 To execute the application, run:
-```java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.App```
+```java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.App <filename> <query>```
+
+To execute the benchmarks, run:
+
+Construction:
+```java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.benchmarking.BenchmarkConstruction```
+
+Entailment:
+```java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.benchmarking.BenchmarkEntailment```
 
 ## Authors
 - Jaron Cohen
