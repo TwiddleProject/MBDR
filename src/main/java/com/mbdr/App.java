@@ -65,16 +65,12 @@ public class App {
                         
                         System.out.println("----------------------------");
 
-                        RankedInterpretation rationalClosureModel = new RankedInterpretation(
-                                new RationalModelConstructor()
-                                .construct(knowledgeBase)
-                        );
-                        RankedInterpretation rationalClosureModelBaseRank = new RankedInterpretation(
-                                new RationalModelBaseRankConstructor()
-                                .construct(knowledgeBase)
-                        );
+                        RankedInterpretation rationalClosureModel = new RationalModelConstructor()
+                                .construct(knowledgeBase);
+                        RankedInterpretation rationalClosureModelBaseRank = new RationalModelBaseRankConstructor()
+                                .construct(knowledgeBase);
                         RankedInterpretation lexicographicClosureModel = new LexicographicRefineConstructor(rationalClosureModel)
-                                        .construct(knowledgeBase);
+                                .construct(knowledgeBase);
 
                         System.out.println("Rational Closure Ranked Model:\n" + rationalClosureModel);
                         System.out.println("----------------------------");

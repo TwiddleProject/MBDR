@@ -57,9 +57,7 @@ public class AppTest
             
             // Rank, model and checker construction
             ArrayList<PlBeliefSet> baseRank = new BaseRankConstructor().construct(knowledgeBase);
-            RankedInterpretation rationalClosureModel = new RankedInterpretation(
-                new RationalModelConstructor().construct(knowledgeBase)
-            );
+            RankedInterpretation rationalClosureModel = new RationalModelConstructor().construct(knowledgeBase);
             RankedInterpretation lexicographicClosureModel = new LexicographicRefineConstructor().construct(knowledgeBase);
 
             DefeasibleReasoner[] rationalClosureCheckers = {

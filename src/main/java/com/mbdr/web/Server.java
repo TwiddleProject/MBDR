@@ -12,6 +12,7 @@ import org.tweetyproject.logics.pl.syntax.PlFormula;
 import com.mbdr.common.structures.DefeasibleFormulaCollection;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.modelbased.construction.RationalModelConstructor;
+import com.mbdr.modelbased.structures.RankedInterpretation;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
 import com.mbdr.utils.parsing.Parsing;
 
@@ -40,9 +41,7 @@ public class Server {
                 err.printStackTrace();
             }
 
-            PlParser parser = new PlParser();
-
-            ArrayList<Set<NicePossibleWorld>> rankedModel = new ArrayList<>();
+            RankedInterpretation rankedModel = new RankedInterpretation();
 
             try {
                 ArrayList<String> rawFormulas = Parsing.readFormulasFromString(data);
@@ -73,10 +72,7 @@ public class Server {
             // result += "\n";
             // }
 
-            result += "∞" + " :\t" + rankedModel.get(rankedModel.size() - 1);
-            for (int rank_Index = rankedModel.size() - 2; rank_Index >= 0; rank_Index--) {
-                result += "\n" + rank_Index + " :\t" + rankedModel.get(rank_Index);
-            }
+            result += rankedModel.toString();
 
             // ctx.result(rankedModel.toString());
             // ctx.result("{data:" + rankedModel.toString() + " }");

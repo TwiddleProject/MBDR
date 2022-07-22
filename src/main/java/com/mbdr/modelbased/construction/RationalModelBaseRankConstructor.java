@@ -9,11 +9,12 @@ import org.tweetyproject.logics.pl.syntax.PlFormula;
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.formulabased.construction.BaseRankConstructor;
+import com.mbdr.modelbased.structures.RankedInterpretation;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
 //TODO Refactor to be RankConstructor<RankedInterpretation>
-public class RationalModelBaseRankConstructor implements RankConstructor<ArrayList<Set<NicePossibleWorld>>>{
+public class RationalModelBaseRankConstructor implements RankConstructor<RankedInterpretation>{
 
 
     /**
@@ -24,7 +25,7 @@ public class RationalModelBaseRankConstructor implements RankConstructor<ArrayLi
      * @return
      */
     @Override
-    public ArrayList<Set<NicePossibleWorld>> construct(DefeasibleKnowledgeBase knowledge) {
+    public RankedInterpretation construct(DefeasibleKnowledgeBase knowledge) {
         
         // Apply BaseRank to the knowledge base
         ArrayList<PlBeliefSet> ranked_KB = new BaseRankConstructor().construct(knowledge);
@@ -97,7 +98,7 @@ public class RationalModelBaseRankConstructor implements RankConstructor<ArrayLi
         // Lastly add the infinite rank worlds
         ranked_model.add(infinite_worlds);
 
-        return ranked_model;
+        return new RankedInterpretation(ranked_model);
 
     }
 

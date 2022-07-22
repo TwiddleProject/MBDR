@@ -9,10 +9,11 @@ import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
+import com.mbdr.modelbased.structures.RankedInterpretation;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
-public class RationalModelConstructor implements RankConstructor<ArrayList<Set<NicePossibleWorld>>>{
+public class RationalModelConstructor implements RankConstructor<RankedInterpretation>{
 
     /**
      * Constructs the ranked model used to define Rational Closure for a given
@@ -25,7 +26,7 @@ public class RationalModelConstructor implements RankConstructor<ArrayList<Set<N
      * @return
      */
     @Override
-    public ArrayList<Set<NicePossibleWorld>> construct(DefeasibleKnowledgeBase knowledge) {
+    public RankedInterpretation construct(DefeasibleKnowledgeBase knowledge) {
         // TODO: Clean up more...
         // TODO: Add proper logger
         // TODO: Might want to change name of finite and infinite - maybe infinite and
@@ -134,7 +135,7 @@ public class RationalModelConstructor implements RankConstructor<ArrayList<Set<N
         infiniteRank.addAll(KB_U_infinite);
         RankedModel.add(infiniteRank);
 
-        return RankedModel;
+        return new RankedInterpretation(RankedModel);
     }
 
 }

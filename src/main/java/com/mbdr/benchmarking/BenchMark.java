@@ -116,9 +116,7 @@ public class BenchMark {
                     this.KB_U = NicePossibleWorld.getAllPossibleWorlds(KB_atoms.toCollection());
 
                     // Construct the ranked models for RC and LC for query benchmarking
-                    this.rationalModel = new RankedInterpretation(
-                        new RationalModelConstructor().construct(knowledgeBase)
-                    );
+                    this.rationalModel = new RationalModelConstructor().construct(knowledgeBase);
 
                     this.lexicographicModel = new LexicographicRefineConstructor(rationalModel)
                             .construct(knowledgeBase);
@@ -277,9 +275,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_construct_ranked_model_RC(StateObj stateObj, Blackhole blackhole)
             throws InterruptedException {
-        RankedInterpretation RC_Minimal_Model = new RankedInterpretation(
-            new RationalModelConstructor().construct(stateObj.knowledgeBase)
-        );
+        RankedInterpretation RC_Minimal_Model = new RationalModelConstructor().construct(stateObj.knowledgeBase);
         blackhole.consume(RC_Minimal_Model); // consume to avoid dead code elimination just in case?
     }
 
@@ -290,9 +286,7 @@ public class BenchMark {
     public void modelbased_construct_ranked_model_RC_BR(StateObj stateObj,
             Blackhole blackhole)
             throws InterruptedException {
-                RankedInterpretation RC_Minimal_Model = new RankedInterpretation(
-                    new RationalModelBaseRankConstructor().construct(stateObj.knowledgeBase)
-                );
+                RankedInterpretation RC_Minimal_Model = new RationalModelBaseRankConstructor().construct(stateObj.knowledgeBase);
         blackhole.consume(RC_Minimal_Model); // consume to avoid dead code elimination just in case?
     }
 
