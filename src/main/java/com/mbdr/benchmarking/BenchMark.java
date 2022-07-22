@@ -417,7 +417,7 @@ public class BenchMark {
                 .resultFormat(ResultFormatType.CSV)
                 // .result("benchmark_results/" + args[1] + "-" + dateFormat.format(date) +
                 // ".csv")
-                .result("benchmark_results/" + include + ".csv")
+                .result("results/" + include + ".csv")
                 .build();
 
         // new Runner(opt).list();

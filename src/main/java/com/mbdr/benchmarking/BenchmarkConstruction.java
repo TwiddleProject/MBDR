@@ -109,7 +109,7 @@ public class BenchmarkConstruction {
                 .param("constructorClassName", constructorClassNames)
                 .param("knowledgeBaseFileName", knowledgeBaseFileNames)
                 .resultFormat(ResultFormatType.CSV)
-                .result("benchmark_results/construction.csv")
+                .result("results/construction.csv")
                 .build();
 
         Collection<RunResult> results = new Runner(benchmarkOptions).run();

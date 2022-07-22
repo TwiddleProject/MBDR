@@ -121,6 +121,7 @@ public class BenchmarkEntailment {
         System.out.println("-----------------------------------------");
 
         String[] reasonerClassNames={
+            //Formula-based
             "com.mbdr.formulabased.reasoning.RationalRegularReasoner",
             "com.mbdr.formulabased.reasoning.RationalDirectReasoner",
             "com.mbdr.formulabased.reasoning.RationalIndexingReasoner",
@@ -130,7 +131,7 @@ public class BenchmarkEntailment {
             "com.mbdr.formulabased.reasoning.LexicographicPowersetReasoner",
             "com.mbdr.formulabased.reasoning.LexicographicBinaryReasoner",
             "com.mbdr.formulabased.reasoning.LexicographicTernaryReasoner",
-
+            // Model-based
             "com.mbdr.modelbased.reasoning.RationalModelReasoner",
             "com.mbdr.modelbased.reasoning.LexicographicModelReasoner"
         };
@@ -147,7 +148,7 @@ public class BenchmarkEntailment {
                 .param("reasonerClassName", reasonerClassNames)
                 .param("knowledgeBaseFileName", knowledgeBaseFileNames)
                 .resultFormat(ResultFormatType.CSV)
-                .result("benchmark_results/construction.csv")
+                .result("results/entailment.csv")
                 .build();
 
         Collection<RunResult> results = new Runner(benchmarkOptions).run();
