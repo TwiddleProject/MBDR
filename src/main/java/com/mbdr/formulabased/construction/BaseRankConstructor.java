@@ -12,9 +12,10 @@ import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
+import org.tweetyproject.arg.rankings.reasoner.CounterTransitivityReasoner.solver;
 import org.tweetyproject.logics.pl.reasoner.*;
 
-public class BaseRankConstructor implements RankConstructor<ArrayList<PlBeliefSet>>{
+public class BaseRankConstructor implements RankConstructor<ArrayList<PlBeliefSet>> {
 
     /**
      * Standard, unoptimised BaseRank algorithm implementation
@@ -33,14 +34,15 @@ public class BaseRankConstructor implements RankConstructor<ArrayList<PlBeliefSe
 
         currentKB.addAll(knowledge.getDefeasibleKnowledge());
 
-        while (!currentKB.equals(previousKB) || !currentKB.isEmpty()) {
+        while (!currentKB.equals(previousKB) && !currentKB.isEmpty()) {
             previousKB = currentKB;
             currentKB = new PlBeliefSet();
 
-            // System.out.println("previousKB:\t" + previousKB);
-            // System.out.println("currentKB:\t" + currentKB);
+            // System.out.println("previousKB 40:\t" + previousKB);
+            // System.out.println("currentKB 41:\t" + currentKB);
 
-            PlBeliefSet KB_C_U_previousKB = DefeasibleKnowledgeBase.union(knowledge.getPropositionalKnowledge(), previousKB);
+            PlBeliefSet KB_C_U_previousKB = DefeasibleKnowledgeBase.union(knowledge.getPropositionalKnowledge(),
+                    previousKB);
             // System.out.println("KB_C_U_previousKB:\t" + KB_C_U_previousKB);
 
             for (PlFormula formula : previousKB) {
@@ -55,19 +57,27 @@ public class BaseRankConstructor implements RankConstructor<ArrayList<PlBeliefSe
                 }
             }
 
-            // System.out.println("currentKB:\t" + currentKB);
+            // System.out.println("currentKB 59:\t" + currentKB);
 
             PlBeliefSet currentRank = new PlBeliefSet();
             currentRank.addAll(previousKB);
             currentRank.removeAll(currentKB);
-            // System.out.println("currentRank:\t" + currentRank);
+            // System.out.println("currentRank 64:\t" + currentRank);
 
             if (!currentRank.isEmpty()) {
                 rankedKB.add(currentRank);
             }
-
+            // System.out.println("currentKB.equals(previousKB):\t" +
+            // currentKB.equals(previousKB));
         }
-        rankedKB.add(knowledge.getPropositionalKnowledge()); // Add all classical statements - infinite rank
+
+        if (!currentKB.isEmpty()) {
+            rankedKB.add(DefeasibleKnowledgeBase.union(knowledge.getPropositionalKnowledge(), currentKB));
+        } else {
+            rankedKB.add(knowledge.getPropositionalKnowledge()); // Add all classical statements - infinite rank
+        }
+
+        // System.out.println("returning:\t" + rankedKB);
 
         return rankedKB;
 
