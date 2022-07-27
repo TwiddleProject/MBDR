@@ -12,7 +12,6 @@ import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
-import org.tweetyproject.arg.rankings.reasoner.CounterTransitivityReasoner.solver;
 import org.tweetyproject.logics.pl.reasoner.*;
 
 public class BaseRankConstructor implements RankConstructor<ArrayList<PlBeliefSet>> {
@@ -38,37 +37,24 @@ public class BaseRankConstructor implements RankConstructor<ArrayList<PlBeliefSe
             previousKB = currentKB;
             currentKB = new PlBeliefSet();
 
-            // System.out.println("previousKB 40:\t" + previousKB);
-            // System.out.println("currentKB 41:\t" + currentKB);
-
             PlBeliefSet KB_C_U_previousKB = DefeasibleKnowledgeBase.union(knowledge.getPropositionalKnowledge(),
                     previousKB);
-            // System.out.println("KB_C_U_previousKB:\t" + KB_C_U_previousKB);
 
             for (PlFormula formula : previousKB) {
                 Negation negatedAntecedent = new Negation(((Implication) formula).getFirstFormula());
-                // System.out.println("negatedAntecedent:\t" + negatedAntecedent);
-                // System.out.println(
-                // "reasoner.query(%s, %s)".format(previousKB.toString(),
-                // negatedAntecedent.toString()) + ":\t"
-                // + reasoner.query(KB_C_U_previousKB, negatedAntecedent));
+
                 if (reasoner.query(KB_C_U_previousKB, negatedAntecedent)) {
                     currentKB.add(formula);
                 }
             }
 
-            // System.out.println("currentKB 59:\t" + currentKB);
-
             PlBeliefSet currentRank = new PlBeliefSet();
             currentRank.addAll(previousKB);
             currentRank.removeAll(currentKB);
-            // System.out.println("currentRank 64:\t" + currentRank);
 
             if (!currentRank.isEmpty()) {
                 rankedKB.add(currentRank);
             }
-            // System.out.println("currentKB.equals(previousKB):\t" +
-            // currentKB.equals(previousKB));
         }
 
         if (!currentKB.isEmpty()) {
@@ -76,8 +62,6 @@ public class BaseRankConstructor implements RankConstructor<ArrayList<PlBeliefSe
         } else {
             rankedKB.add(knowledge.getPropositionalKnowledge()); // Add all classical statements - infinite rank
         }
-
-        // System.out.println("returning:\t" + rankedKB);
 
         return rankedKB;
 
