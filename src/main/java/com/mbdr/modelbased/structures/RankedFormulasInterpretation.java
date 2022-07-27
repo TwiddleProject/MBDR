@@ -1,6 +1,7 @@
 package com.mbdr.modelbased.structures;
 
 import java.util.ArrayList;
+
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.common.exceptions.RankOutOfBounds;
