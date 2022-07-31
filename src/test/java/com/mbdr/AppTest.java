@@ -13,8 +13,12 @@ import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import com.mbdr.utils.parsing.*;
 import com.mbdr.modelbased.*;
 import com.mbdr.modelbased.construction.LexicographicRefineConstructor;
+import com.mbdr.modelbased.construction.LexicographicRefineFormulaConstructor;
 import com.mbdr.modelbased.construction.RationalModelConstructor;
+import com.mbdr.modelbased.construction.RationalModelFormulasConstructor;
+import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentFormulaReasoner;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
+import com.mbdr.modelbased.structures.RankedFormulasInterpretation;
 import com.mbdr.modelbased.structures.RankedInterpretation;
 import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
@@ -59,6 +63,8 @@ public class AppTest
             ArrayList<PlBeliefSet> baseRank = new BaseRankConstructor().construct(knowledgeBase);
             RankedInterpretation rationalClosureModel = new RationalModelConstructor().construct(knowledgeBase);
             RankedInterpretation lexicographicClosureModel = new LexicographicRefineConstructor().construct(knowledgeBase);
+            RankedFormulasInterpretation rationalClosureFormulaModel = new RationalModelFormulasConstructor().construct(knowledgeBase);
+            RankedFormulasInterpretation lexicographicClosureFormulaModel = new LexicographicRefineFormulaConstructor().construct(knowledgeBase);
 
             DefeasibleReasoner[] rationalClosureCheckers = {
                 new RationalDirectReasoner(baseRank, knowledgeBase),
@@ -66,7 +72,8 @@ public class AppTest
                 new RationalIndexingReasoner(baseRank),
                 new RationalBinaryReasoner(baseRank),
                 new RationalBinaryIndexingReasoner(baseRank),
-                new MinimalRankedEntailmentReasoner(rationalClosureModel)
+                new MinimalRankedEntailmentReasoner(rationalClosureModel),
+                new MinimalRankedEntailmentFormulaReasoner(rationalClosureFormulaModel)
             };
 
             DefeasibleReasoner[] lexicographicClosureCheckers = {
@@ -74,7 +81,8 @@ public class AppTest
                 new LexicographicPowersetReasoner(baseRank),
                 new LexicographicBinaryReasoner(baseRank),
                 new LexicographicTernaryReasoner(baseRank),
-                new MinimalRankedEntailmentReasoner(lexicographicClosureModel)
+                new MinimalRankedEntailmentReasoner(lexicographicClosureModel),
+                new MinimalRankedEntailmentFormulaReasoner(lexicographicClosureFormulaModel)
             };
 
             // For each type of entailment checker
