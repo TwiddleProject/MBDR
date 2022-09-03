@@ -10,15 +10,15 @@ import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.modelbased.structures.RankedInterpretation;
 
-public class LexicographicRefineConstructor implements RankConstructor<RankedInterpretation>{
+public class LexicographicCountModelRank implements RankConstructor<RankedInterpretation>{
 
     private RankedInterpretation rationalClosureModel;
 
-    public LexicographicRefineConstructor(){
+    public LexicographicCountModelRank(){
         this.rationalClosureModel = null;
     }
 
-    public LexicographicRefineConstructor(RankedInterpretation rationalClosureModel){
+    public LexicographicCountModelRank(RankedInterpretation rationalClosureModel){
         this.rationalClosureModel = rationalClosureModel;
     }
 
@@ -69,7 +69,7 @@ public class LexicographicRefineConstructor implements RankConstructor<RankedInt
      */
     public RankedInterpretation construct(DefeasibleKnowledgeBase knowledge) {
         if(this.rationalClosureModel == null){
-            this.rationalClosureModel = new RationalModelBaseRankConstructor().construct(knowledge);
+            this.rationalClosureModel = new ModelBaseRank().construct(knowledge);
         }
         RankedInterpretation lexicographicClosureModel = new RankedInterpretation(0);
         PlBeliefSet defeasibleKnowledge = knowledge.getDefeasibleKnowledge();

@@ -13,7 +13,7 @@ import com.mbdr.common.exceptions.MissingRanking;
 import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
-import com.mbdr.formulabased.construction.BaseRankConstructor;
+import com.mbdr.formulabased.construction.BaseRank;
 
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
@@ -26,7 +26,7 @@ public class RationalDirectReasoner implements DefeasibleReasoner{
     private DefeasibleKnowledgeBase knowledge;
 
     public RationalDirectReasoner(){
-        this(new BaseRankConstructor());
+        this(new BaseRank());
     }
 
     public RationalDirectReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){

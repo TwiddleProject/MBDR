@@ -8,13 +8,13 @@ import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
-import com.mbdr.formulabased.construction.BaseRankConstructor;
+import com.mbdr.formulabased.construction.BaseRank;
 import com.mbdr.modelbased.structures.RankedInterpretation;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
 //TODO Refactor to be RankConstructor<RankedInterpretation>
-public class RationalModelBaseRankConstructor implements RankConstructor<RankedInterpretation> {
+public class ModelBaseRank implements RankConstructor<RankedInterpretation> {
 
     /**
      * Constructs the ranked model used to define Rational Closure for a given
@@ -27,7 +27,7 @@ public class RationalModelBaseRankConstructor implements RankConstructor<RankedI
     public RankedInterpretation construct(DefeasibleKnowledgeBase knowledge) {
 
         // Apply BaseRank to the knowledge base
-        ArrayList<PlBeliefSet> ranked_KB = new BaseRankConstructor().construct(knowledge);
+        ArrayList<PlBeliefSet> ranked_KB = new BaseRank().construct(knowledge);
 
         // HashMap of finite knowledge base formulas to their base rank
         HashMap<PlFormula, Integer> kB_BR_HashMap = new HashMap<>();

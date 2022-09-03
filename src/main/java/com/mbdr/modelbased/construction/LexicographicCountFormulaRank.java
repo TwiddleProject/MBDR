@@ -18,18 +18,18 @@ import org.tweetyproject.logics.pl.syntax.PlFormula;
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.formulabased.Utils;
-import com.mbdr.formulabased.construction.BaseRankConstructor;
+import com.mbdr.formulabased.construction.BaseRank;
 import com.mbdr.modelbased.structures.RankedFormulasInterpretation;
 
-public class LexicographicRefineFormulaConstructor implements RankConstructor<RankedFormulasInterpretation>{
+public class LexicographicCountFormulaRank implements RankConstructor<RankedFormulasInterpretation>{
     
     private RankedFormulasInterpretation rationalClosureModel;
 
-    public LexicographicRefineFormulaConstructor(){
+    public LexicographicCountFormulaRank(){
         this.rationalClosureModel = null;
     }
 
-    public LexicographicRefineFormulaConstructor(RankedFormulasInterpretation rationalClosureModel){
+    public LexicographicCountFormulaRank(RankedFormulasInterpretation rationalClosureModel){
         this.rationalClosureModel = rationalClosureModel;
     }
 
@@ -45,7 +45,7 @@ public class LexicographicRefineFormulaConstructor implements RankConstructor<Ra
      */
     public RankedFormulasInterpretation construct(DefeasibleKnowledgeBase knowledge) {
         if(this.rationalClosureModel == null){
-            this.rationalClosureModel = new RationalModelFormulasConstructor().construct(knowledge);
+            this.rationalClosureModel = new FormulaRank().construct(knowledge);
         }
         RankedFormulasInterpretation rankedModel = new RankedFormulasInterpretation(0);
         Sat4jSolver reasoner = new Sat4jSolver();

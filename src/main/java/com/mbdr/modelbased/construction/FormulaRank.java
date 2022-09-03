@@ -15,7 +15,7 @@ import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.modelbased.structures.RankedFormulasInterpretation;
 
-public class RationalModelFormulasConstructor implements RankConstructor<RankedFormulasInterpretation> {
+public class FormulaRank implements RankConstructor<RankedFormulasInterpretation> {
 
     @Override
     public RankedFormulasInterpretation construct(DefeasibleKnowledgeBase knowledge) {

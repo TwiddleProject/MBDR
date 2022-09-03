@@ -19,7 +19,7 @@ import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.formulabased.Utils;
-import com.mbdr.formulabased.construction.BaseRankConstructor;
+import com.mbdr.formulabased.construction.BaseRank;
 import com.mbdr.utils.parsing.Parsing;
 
 public class LexicographicNaiveReasoner implements DefeasibleReasoner{
@@ -29,7 +29,7 @@ public class LexicographicNaiveReasoner implements DefeasibleReasoner{
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
     public LexicographicNaiveReasoner(){
-        this(new BaseRankConstructor());
+        this(new BaseRank());
     }
 
     public LexicographicNaiveReasoner(ArrayList<PlBeliefSet> baseRank){

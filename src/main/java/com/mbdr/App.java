@@ -12,7 +12,7 @@ import org.tweetyproject.logics.pl.syntax.PlSignature;
 
 import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
-import com.mbdr.formulabased.construction.BaseRankConstructor;
+import com.mbdr.formulabased.construction.BaseRank;
 import com.mbdr.formulabased.reasoning.LexicographicBinaryReasoner;
 import com.mbdr.formulabased.reasoning.LexicographicNaiveReasoner;
 import com.mbdr.formulabased.reasoning.LexicographicPowersetReasoner;
@@ -22,11 +22,11 @@ import com.mbdr.formulabased.reasoning.RationalBinaryIndexingReasoner;
 import com.mbdr.formulabased.reasoning.RationalDirectReasoner;
 import com.mbdr.formulabased.reasoning.RationalIndexingReasoner;
 import com.mbdr.formulabased.reasoning.RationalRegularReasoner;
-import com.mbdr.modelbased.construction.LexicographicRefineConstructor;
-import com.mbdr.modelbased.construction.LexicographicRefineFormulaConstructor;
-import com.mbdr.modelbased.construction.RationalModelBaseRankConstructor;
-import com.mbdr.modelbased.construction.RationalModelConstructor;
-import com.mbdr.modelbased.construction.RationalModelFormulasConstructor;
+import com.mbdr.modelbased.construction.LexicographicCountModelRank;
+import com.mbdr.modelbased.construction.LexicographicCountFormulaRank;
+import com.mbdr.modelbased.construction.ModelBaseRank;
+import com.mbdr.modelbased.construction.ModelRank;
+import com.mbdr.modelbased.construction.FormulaRank;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentFormulaReasoner;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
 import com.mbdr.modelbased.structures.RankedFormulasInterpretation;
@@ -51,7 +51,7 @@ public class App {
                         System.out.println(knowledgeBase);
                         System.out.println("----------------------------");
 
-                        ArrayList<PlBeliefSet> ranked_KB = new BaseRankConstructor().construct(knowledgeBase);
+                        ArrayList<PlBeliefSet> ranked_KB = new BaseRank().construct(knowledgeBase);
 
                         System.out.println("BaseRank:");
                         System.out.println("----------------------------");
@@ -70,15 +70,15 @@ public class App {
                         
                         System.out.println("----------------------------");
 
-                        RankedInterpretation rationalClosureModel = new RationalModelConstructor()
+                        RankedInterpretation rationalClosureModel = new ModelRank()
                                 .construct(knowledgeBase);
-                        RankedInterpretation rationalClosureModelBaseRank = new RationalModelBaseRankConstructor()
+                        RankedInterpretation rationalClosureModelBaseRank = new ModelBaseRank()
                                 .construct(knowledgeBase);
-                        RankedInterpretation lexicographicClosureModel = new LexicographicRefineConstructor()
+                        RankedInterpretation lexicographicClosureModel = new LexicographicCountModelRank()
                                 .construct(knowledgeBase);
-                        RankedFormulasInterpretation rationalClosureFormulaModel = new RationalModelFormulasConstructor()
+                        RankedFormulasInterpretation rationalClosureFormulaModel = new FormulaRank()
                                 .construct(knowledgeBase);
-                        RankedFormulasInterpretation lexicographicClosureFormulaModel = new LexicographicRefineFormulaConstructor()
+                        RankedFormulasInterpretation lexicographicClosureFormulaModel = new LexicographicCountFormulaRank()
                                 .construct(knowledgeBase);
 
                         System.out.println("Rational Closure Ranked Model:\n" + rationalClosureModel);

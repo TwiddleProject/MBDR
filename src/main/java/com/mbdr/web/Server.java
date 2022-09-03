@@ -11,7 +11,7 @@ import org.tweetyproject.logics.pl.syntax.PlFormula;
 
 import com.mbdr.common.structures.DefeasibleFormulaCollection;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
-import com.mbdr.modelbased.construction.RationalModelConstructor;
+import com.mbdr.modelbased.construction.ModelRank;
 import com.mbdr.modelbased.structures.RankedInterpretation;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
 import com.mbdr.utils.parsing.Parsing;
@@ -57,7 +57,7 @@ public class Server {
                 System.out.println("KB_D:\t" + knowledge.getDefeasibleKnowledge());
                 System.out.println("----------------------------");
 
-                rankedModel = new RationalModelConstructor().construct(new DefeasibleKnowledgeBase(knowledge));
+                rankedModel = new ModelRank().construct(new DefeasibleKnowledgeBase(knowledge));
 
             } catch (Exception e) {
                 e.printStackTrace();

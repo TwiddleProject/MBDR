@@ -13,7 +13,7 @@ import com.mbdr.modelbased.structures.RankedInterpretation;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
-public class RationalModelConstructor implements RankConstructor<RankedInterpretation> {
+public class ModelRank implements RankConstructor<RankedInterpretation> {
 
     /**
      * Constructs the ranked model used to define Rational Closure for a given

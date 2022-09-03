@@ -12,10 +12,10 @@ import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 
 import com.mbdr.utils.parsing.*;
 import com.mbdr.modelbased.*;
-import com.mbdr.modelbased.construction.LexicographicRefineConstructor;
-import com.mbdr.modelbased.construction.LexicographicRefineFormulaConstructor;
-import com.mbdr.modelbased.construction.RationalModelConstructor;
-import com.mbdr.modelbased.construction.RationalModelFormulasConstructor;
+import com.mbdr.modelbased.construction.LexicographicCountModelRank;
+import com.mbdr.modelbased.construction.LexicographicCountFormulaRank;
+import com.mbdr.modelbased.construction.ModelRank;
+import com.mbdr.modelbased.construction.FormulaRank;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentFormulaReasoner;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
 import com.mbdr.modelbased.structures.RankedFormulasInterpretation;
@@ -23,7 +23,7 @@ import com.mbdr.modelbased.structures.RankedInterpretation;
 import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.formulabased.*;
-import com.mbdr.formulabased.construction.BaseRankConstructor;
+import com.mbdr.formulabased.construction.BaseRank;
 import com.mbdr.formulabased.reasoning.LexicographicBinaryReasoner;
 import com.mbdr.formulabased.reasoning.LexicographicNaiveReasoner;
 import com.mbdr.formulabased.reasoning.LexicographicPowersetReasoner;
@@ -60,11 +60,11 @@ public class AppTest
             ArrayList<String> queries = queryReader.readFileLines(queryReader.getQueryFileName(knowledgeBaseFileName));
             
             // Rank, model and checker construction
-            ArrayList<PlBeliefSet> baseRank = new BaseRankConstructor().construct(knowledgeBase);
-            RankedInterpretation rationalClosureModel = new RationalModelConstructor().construct(knowledgeBase);
-            RankedInterpretation lexicographicClosureModel = new LexicographicRefineConstructor().construct(knowledgeBase);
-            RankedFormulasInterpretation rationalClosureFormulaModel = new RationalModelFormulasConstructor().construct(knowledgeBase);
-            RankedFormulasInterpretation lexicographicClosureFormulaModel = new LexicographicRefineFormulaConstructor().construct(knowledgeBase);
+            ArrayList<PlBeliefSet> baseRank = new BaseRank().construct(knowledgeBase);
+            RankedInterpretation rationalClosureModel = new ModelRank().construct(knowledgeBase);
+            RankedInterpretation lexicographicClosureModel = new LexicographicCountModelRank().construct(knowledgeBase);
+            RankedFormulasInterpretation rationalClosureFormulaModel = new FormulaRank().construct(knowledgeBase);
+            RankedFormulasInterpretation lexicographicClosureFormulaModel = new LexicographicCountFormulaRank().construct(knowledgeBase);
 
             DefeasibleReasoner[] rationalClosureCheckers = {
                 new RationalDirectReasoner(baseRank, knowledgeBase),

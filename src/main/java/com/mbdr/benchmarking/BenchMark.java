@@ -22,15 +22,15 @@ import java.util.concurrent.TimeUnit;
 import com.mbdr.utils.parsing.*;
 import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.structures.*;
-import com.mbdr.formulabased.construction.BaseRankConstructor;
+import com.mbdr.formulabased.construction.BaseRank;
 import com.mbdr.formulabased.reasoning.RationalBinaryReasoner;
 import com.mbdr.formulabased.reasoning.RationalBinaryIndexingReasoner;
 import com.mbdr.formulabased.reasoning.RationalDirectReasoner;
 import com.mbdr.formulabased.reasoning.RationalIndexingReasoner;
 import com.mbdr.formulabased.reasoning.RationalRegularReasoner;
-import com.mbdr.modelbased.construction.LexicographicRefineConstructor;
-import com.mbdr.modelbased.construction.RationalModelBaseRankConstructor;
-import com.mbdr.modelbased.construction.RationalModelConstructor;
+import com.mbdr.modelbased.construction.LexicographicCountModelRank;
+import com.mbdr.modelbased.construction.ModelBaseRank;
+import com.mbdr.modelbased.construction.ModelRank;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
 import com.mbdr.modelbased.structures.RankedInterpretation;
 
@@ -90,7 +90,7 @@ public class BenchMark {
                 case 1:
                     // Rank the knowledge base using baserank - for benchmarking formulabased
                     // entailment checking
-                    this.ranked_KB = new BaseRankConstructor().construct(this.knowledgeBase);
+                    this.ranked_KB = new BaseRank().construct(this.knowledgeBase);
 
                     System.out.println("reading in:\t" + queriesFileName);
                     // Read in all the queries from the query file
@@ -116,9 +116,9 @@ public class BenchMark {
                     this.KB_U = NicePossibleWorld.getAllPossibleWorlds(KB_atoms.toCollection());
 
                     // Construct the ranked models for RC and LC for query benchmarking
-                    this.rationalModel = new RationalModelConstructor().construct(knowledgeBase);
+                    this.rationalModel = new ModelRank().construct(knowledgeBase);
 
-                    this.lexicographicModel = new LexicographicRefineConstructor(rationalModel)
+                    this.lexicographicModel = new LexicographicCountModelRank(rationalModel)
                             .construct(knowledgeBase);
 
                     System.out.println("reading in:\t" + queriesFileName);
@@ -161,7 +161,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void formulabased_baserank_direct_implementation(StateObj stateObj, Blackhole blackhole)
             throws InterruptedException {
-        ArrayList<PlBeliefSet> ranked_KB = new BaseRankConstructor().construct(stateObj.knowledgeBase);
+        ArrayList<PlBeliefSet> ranked_KB = new BaseRank().construct(stateObj.knowledgeBase);
         blackhole.consume(ranked_KB);
     }
 
@@ -275,7 +275,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_construct_ranked_model_RC(StateObj stateObj, Blackhole blackhole)
             throws InterruptedException {
-        RankedInterpretation RC_Minimal_Model = new RationalModelConstructor().construct(stateObj.knowledgeBase);
+        RankedInterpretation RC_Minimal_Model = new ModelRank().construct(stateObj.knowledgeBase);
         blackhole.consume(RC_Minimal_Model); // consume to avoid dead code elimination just in case?
     }
 
@@ -286,7 +286,7 @@ public class BenchMark {
     public void modelbased_construct_ranked_model_RC_BR(StateObj stateObj,
             Blackhole blackhole)
             throws InterruptedException {
-                RankedInterpretation RC_Minimal_Model = new RationalModelBaseRankConstructor().construct(stateObj.knowledgeBase);
+                RankedInterpretation RC_Minimal_Model = new ModelBaseRank().construct(stateObj.knowledgeBase);
         blackhole.consume(RC_Minimal_Model); // consume to avoid dead code elimination just in case?
     }
 
@@ -296,7 +296,7 @@ public class BenchMark {
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void modelbased_construct_ranked_model_LC(StateObj stateObj, Blackhole blackhole)
             throws InterruptedException {
-        RankedInterpretation LC_Minimal_Model = new LexicographicRefineConstructor()
+        RankedInterpretation LC_Minimal_Model = new LexicographicCountModelRank()
                 .construct(stateObj.knowledgeBase);
         blackhole.consume(LC_Minimal_Model); // consume to avoid dead code elimination just in case?
     }

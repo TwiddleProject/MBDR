@@ -14,7 +14,7 @@ import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.logics.pl.reasoner.*;
 
-public class BaseRankConstructor implements RankConstructor<ArrayList<PlBeliefSet>> {
+public class BaseRank implements RankConstructor<ArrayList<PlBeliefSet>> {
 
     /**
      * Standard, unoptimised BaseRank algorithm implementation
