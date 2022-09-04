@@ -54,7 +54,7 @@ public class RankedInterpretation { //implements Ranking<NicePossibleWorld>
     }
 
     public void addToRank(int index, NicePossibleWorld world){
-        if(index >= this.ranks.size()-1 || index < 0){
+        if(index >= getRankCount() || index < 0){
             throw new RankOutOfBounds("Rank " + index + " does not exist.");
         }
         this.ranks.get(index).add(world);
@@ -69,8 +69,12 @@ public class RankedInterpretation { //implements Ranking<NicePossibleWorld>
     }
 
     public int addRank(){
+        return addRank(new HashSet<>());
+    }
+
+    public int addRank(Set<NicePossibleWorld> worlds){
         int position = this.getRankCount();
-        this.ranks.add(position, new HashSet<NicePossibleWorld>());
+        this.ranks.add(position, worlds);
         return position;
     }
 
