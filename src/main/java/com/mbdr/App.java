@@ -4,10 +4,12 @@ import java.io.*;
 import java.util.*;
 
 import org.tweetyproject.logics.pl.parser.PlParser;
+import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 import org.sat4j.LightFactory;
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
+import org.tweetyproject.logics.pl.syntax.PlFormula;
 import org.tweetyproject.logics.pl.syntax.PlSignature;
 
 import com.mbdr.common.services.DefeasibleReasoner;
@@ -26,6 +28,7 @@ import com.mbdr.modelbased.construction.LexicographicCountModelRank;
 import com.mbdr.modelbased.construction.LexicographicCountFormulaRank;
 import com.mbdr.modelbased.construction.ModelBaseRank;
 import com.mbdr.modelbased.construction.ModelRank;
+import com.mbdr.modelbased.construction.CumulativeFormulaRank;
 import com.mbdr.modelbased.construction.FormulaRank;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentFormulaReasoner;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
@@ -37,10 +40,11 @@ import com.mbdr.utils.parsing.Parsing;
 public class App {
 
         public final static String KNOWLEDGE_BASE_DIR = "data/";
+
         public static void main(String[] args) {
                 // TODO: Need to investigate normalising knowledge bases as twiddle statements
 
-                String fileName = args.length >= 1 ? args[0] : "platypuses.txt";
+                String fileName = args.length >= 1 ? args[0] : "penguins.txt";
                 String rawQuery = args.length == 2 ? args[1] : "p|~w";
 
                 try {
@@ -67,25 +71,31 @@ public class App {
                         PlParser parser = new PlParser();
                         Implication query = (Implication) parser
                                         .parseFormula(Parsing.materialiseDefeasibleImplication(rawQuery));
-                        
+
                         System.out.println("----------------------------");
 
                         RankedInterpretation rationalClosureModel = new ModelRank()
-                                .construct(knowledgeBase);
+                                        .construct(knowledgeBase);
                         RankedInterpretation rationalClosureModelBaseRank = new ModelBaseRank()
-                                .construct(knowledgeBase);
+                                        .construct(knowledgeBase);
                         RankedInterpretation lexicographicClosureModel = new LexicographicCountModelRank()
-                                .construct(knowledgeBase);
+                                        .construct(knowledgeBase);
                         RankedFormulasInterpretation rationalClosureFormulaModel = new FormulaRank()
-                                .construct(knowledgeBase);
+                                        .construct(knowledgeBase);
+                        RankedFormulasInterpretation rationalClosureCumulativeFormulaModel = new CumulativeFormulaRank()
+                                        .construct(knowledgeBase);
                         RankedFormulasInterpretation lexicographicClosureFormulaModel = new LexicographicCountFormulaRank()
-                                .construct(knowledgeBase);
+                                        .construct(knowledgeBase);
 
                         System.out.println("Rational Closure Ranked Model:\n" + rationalClosureModel);
                         System.out.println("----------------------------");
-                        System.out.println("Rational Closure Ranked Model using BaseRank:\n" + rationalClosureModelBaseRank);
+                        System.out.println("Rational Closure Ranked Model using BaseRank:\n"
+                                        + rationalClosureModelBaseRank);
                         System.out.println("----------------------------");
                         System.out.println("Rational Closure Formula Model:\n" + rationalClosureFormulaModel);
+                        System.out.println("----------------------------");
+                        System.out.println("Rational Closure Cumulative Formula Model:\n"
+                                        + rationalClosureCumulativeFormulaModel);
                         System.out.println("----------------------------");
                         System.out.println("Lexicographic Closure Ranked Model:\n" + lexicographicClosureModel);
                         System.out.println("----------------------------");
@@ -95,31 +105,47 @@ public class App {
                         System.out.println("Query Results:");
 
                         DefeasibleReasoner[] checkers = {
-                                new RationalDirectReasoner(ranked_KB, knowledgeBase),
-                                new RationalRegularReasoner(ranked_KB),
-                                new RationalIndexingReasoner(ranked_KB),
-                                new RationalBinaryReasoner(ranked_KB),
-                                new RationalBinaryIndexingReasoner(ranked_KB),
-                                new MinimalRankedEntailmentReasoner(rationalClosureModel),
-                                new MinimalRankedEntailmentFormulaReasoner(rationalClosureFormulaModel),
-                                new LexicographicNaiveReasoner(ranked_KB),
-                                new LexicographicPowersetReasoner(ranked_KB),
-                                new LexicographicBinaryReasoner(ranked_KB),
-                                new LexicographicTernaryReasoner(ranked_KB),
-                                new MinimalRankedEntailmentReasoner(lexicographicClosureModel),
-                                new MinimalRankedEntailmentFormulaReasoner(lexicographicClosureFormulaModel)
+                                        new RationalDirectReasoner(ranked_KB, knowledgeBase),
+                                        new RationalRegularReasoner(ranked_KB),
+                                        new RationalIndexingReasoner(ranked_KB),
+                                        new RationalBinaryReasoner(ranked_KB),
+                                        new RationalBinaryIndexingReasoner(ranked_KB),
+                                        new MinimalRankedEntailmentReasoner(rationalClosureModel),
+                                        new MinimalRankedEntailmentFormulaReasoner(rationalClosureFormulaModel),
+                                        new LexicographicNaiveReasoner(ranked_KB),
+                                        new LexicographicPowersetReasoner(ranked_KB),
+                                        new LexicographicBinaryReasoner(ranked_KB),
+                                        new LexicographicTernaryReasoner(ranked_KB),
+                                        new MinimalRankedEntailmentReasoner(lexicographicClosureModel),
+                                        new MinimalRankedEntailmentFormulaReasoner(lexicographicClosureFormulaModel)
                         };
 
-                        for(DefeasibleReasoner checker : checkers){
+                        for (DefeasibleReasoner checker : checkers) {
                                 String template = "%-40s%s";
                                 System.out.println(
-                                        String.format(template, 
-                                                checker.getClass().getSimpleName(), 
-                                                checker.queryDefeasible(query))
-                                );
+                                                String.format(template,
+                                                                checker.getClass().getSimpleName(),
+                                                                checker.queryDefeasible(query)));
                         }
 
                         System.out.println("----------------------------");
+                        System.out.println("Playing around:");
+                        System.out.println("----------------------------");
+                        // Set of all possible worlds w.r.t. atoms
+                        Set<NicePossibleWorld> KB_U = NicePossibleWorld.getAllPossibleWorlds(
+                                        knowledgeBase.union().getMinimalSignature().toCollection());
+                        System.out.println("KB_U:\t" + KB_U);
+                        int numRanks = rationalClosureCumulativeFormulaModel.getRankCount();
+                        System.out.println("num ranks:\t" + numRanks);
+                        for (int i = 0; i < numRanks; i++) {
+                                PlFormula currentRankFormula = rationalClosureCumulativeFormulaModel.getRank(i);
+                                System.out.println(currentRankFormula);
+                                for (NicePossibleWorld nicePossibleWorld : KB_U) {
+                                        if (nicePossibleWorld.satisfies(currentRankFormula)) {
+                                                System.out.println(nicePossibleWorld);
+                                        }
+                                }
+                        }
 
                 } catch (FileNotFoundException e) {
                         System.out.println("Could not find knowledge base file!");
