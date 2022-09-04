@@ -16,6 +16,7 @@ import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.formulabased.Utils;
 import com.mbdr.formulabased.construction.BaseRank;
+import com.mbdr.utils.parsing.Parsing;
 
 import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.reasoner.*;
@@ -62,8 +63,8 @@ public class LexicographicBinaryReasoner implements DefeasibleReasoner{
 
     @Override
     public boolean queryPropositional(PlFormula formula){
-        if(this.baseRank == null) throw new MissingRanking("Base rank of formulas has not been constructed.");
-        return queryDefeasible(new Implication(new Negation(formula), new Contradiction()));
+        if(this.baseRank == null) throw new MissingRanking("Base rank has not been constructed.");
+        return queryDefeasible(Parsing.normalizePropositionalFormula(formula));
     }
 
     private boolean queryDefeasibleBinary(PlBeliefSet[] rKB, Implication formula, int left, int right){

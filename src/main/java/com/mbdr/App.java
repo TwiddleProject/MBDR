@@ -19,6 +19,7 @@ import com.mbdr.formulabased.reasoning.LexicographicBinaryReasoner;
 import com.mbdr.formulabased.reasoning.LexicographicNaiveReasoner;
 import com.mbdr.formulabased.reasoning.LexicographicPowersetReasoner;
 import com.mbdr.formulabased.reasoning.LexicographicTernaryReasoner;
+import com.mbdr.formulabased.reasoning.LexicographicWeakeningReasoner;
 import com.mbdr.formulabased.reasoning.RationalBinaryReasoner;
 import com.mbdr.formulabased.reasoning.RationalBinaryIndexingReasoner;
 import com.mbdr.formulabased.reasoning.RationalDirectReasoner;
@@ -94,17 +95,23 @@ public class App {
                         System.out.println("----------------------------");
                         System.out.println("Rational Closure Formula Model:\n" + rationalClosureFormulaModel);
                         System.out.println("----------------------------");
-                        System.out.println("Rational Closure Cumulative Formula Model:\n"
-                                        + rationalClosureCumulativeFormulaModel);
+
+                        System.out.println("Rational Closure Formula Model Ranked Interpretation:\n"
+                                        + rationalClosureFormulaModel.getRankedInterpretation());
+
                         System.out.println("----------------------------");
                         System.out.println("Lexicographic Closure Ranked Model:\n" + lexicographicClosureModel);
                         System.out.println("----------------------------");
-                        System.out.println("Lexicographic Closure Ranked Model:\n" + lexicographicClosureFormulaModel);
+                        System.out.println("Lexicographic Closure Formula Model:\n" + lexicographicClosureFormulaModel);
+                        System.out.println("----------------------------");
+                        System.out.println("Lexicographic Closure Formula Model Ranked Interpretation:\n"
+                                        + lexicographicClosureFormulaModel.getRankedInterpretation());
                         System.out.println("----------------------------");
 
                         System.out.println("Query Results:");
 
                         DefeasibleReasoner[] checkers = {
+
                                         new RationalDirectReasoner(ranked_KB, knowledgeBase),
                                         new RationalRegularReasoner(ranked_KB),
                                         new RationalIndexingReasoner(ranked_KB),
@@ -112,6 +119,7 @@ public class App {
                                         new RationalBinaryIndexingReasoner(ranked_KB),
                                         new MinimalRankedEntailmentReasoner(rationalClosureModel),
                                         new MinimalRankedEntailmentFormulaReasoner(rationalClosureFormulaModel),
+                                        new LexicographicWeakeningReasoner(ranked_KB),
                                         new LexicographicNaiveReasoner(ranked_KB),
                                         new LexicographicPowersetReasoner(ranked_KB),
                                         new LexicographicBinaryReasoner(ranked_KB),

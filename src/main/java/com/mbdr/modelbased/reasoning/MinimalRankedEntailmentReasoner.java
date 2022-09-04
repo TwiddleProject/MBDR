@@ -10,6 +10,7 @@ import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.modelbased.structures.RankedInterpretation;
+import com.mbdr.utils.parsing.Parsing;
 
 public class MinimalRankedEntailmentReasoner implements DefeasibleReasoner{
     
@@ -75,8 +76,8 @@ public class MinimalRankedEntailmentReasoner implements DefeasibleReasoner{
 
     @Override
     public boolean queryPropositional(PlFormula formula){
-        if(this.model == null) throw new MissingRanking("Ranked model has not been constructed.");
-        return checkAllWorlds(formula);
+        if(this.model == null) throw new MissingRanking("Base rank has not been constructed.");
+        return queryDefeasible(Parsing.normalizePropositionalFormula(formula));
     }
 
 }

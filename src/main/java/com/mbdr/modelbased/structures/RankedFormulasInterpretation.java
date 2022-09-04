@@ -2,9 +2,12 @@ package com.mbdr.modelbased.structures;
 
 import java.util.ArrayList;
 
+import org.tweetyproject.logics.pl.syntax.PlBeliefSet;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
+import org.tweetyproject.logics.pl.syntax.PlSignature;
 
 import com.mbdr.common.exceptions.RankOutOfBounds;
+import com.mbdr.formulabased.Utils;
 
 public class RankedFormulasInterpretation {
 
@@ -125,6 +128,24 @@ public class RankedFormulasInterpretation {
             throw new RankOutOfBounds("Rank " + index + " is out of bounds.");
         }
         this.ranks.add(index, rankFormula);
+    }
+
+    public PlBeliefSet getAllFormulas(){
+        return new PlBeliefSet(this.ranks);
+    }
+
+    public RankedInterpretation getRankedInterpretation(){
+        RankedInterpretation rankedInterpretation = new RankedInterpretation(0);
+        PlSignature signature = getAllFormulas().getMinimalSignature();
+        for(int i = 0; i < this.ranks.size()-1; ++i){
+            rankedInterpretation.addRank(i, 
+            Utils.getModels(this.ranks.get(i), signature)
+            );
+        }
+        rankedInterpretation.addToInfiniteRank(
+            Utils.getModels(this.ranks.get(this.ranks.size()-1), signature)
+        );
+        return rankedInterpretation;
     }
 
     public String toString() {

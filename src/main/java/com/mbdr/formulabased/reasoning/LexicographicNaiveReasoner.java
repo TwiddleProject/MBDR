@@ -156,7 +156,7 @@ public class LexicographicNaiveReasoner implements DefeasibleReasoner{
 
     @Override
     public boolean queryPropositional(PlFormula formula){
-        if(this.baseRank == null) throw new MissingRanking("Base rank of formulas has not been constructed.");
+        if(this.baseRank == null) throw new MissingRanking("Base rank has not been constructed.");
         return queryDefeasible(Parsing.normalizePropositionalFormula(formula));
     }
 
