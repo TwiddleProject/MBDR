@@ -1,8 +1,11 @@
 #!/bin/bash
 
-for i in {1..15}; do
-    echo "Loop iteration: $i"
-    scala kbgt-assembly-1.0.jar -r $i -s $((i*2)) -d uniform -o "knowledge_bases/Generated/ranks$i" --scadrFile  --defeasibleOnly --conservative
-    sed -i "" 's/~>/|~/g' "knowledge_bases/Generated/ranks$i.txt"
+for ((i = 10 ; i <= 100 ; i+=10)); do
+    # echo "Loop iteration: $i"
+    for ((j = 1 ; j <= 10 ; j++)); do
+        scala kbgt-assembly-1.0.jar -r $i -s $(($i*$j)) -d uniform -o "../../data/benchmarking/cumulative/${i}x${j}" --scadrFile  --defeasibleOnly --conservative
+        sed -i "" 's/~>/|~/g' "../../data/benchmarking/cumulative/${i}x${j}.txt"
+        # echo "${i}x${j}"
+    done
 done
 

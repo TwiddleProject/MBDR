@@ -22,22 +22,22 @@ import com.mbdr.common.structures.*;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class BenchmarkConstruction {
-    
-    public final static String knowledgeBaseDir = "data/benchmarking/";
+
+    public final static String knowledgeBaseDir = "data/debugging/";
 
     @State(Scope.Benchmark) // all threads running the benchmark share the same state object.
     public static class BenchmarkState {
 
-        @Param({ })
+        @Param({})
         String constructorClassName;
 
-        @Param({ })
+        @Param({})
         String knowledgeBaseFileName;
 
         DefeasibleKnowledgeBase knowledgeBase;
         Constructor<?> constructor;
 
-        @Setup(Level.Trial) //The method is called once for each full run of the benchmark
+        @Setup(Level.Trial) // The method is called once for each full run of the benchmark
         public void setup() {
             System.out.println("***** State initialization for benchmark trial *****");
 
@@ -70,13 +70,14 @@ public class BenchmarkConstruction {
      * as the benchmark "payload", the things we want to measure. The
      * surrounding infrastructure is provided by the harness itself.
      */
-    
+
     @Benchmark
-    @Fork(value = 2) // 2 trials in total
+    @Fork(value = 1) // 1 trials in total
     @Measurement(iterations = 10, time = 1) // 10 iterations
     @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
     public void construction(BenchmarkState benchmarkState, Blackhole blackhole)
-            throws InterruptedException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, 
+            throws InterruptedException, ClassNotFoundException, NoSuchMethodException, SecurityException,
+            InstantiationException,
             IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         // Create new instance of RankConstructor
         RankConstructor<?> rankConstructor = (RankConstructor<?>) benchmarkState.constructor.newInstance();
@@ -91,18 +92,15 @@ public class BenchmarkConstruction {
         System.out.println("Running benchmark harness...");
         System.out.println("-----------------------------------------");
 
-        String[] constructorClassNames={
-            "com.mbdr.formulabased.construction.BaseRankConstructor",
-            "com.mbdr.formulabased.construction.BaseRankConstructorJoel",
-            "com.mbdr.modelbased.construction.LexicographicBasicConstructor",
-            "com.mbdr.modelbased.construction.RationalModelConstructor",
-            "com.mbdr.modelbased.construction.RationalModelBaseRankConstructor"
+        String[] constructorClassNames = {
+                "com.mbdr.formulabased.construction.BaseRank",
+                "com.mbdr.modelbased.construction.CumulativeFormulaRank"
         };
 
         String[] knowledgeBaseFileNames = new String[0];
         knowledgeBaseFileNames = new FileReader(knowledgeBaseDir)
-                                .getFileNames()
-                                .toArray(knowledgeBaseFileNames);
+                .getFileNames()
+                .toArray(knowledgeBaseFileNames);
 
         Options benchmarkOptions = new OptionsBuilder()
                 .include("^com.mbdr.benchmarking.BenchmarkConstruction.*")
@@ -118,6 +116,6 @@ public class BenchmarkConstruction {
             System.out.println(r);
         }
 
-     }
+    }
 
 }

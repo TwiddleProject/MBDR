@@ -15,7 +15,7 @@ import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.modelbased.structures.RankedFormulasInterpretation;
 
-public class FormulaRank implements RankConstructor<RankedFormulasInterpretation> {
+public class CumulativeFormulaRank implements RankConstructor<RankedFormulasInterpretation> {
 
     @Override
     public RankedFormulasInterpretation construct(DefeasibleKnowledgeBase knowledge) {
@@ -75,27 +75,29 @@ public class FormulaRank implements RankConstructor<RankedFormulasInterpretation
 
                 PlFormula remainingDefeasibleConjunction = new Conjunction(remainingDefeasibleFormulas);
 
-                ArrayList<PlFormula> negatedPreviousRanks = new ArrayList<>();
+                // ArrayList<PlFormula> negatedPreviousRanks = new ArrayList<>();
 
-                for (int i = 0; i <= rankIndex; i++) {
-                    negatedPreviousRanks.add(new Negation(rankedModel.getRank(i)));
-                }
+                // for (int i = 0; i <= rankIndex; i++) {
+                // negatedPreviousRanks.add(new Negation(rankedModel.getRank(i)));
+                // }
 
-                PlFormula negatedPreviousRanksConjunction = new Conjunction(negatedPreviousRanks);
+                // PlFormula negatedPreviousRanksConjunction = new
+                // Conjunction(negatedPreviousRanks);
 
                 currentRankFormula = new Conjunction(Arrays.asList(
                         classicalKnowledgeFormula,
-                        negatedPreviousRanksConjunction,
+                        // negatedPreviousRanksConjunction,
                         remainingDefeasibleConjunction));
 
                 rankIndex = rankedModel.addRank(currentRankFormula);
             }
 
-            if (remainingDefeasibleFormulas.isEmpty()) {
-                rankedModel.setInfiniteRank(new Negation(classicalKnowledgeFormula));
-            } else {
-                rankedModel.setInfiniteRank(new Negation(rankedModel.getRank(rankIndex)));
-            }
+            // if (remainingDefeasibleFormulas.isEmpty()) {
+            // rankedModel.setInfiniteRank(new Negation(classicalKnowledgeFormula));
+            // } else {
+            // rankedModel.setInfiniteRank(new Negation(rankedModel.getRank(rankIndex)));
+            // }
+            rankedModel.setInfiniteRank(new Tautology());
 
         } else {
             // System.out.println("----------------------------------");
