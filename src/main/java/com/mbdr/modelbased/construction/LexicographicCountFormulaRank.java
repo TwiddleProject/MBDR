@@ -20,6 +20,7 @@ import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.formulabased.Utils;
 import com.mbdr.formulabased.construction.BaseRank;
 import com.mbdr.modelbased.structures.RankedFormulasInterpretation;
+import com.mbdr.formulabased.reasoning.LexicographicWeakeningReasoner;
 
 public class LexicographicCountFormulaRank implements RankConstructor<RankedFormulasInterpretation>{
     
@@ -49,7 +50,7 @@ public class LexicographicCountFormulaRank implements RankConstructor<RankedForm
         }
         RankedFormulasInterpretation rankedModel = new RankedFormulasInterpretation(0);
         Sat4jSolver reasoner = new Sat4jSolver();
-        ArrayList<Set<PlBeliefSet>> subsets = orderedSubsets(knowledge);
+        ArrayList<Set<PlBeliefSet>> subsets = LexicographicWeakeningReasoner.orderedSubsets(knowledge);
         // For each rational closure rank
         for(int rank = 0; rank < this.rationalClosureModel.getRankCount(); ++rank){
             PlFormula cumulative = new Tautology();
@@ -63,7 +64,7 @@ public class LexicographicCountFormulaRank implements RankConstructor<RankedForm
                 PlFormula refined = new Conjunction(new HashSet<>(Arrays.asList(
                     rankFormula, 
                     cumulative, 
-                    conjunctionDisjunction(subsets.get(i))
+                    LexicographicWeakeningReasoner.conjunctionDisjunction(subsets.get(i))
                 )));
                 // System.out.println("Rank: " + rank + " " + "Refined: " + i);
                 // System.out.println("Refined: " + refined);
@@ -80,40 +81,6 @@ public class LexicographicCountFormulaRank implements RankConstructor<RankedForm
         }
         rankedModel.setInfiniteRank(this.rationalClosureModel.getInfiniteRank());
         return rankedModel;
-    }
-
-    private PlFormula conjunctionDisjunction(Set<PlBeliefSet> subsets){
-        PlFormula result = new Contradiction();
-        for(PlBeliefSet subset : subsets){
-            result = new Disjunction(result, new Conjunction(subset));
-        }
-        return result;
-    }
-
-    private ArrayList<Set<PlBeliefSet>> orderedSubsets(DefeasibleKnowledgeBase knowledge){
-        PlBeliefSet defeasibleKnowledge = knowledge.getDefeasibleKnowledge();
-        int n = defeasibleKnowledge.size();
-        ArrayList<Set<PlBeliefSet>> subsets = new ArrayList<>(n);
-        HashSet<PlBeliefSet> initial = new HashSet<>();
-        initial.add(defeasibleKnowledge);
-        // Subset of size n
-        subsets.add(initial);
-        // For each subset size, descending
-        for(int k = n-1; k >= 0; --k){
-            Set<PlBeliefSet> currentSubsets = new HashSet<>();
-            // For each subset of 1 size larger
-            for(PlBeliefSet subset : subsets.get(subsets.size()-1)){
-                // Remove each element in turn and add result to current subsets
-                for(PlFormula formula : subset){
-                    PlBeliefSet current = new PlBeliefSet(subset);
-                    current.remove(formula);
-                    currentSubsets.add(current);
-                }
-            }
-            // Add currentSubsets to subsets
-            subsets.add(currentSubsets);
-        }
-        return subsets;
     }
 
 }
