@@ -14,6 +14,7 @@ import com.mbdr.common.services.DefeasibleReasoner;
 import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.formulabased.construction.BaseRank;
+import com.mbdr.utils.parsing.Parsing;
 
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
@@ -74,7 +75,8 @@ public class RationalDirectReasoner implements DefeasibleReasoner{
 
     @Override
     public boolean queryPropositional(PlFormula formula){
-        return queryDefeasible(new Implication(new Negation(formula), new Contradiction()));
+        if(this.baseRank == null) throw new MissingRanking("Base rank has not been constructed.");
+        return queryDefeasible(Parsing.normalizePropositionalFormula(formula));
     }
 
     // public static boolean RationalClosureDirectImplementation_Benchmarking(ArrayList<PlBeliefSet> ranked_KB,
