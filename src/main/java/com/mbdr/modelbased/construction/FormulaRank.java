@@ -38,7 +38,7 @@ public class FormulaRank implements RankConstructor<RankedFormulasInterpretation
 
         // System.out.println("F0:\t" + currentRankFormula);
 
-        if (solver.isConsistent(knowledge.union())) {
+        if (solver.isSatisfiable(knowledge.union())) {
             // System.out.println("----------------------------------");
             // System.out.println("Knowledge is consistent.");
             // System.out.println("----------------------------------");
@@ -62,7 +62,7 @@ public class FormulaRank implements RankConstructor<RankedFormulasInterpretation
                 for (PlFormula formula : remainingDefeasibleFormulas) {
                     PlFormula antecedent = ((Implication) formula).getFirstFormula();
 
-                    if (solver.isConsistent(Arrays.asList(currentRankFormula, antecedent))) {
+                    if (solver.isSatisfiable(Arrays.asList(currentRankFormula, antecedent))) {
                         checkedFormulas.add(formula);
                     }
 
