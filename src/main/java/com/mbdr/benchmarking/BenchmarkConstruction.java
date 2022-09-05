@@ -23,7 +23,7 @@ import com.mbdr.common.structures.*;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class BenchmarkConstruction {
 
-    public final static String knowledgeBaseDir = "data/debugging/";
+    public final static String knowledgeBaseDir = "data/benchmarking/cumulative/";
 
     @State(Scope.Benchmark) // all threads running the benchmark share the same state object.
     public static class BenchmarkState {
@@ -73,8 +73,8 @@ public class BenchmarkConstruction {
 
     @Benchmark
     @Fork(value = 1) // 1 trials in total
-    @Measurement(iterations = 10, time = 1) // 10 iterations
-    @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
+    @Measurement(iterations = 2, time = 1) // 10 iterations
+    @Warmup(iterations = 1, time = 1) // 5 iterations of warmup
     public void construction(BenchmarkState benchmarkState, Blackhole blackhole)
             throws InterruptedException, ClassNotFoundException, NoSuchMethodException, SecurityException,
             InstantiationException,
