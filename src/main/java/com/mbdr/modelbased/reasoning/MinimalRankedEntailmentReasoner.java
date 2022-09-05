@@ -12,55 +12,56 @@ import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.modelbased.structures.RankedInterpretation;
 import com.mbdr.utils.parsing.Parsing;
 
-public class MinimalRankedEntailmentReasoner implements DefeasibleReasoner{
-    
+public class MinimalRankedEntailmentReasoner implements DefeasibleReasoner {
+
     private RankConstructor<RankedInterpretation> constructor;
     private RankedInterpretation model;
 
-    public MinimalRankedEntailmentReasoner(RankedInterpretation model){
+    public MinimalRankedEntailmentReasoner(RankedInterpretation model) {
         this.model = model;
     }
 
-    public MinimalRankedEntailmentReasoner(RankConstructor<RankedInterpretation> constructor){
+    public MinimalRankedEntailmentReasoner(RankConstructor<RankedInterpretation> constructor) {
         this.constructor = constructor;
     }
 
-    public void setModel(RankedInterpretation model){
+    public void setModel(RankedInterpretation model) {
         this.model = model;
     }
 
-    public void setModelConstructor(RankConstructor<RankedInterpretation> constructor){
+    public void setModelConstructor(RankConstructor<RankedInterpretation> constructor) {
         this.constructor = constructor;
     }
 
     @Override
-    public void build(DefeasibleKnowledgeBase knowledge){
-        if(this.constructor == null) throw new MissingRankConstructor("Cannot build model without a RankConstructor.");
+    public void build(DefeasibleKnowledgeBase knowledge) {
+        if (this.constructor == null)
+            throw new MissingRankConstructor("Cannot build model without a RankConstructor.");
         this.model = constructor.construct(knowledge);
     }
 
-    private boolean checkMinimalWorlds(Implication defeasibleFormula){
+    private boolean checkMinimalWorlds(Implication defeasibleFormula) {
         boolean foundMinRank = false;
-        for(int i = 0; i < this.model.getRankCount(); ++i){
-            for(NicePossibleWorld world : this.model.getRank(i)){
-                if(world.satisfies(defeasibleFormula.getFirstFormula())){
+        for (int i = 0; i < this.model.getRankCount(); ++i) {
+            for (NicePossibleWorld world : this.model.getRank(i)) {
+                if (world.satisfies(defeasibleFormula.getFirstFormula())) {
                     foundMinRank = true;
-                    if(!world.satisfies(defeasibleFormula.getSecondFormula())){
+                    if (!world.satisfies(defeasibleFormula.getSecondFormula())) {
                         return false;
                     }
                 }
             }
-            if(foundMinRank){
+            if (foundMinRank) {
                 return true;
             }
         }
         return true;
     }
 
-    private boolean checkAllWorlds(PlFormula propositionalFormula){
-        for(int i=0; i < this.model.getRankCount(); ++i){
-            for(NicePossibleWorld world : this.model.getRank(i)){
-                if(!world.satisfies(propositionalFormula)){
+    private boolean checkAllWorlds(PlFormula propositionalFormula) {
+        for (int i = 0; i < this.model.getRankCount(); ++i) {
+            for (NicePossibleWorld world : this.model.getRank(i)) {
+                if (!world.satisfies(propositionalFormula)) {
                     return false;
                 }
             }
@@ -69,14 +70,16 @@ public class MinimalRankedEntailmentReasoner implements DefeasibleReasoner{
     }
 
     @Override
-    public boolean queryDefeasible(Implication defeasibleImplication){
-        if(this.model == null) throw new MissingRanking("Ranked model has not been constructed.");
+    public boolean queryDefeasible(Implication defeasibleImplication) {
+        if (this.model == null)
+            throw new MissingRanking("Ranked model has not been constructed.");
         return checkMinimalWorlds(defeasibleImplication);
     }
 
     @Override
-    public boolean queryPropositional(PlFormula formula){
-        if(this.model == null) throw new MissingRanking("Base rank has not been constructed.");
+    public boolean queryPropositional(PlFormula formula) {
+        if (this.model == null)
+            throw new MissingRanking("Base rank has not been constructed.");
         return queryDefeasible(Parsing.normalizePropositionalFormula(formula));
     }
 
