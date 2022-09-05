@@ -1,0 +1,4 @@
+SciencePlots
+pandas
+matplotlib
+seaborn

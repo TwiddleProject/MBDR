@@ -31,6 +31,7 @@ import com.mbdr.modelbased.construction.ModelBaseRank;
 import com.mbdr.modelbased.construction.ModelRank;
 import com.mbdr.modelbased.construction.CumulativeFormulaRank;
 import com.mbdr.modelbased.construction.FormulaRank;
+import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentCumulativeFormulaReasoner;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentFormulaReasoner;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
 import com.mbdr.modelbased.structures.RankedFormulasInterpretation;
@@ -117,7 +118,6 @@ public class App {
                         System.out.println("Query Results:");
 
                         DefeasibleReasoner[] checkers = {
-
                                         new RationalDirectReasoner(ranked_KB, knowledgeBase),
                                         new RationalRegularReasoner(ranked_KB),
                                         new RationalIndexingReasoner(ranked_KB),
@@ -125,6 +125,8 @@ public class App {
                                         new RationalBinaryIndexingReasoner(ranked_KB),
                                         new MinimalRankedEntailmentReasoner(rationalClosureModel),
                                         new MinimalRankedEntailmentFormulaReasoner(rationalClosureFormulaModel),
+                                        new MinimalRankedEntailmentCumulativeFormulaReasoner(
+                                                        rationalClosureCumulativeFormulaModel),
                                         new LexicographicWeakeningReasoner(ranked_KB),
                                         new LexicographicNaiveReasoner(ranked_KB),
                                         new LexicographicPowersetReasoner(ranked_KB),
