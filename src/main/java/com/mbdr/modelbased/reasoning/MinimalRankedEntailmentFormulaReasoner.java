@@ -82,8 +82,9 @@ public class MinimalRankedEntailmentFormulaReasoner implements DefeasibleReasone
     }
 
     @Override
-    public boolean queryPropositional(PlFormula formula){
-        if(this.model == null) throw new MissingRanking("Base rank has not been constructed.");
+    public boolean queryPropositional(PlFormula formula) {
+        if (this.model == null)
+            throw new MissingRanking("Base rank has not been constructed.");
         return queryDefeasible(Parsing.normalizePropositionalFormula(formula));
     }
 
