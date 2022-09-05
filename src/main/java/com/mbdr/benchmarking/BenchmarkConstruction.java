@@ -23,7 +23,7 @@ import com.mbdr.common.structures.*;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class BenchmarkConstruction {
 
-    public final static String knowledgeBaseDir = "data/benchmarking/cumulative/";
+    public final static String knowledgeBaseDir = "data/benchmarking/cumulative/knowledge_bases/";
 
     @State(Scope.Benchmark) // all threads running the benchmark share the same state object.
     public static class BenchmarkState {
