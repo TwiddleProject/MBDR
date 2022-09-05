@@ -95,10 +95,16 @@ public class App {
                         System.out.println("----------------------------");
                         System.out.println("Rational Closure Formula Model:\n" + rationalClosureFormulaModel);
                         System.out.println("----------------------------");
-
                         System.out.println("Rational Closure Formula Model Ranked Interpretation:\n"
                                         + rationalClosureFormulaModel.getRankedInterpretation());
 
+                        System.out.println("----------------------------");
+                        System.out.println(
+                                        "Rational Closure Cumulative Formula Model:\n"
+                                                        + rationalClosureCumulativeFormulaModel);
+                        System.out.println("----------------------------");
+                        System.out.println("Rational Closure Cumulative Formula Model Ranked Interpretation:\n"
+                                        + rationalClosureCumulativeFormulaModel.getRankedInterpretation());
                         System.out.println("----------------------------");
                         System.out.println("Lexicographic Closure Ranked Model:\n" + lexicographicClosureModel);
                         System.out.println("----------------------------");
@@ -139,21 +145,22 @@ public class App {
                         System.out.println("----------------------------");
                         System.out.println("Playing around:");
                         System.out.println("----------------------------");
-                        // Set of all possible worlds w.r.t. atoms
-                        Set<NicePossibleWorld> KB_U = NicePossibleWorld.getAllPossibleWorlds(
-                                        knowledgeBase.union().getMinimalSignature().toCollection());
-                        System.out.println("KB_U:\t" + KB_U);
-                        int numRanks = rationalClosureCumulativeFormulaModel.getRankCount();
-                        System.out.println("num ranks:\t" + numRanks);
-                        for (int i = 0; i < numRanks; i++) {
-                                PlFormula currentRankFormula = rationalClosureCumulativeFormulaModel.getRank(i);
-                                System.out.println(currentRankFormula);
-                                for (NicePossibleWorld nicePossibleWorld : KB_U) {
-                                        if (nicePossibleWorld.satisfies(currentRankFormula)) {
-                                                System.out.println(nicePossibleWorld);
-                                        }
-                                }
-                        }
+                        // // Set of all possible worlds w.r.t. atoms
+                        // Set<NicePossibleWorld> KB_U = NicePossibleWorld.getAllPossibleWorlds(
+                        // knowledgeBase.union().getMinimalSignature().toCollection());
+                        // System.out.println("KB_U:\t" + KB_U);
+                        // int numRanks = rationalClosureCumulativeFormulaModel.getRankCount();
+                        // System.out.println("num ranks:\t" + numRanks);
+                        // for (int i = 0; i < numRanks; i++) {
+                        // PlFormula currentRankFormula =
+                        // rationalClosureCumulativeFormulaModel.getRank(i);
+                        // System.out.println(currentRankFormula);
+                        // for (NicePossibleWorld nicePossibleWorld : KB_U) {
+                        // if (nicePossibleWorld.satisfies(currentRankFormula)) {
+                        // System.out.println(nicePossibleWorld);
+                        // }
+                        // }
+                        // }
 
                 } catch (FileNotFoundException e) {
                         System.out.println("Could not find knowledge base file!");
