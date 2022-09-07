@@ -31,6 +31,7 @@ import com.mbdr.modelbased.construction.ModelBaseRank;
 import com.mbdr.modelbased.construction.ModelRank;
 import com.mbdr.modelbased.construction.CumulativeFormulaRank;
 import com.mbdr.modelbased.construction.FormulaRank;
+import com.mbdr.modelbased.construction.LexicographicCountCumulativeFormulaRank;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentCumulativeFormulaReasoner;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentFormulaReasoner;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
@@ -88,6 +89,8 @@ public class App {
                                         .construct(knowledgeBase);
                         RankedFormulasInterpretation lexicographicClosureFormulaModel = new LexicographicCountFormulaRank()
                                         .construct(knowledgeBase);
+                        RankedFormulasInterpretation lexicographicClosureCumulativeFormulaModel = new LexicographicCountCumulativeFormulaRank()
+                                        .construct(knowledgeBase);
 
                         System.out.println("Rational Closure Ranked Model:\n" + rationalClosureModel);
                         System.out.println("----------------------------");
@@ -114,6 +117,11 @@ public class App {
                         System.out.println("Lexicographic Closure Formula Model Ranked Interpretation:\n"
                                         + lexicographicClosureFormulaModel.getRankedInterpretation());
                         System.out.println("----------------------------");
+                        System.out.println("Lexicographic Closure Cumulative Formula Model:\n" + lexicographicClosureCumulativeFormulaModel);
+                        System.out.println("----------------------------");
+                        System.out.println("Lexicographic Closure Cumulative Formula Model Ranked Interpretation:\n"
+                                        + lexicographicClosureCumulativeFormulaModel.getRankedInterpretation());
+                        System.out.println("----------------------------");
 
                         System.out.println("Query Results:");
 
@@ -133,7 +141,8 @@ public class App {
                                         new LexicographicBinaryReasoner(ranked_KB),
                                         new LexicographicTernaryReasoner(ranked_KB),
                                         new MinimalRankedEntailmentReasoner(lexicographicClosureModel),
-                                        new MinimalRankedEntailmentFormulaReasoner(lexicographicClosureFormulaModel)
+                                        new MinimalRankedEntailmentFormulaReasoner(lexicographicClosureFormulaModel),
+                                        new MinimalRankedEntailmentFormulaReasoner(lexicographicClosureCumulativeFormulaModel)
                         };
 
                         for (DefeasibleReasoner checker : checkers) {
