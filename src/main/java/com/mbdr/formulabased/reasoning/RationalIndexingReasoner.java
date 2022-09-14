@@ -43,11 +43,19 @@ public class RationalIndexingReasoner implements DefeasibleReasoner {
         this(new BaseRank());
     }
 
+    /**
+     * Parameterised constructor
+     * @param constructor
+     */
     public RationalIndexingReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.antecedentNegationRanksToRemoveFrom = new HashMap<PlFormula, Integer>();
         this.constructor = constructor;
     }
 
+    /**
+     * Parameterised constructor
+     * @param baseRank
+     */
     public RationalIndexingReasoner(ArrayList<PlBeliefSet> baseRank){
         this.antecedentNegationRanksToRemoveFrom = new HashMap<PlFormula, Integer>();
         this.baseRank = baseRank;
