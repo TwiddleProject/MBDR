@@ -15,16 +15,20 @@ import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.modelbased.structures.RankedFormulasInterpretation;
 
-public class FormulaRank implements RankConstructor<RankedFormulasInterpretation> {
 
+/**
+ * Implementation of FormulaRank algorithm in Rational Closure Model-Based Defeasible Reasoning
+ */
+public class FormulaRank implements RankConstructor<RankedFormulasInterpretation> {
+    /**
+     * Constructs the ranked formula interpretation for a given knowledge base.
+     * @param knowledge - Defeasible knowledge base
+     * @return RankedFormulasInterpretation
+     */
     @Override
     public RankedFormulasInterpretation construct(DefeasibleKnowledgeBase knowledge) {
 
         RankedFormulasInterpretation rankedModel = new RankedFormulasInterpretation(0);
-
-        // System.out.println("empty rankedModel:\n" + rankedModel);
-
-        // System.out.println("----------------------------------");
 
         Sat4jSolver solver = new Sat4jSolver();
 
@@ -36,26 +40,15 @@ public class FormulaRank implements RankConstructor<RankedFormulasInterpretation
 
         PlFormula currentRankFormula = new Conjunction(classicalKnowledgeFormula, F0Defeasible);
 
-        // System.out.println("F0:\t" + currentRankFormula);
-
+        // Check whether the materialised knowledge base is consistent
         if (solver.isSatisfiable(knowledge.union())) {
-            // System.out.println("----------------------------------");
-            // System.out.println("Knowledge is consistent.");
-            // System.out.println("----------------------------------");
 
             int rankIndex = rankedModel.addRank(currentRankFormula);
-            // System.out.println("Added rank " + rankIndex + ":\t" + currentRankFormula);
-
-            // System.out.println("rankedModel:\n" + rankedModel);
 
             int numPreviousRemainingDefeasibleFormulas = -1;
 
-            // System.out.println("remainingDefeasibleFormulas:\t" +
-            // remainingDefeasibleFormulas);
-
             while (!remainingDefeasibleFormulas.isEmpty()
                     && numPreviousRemainingDefeasibleFormulas != remainingDefeasibleFormulas.size()) {
-                // System.out.println("Start while loop");
                 // Find the defeasible formulas whose antecedents are consistent with the
                 // current rank formula
                 PlBeliefSet checkedFormulas = new PlBeliefSet();
@@ -70,8 +63,6 @@ public class FormulaRank implements RankConstructor<RankedFormulasInterpretation
 
                 numPreviousRemainingDefeasibleFormulas = remainingDefeasibleFormulas.size();
                 remainingDefeasibleFormulas.removeAll(checkedFormulas);
-                // System.out.println("remainingDefeasibleFormulas:\t" +
-                // remainingDefeasibleFormulas);
 
                 PlFormula remainingDefeasibleConjunction = new Conjunction(remainingDefeasibleFormulas);
 
@@ -98,9 +89,7 @@ public class FormulaRank implements RankConstructor<RankedFormulasInterpretation
             }
 
         } else {
-            // System.out.println("----------------------------------");
-            // System.out.println("Knowledge is inconsistent.");
-            // System.out.println("----------------------------------");
+            // If the materialised knowledge is inconsistent then place every world on infinite rank
             rankedModel.setInfiniteRank(new Tautology());
         }
 

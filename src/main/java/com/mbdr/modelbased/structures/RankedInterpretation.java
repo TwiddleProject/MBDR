@@ -7,30 +7,56 @@ import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
 import com.mbdr.common.exceptions.RankOutOfBounds;
 
+/**
+ * This class represents a ranked interpretation consistent with its abstract definition in the literature.
+ */
+public class RankedInterpretation {
 
-public class RankedInterpretation { //implements Ranking<NicePossibleWorld>
-    
+    // The RankedInterpretation itself is stored in terms of an ArrayList of Sets of TweetyProject NicePossibleWorlds
     private ArrayList<Set<NicePossibleWorld>> ranks;
 
+    /**
+     * Default constructor
+     */
     public RankedInterpretation(){
         this(1);
     }
 
-    public RankedInterpretation(int ranks){
+    /**
+     * Constructor to allow specification of number of ranks - all of which default to empty sets - since no worlds have
+     * yet been placed.
+     * @param numRanks
+     */
+    public RankedInterpretation(int numRanks){
         this.ranks = new ArrayList<>();
-        for(int index = 0; index <= ranks; ++index){
+        for(int index = 0; index <= numRanks; ++index){
             this.ranks.add(new HashSet<>());
         }
     }
 
+    /**
+     * Constructor to allow the flexible assignment of the entire ArrayList of pre-populated ranks as part of
+     * initialisation
+     * @param ranks
+     */
     public RankedInterpretation(ArrayList<Set<NicePossibleWorld>> ranks){
         this.ranks = ranks;
     }
 
+    /**
+     * Get the number of finite ranks
+     *
+     * @return
+     */
     public int getRankCount(){
         return this.ranks.size() - 1;
     }
 
+    /**
+     * Get the set of worlds located on a specified rank.
+     * @param index - index of rank
+     * @return Set<NicePossibleWorld> - set of worlds
+     */
     public Set<NicePossibleWorld> getRank(int index){
         if(index >= this.ranks.size()-1 || index < 0){
             throw new RankOutOfBounds("Rank " + index + " does not exist.");
@@ -38,10 +64,19 @@ public class RankedInterpretation { //implements Ranking<NicePossibleWorld>
         return this.ranks.get(index);
     }
 
+    /**
+     * Get all the worlds that have been assigned to the infinite rank.
+     * @return Set<NicePossibleWorld> - set of worlds
+     */
     public Set<NicePossibleWorld> getInfiniteRank(){
         return this.ranks.get(this.ranks.size()-1);
     }
 
+    /**
+     * Add a set of worlds to a specified rank if it exists
+     * @param index - index of rank to add worlds to
+     * @param worlds - worlds to add to the rank
+     */
     public void addToRank(int index, Set<NicePossibleWorld> worlds){
         if(index >= this.ranks.size()-1 || index < 0){
             throw new RankOutOfBounds("Rank " + index + " does not exist.");
@@ -49,10 +84,19 @@ public class RankedInterpretation { //implements Ranking<NicePossibleWorld>
         this.ranks.get(index).addAll(worlds);
     }
 
+    /**
+     * Add a set of worlds to the infinite rank
+     * @param worlds set of worlds to add
+     */
     public void addToInfiniteRank(Set<NicePossibleWorld> worlds){
         this.getInfiniteRank().addAll(worlds);
     }
 
+    /**
+     * Add a single world to a specified rank
+     * @param index - index of rank to add world to
+     * @param world - world to add
+     */
     public void addToRank(int index, NicePossibleWorld world){
         if(index >= getRankCount() || index < 0){
             throw new RankOutOfBounds("Rank " + index + " does not exist.");
@@ -60,24 +104,45 @@ public class RankedInterpretation { //implements Ranking<NicePossibleWorld>
         this.ranks.get(index).add(world);
     }
 
+    /**
+     * Add a single world to the last finite rank
+     * @param world
+     */
     public void addToRank(NicePossibleWorld world){
         this.ranks.get(this.getRankCount()-1).add(world);
     }
 
+    /**
+     * Add a single world to the infinite rank
+     * @param world
+     */
     public void addToInfiniteRank(NicePossibleWorld world){
         this.getInfiniteRank().add(world);
     }
 
+    /**
+     * Add a new, empty finite rank
+     * @return
+     */
     public int addRank(){
         return addRank(new HashSet<>());
     }
 
+    /**
+     * Add a new finite rank and place the given worlds on it
+     * @param worlds - set of worlds to place on new rank
+     * @return - the index of this new rank in the ranked interpretation
+     */
     public int addRank(Set<NicePossibleWorld> worlds){
         int position = this.getRankCount();
         this.ranks.add(position, worlds);
         return position;
     }
 
+    /**
+     * Add a new, empty rank at the specified position
+     * @param index - requested index of new rank
+     */
     public void addRank(int index){
         if(index > this.getRankCount() || index < 0){
             throw new RankOutOfBounds("Rank " + index + " is out of bounds.");
@@ -85,6 +150,11 @@ public class RankedInterpretation { //implements Ranking<NicePossibleWorld>
         this.ranks.add(index, new HashSet<NicePossibleWorld>());
     }
 
+    /**
+     * Add set of worlds to new rank at specified index
+     * @param index - index of new rank
+     * @param worlds - set of worlds to place on new rank
+     */
     public void addRank(int index, Set<NicePossibleWorld> worlds){
         if(index > this.getRankCount() || index < 0){
             throw new RankOutOfBounds("Rank " + index + " is out of bounds.");
@@ -92,10 +162,19 @@ public class RankedInterpretation { //implements Ranking<NicePossibleWorld>
         this.ranks.add(index, worlds);
     }
 
+    /**
+     * Check whether the last finite rank is empty
+     * @return
+     */
     public boolean hasEmptyCurrentRank(){
         return this.ranks.get(this.getRankCount()-1).size() == 0;
     }
 
+    /**
+     * Returns the string representation of the RankedInterpretation in the usual format - a number of discrete
+     * levels or ranks.
+     * @return
+     */
     public String toString(){
         String template = "%-3s:\t%s\n";
         String output = String.format(template, "∞", this.getInfiniteRank());

@@ -15,16 +15,19 @@ import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.modelbased.structures.RankedFormulasInterpretation;
 
+/**
+ * Implementation of CumulativeFormulaRank algorithm in Rational Closure Model-Based Defeasible Reasoning
+ */
 public class CumulativeFormulaRank implements RankConstructor<RankedFormulasInterpretation> {
-
+    /**
+     * Constructs the cumulative ranked formula interpretation for a given knowledge base.
+     * @param knowledge - Defeasible knowledge base
+     * @return RankedFormulasInterpretation
+     */
     @Override
     public RankedFormulasInterpretation construct(DefeasibleKnowledgeBase knowledge) {
 
         RankedFormulasInterpretation rankedModel = new RankedFormulasInterpretation(0);
-
-        // System.out.println("empty rankedModel:\n" + rankedModel);
-
-        // System.out.println("----------------------------------");
 
         Sat4jSolver solver = new Sat4jSolver();
 
@@ -36,26 +39,15 @@ public class CumulativeFormulaRank implements RankConstructor<RankedFormulasInte
 
         PlFormula currentRankFormula = new Conjunction(classicalKnowledgeFormula, F0Defeasible);
 
-        // System.out.println("F0:\t" + currentRankFormula);
-
         if (solver.isSatisfiable(knowledge.union())) {
-            // System.out.println("----------------------------------");
-            // System.out.println("Knowledge is consistent.");
-            // System.out.println("----------------------------------");
 
             int rankIndex = rankedModel.addRank(currentRankFormula);
-            // System.out.println("Added rank " + rankIndex + ":\t" + currentRankFormula);
-
-            // System.out.println("rankedModel:\n" + rankedModel);
 
             int numPreviousRemainingDefeasibleFormulas = -1;
 
-            // System.out.println("remainingDefeasibleFormulas:\t" +
-            // remainingDefeasibleFormulas);
 
             while (!remainingDefeasibleFormulas.isEmpty()
                     && numPreviousRemainingDefeasibleFormulas != remainingDefeasibleFormulas.size()) {
-                // System.out.println("Start while loop");
                 // Find the defeasible formulas whose antecedents are consistent with the
                 // current rank formula
                 PlBeliefSet checkedFormulas = new PlBeliefSet();
@@ -70,39 +62,19 @@ public class CumulativeFormulaRank implements RankConstructor<RankedFormulasInte
 
                 numPreviousRemainingDefeasibleFormulas = remainingDefeasibleFormulas.size();
                 remainingDefeasibleFormulas.removeAll(checkedFormulas);
-                // System.out.println("remainingDefeasibleFormulas:\t" +
-                // remainingDefeasibleFormulas);
 
                 PlFormula remainingDefeasibleConjunction = new Conjunction(remainingDefeasibleFormulas);
 
-                // ArrayList<PlFormula> negatedPreviousRanks = new ArrayList<>();
-
-                // for (int i = 0; i <= rankIndex; i++) {
-                // negatedPreviousRanks.add(new Negation(rankedModel.getRank(i)));
-                // }
-
-                // PlFormula negatedPreviousRanksConjunction = new
-                // Conjunction(negatedPreviousRanks);
-
                 currentRankFormula = new Conjunction(Arrays.asList(
                         classicalKnowledgeFormula,
-                        // negatedPreviousRanksConjunction,
                         remainingDefeasibleConjunction));
 
                 rankIndex = rankedModel.addRank(currentRankFormula);
             }
 
-            // if (remainingDefeasibleFormulas.isEmpty()) {
-            // rankedModel.setInfiniteRank(new Negation(classicalKnowledgeFormula));
-            // } else {
-            // rankedModel.setInfiniteRank(new Negation(rankedModel.getRank(rankIndex)));
-            // }
             rankedModel.setInfiniteRank(new Tautology());
 
         } else {
-            // System.out.println("----------------------------------");
-            // System.out.println("Knowledge is inconsistent.");
-            // System.out.println("----------------------------------");
             rankedModel.setInfiniteRank(new Tautology());
         }
 

@@ -13,18 +13,15 @@ import com.mbdr.modelbased.structures.RankedInterpretation;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
+/**
+ * Implementation of ModelRank algorithm in Rational Closure Model-Based Defeasible Reasoning
+ */
 public class ModelRank implements RankConstructor<RankedInterpretation> {
 
     /**
-     * Constructs the ranked model used to define Rational Closure for a given
-     * knowledge base
-     *
-     * @param KB_C - Knowledge base containing all the purely classical formulas
-     *             of
-     *             the given knowledge base
-     * @param KB_D - Knowledge base containing all the DIs of the given knowledge
-     *             base
-     * @return
+     * Constructs the ranked model of a given defeasible knowledge base that can be used to characterise its rational closure
+     * @param knowledge - DefeasibleKnowledgeBase
+     * @return RankedInterpretation - ranked model corresponding to rational closure
      */
     @Override
     public RankedInterpretation construct(DefeasibleKnowledgeBase knowledge) {
@@ -66,7 +63,7 @@ public class ModelRank implements RankConstructor<RankedInterpretation> {
             currentRank = new HashSet<>();
 
             for (NicePossibleWorld nw : KB_U_remaining) {
-                // if the world satisfies all the unticked off defeasible formulas
+                // if the world satisfies all the remaining defeasible formulas
                 if (nw.satisfies(KB_D_remaining)) {
                     currentRank.add(nw); // add the world to the current rank
                     // check whether the world is the best world for one of the formula antecedents
