@@ -78,35 +78,30 @@ public class RationalRegularReasoner implements DefeasibleReasoner{
         ArrayList<PlBeliefSet> rankedKB = (ArrayList<PlBeliefSet>) this.baseRank.clone();
         PlBeliefSet combinedRankedKB = Utils.combine(rankedKB);
         while (combinedRankedKB.size() != 0) {
-            // System.out.println("We are checking whether or not " +
-            // negationOfAntecedent.toString() + " is entailed by: " +
-            // combinedRankedKB.toString());
             if (classicalReasoner.query(combinedRankedKB, negationOfAntecedent)) {
-                // System.out.println("It is! so we remove " + rankedKB.get(0).toString());
                 combinedRankedKB.removeAll(rankedKB.get(0));
                 rankedKB.remove(rankedKB.get(0));
             } else {
-                // System.out.println("It is not!");
                 break;
             }
         }
         if (combinedRankedKB.size() != 0) {
-            // System.out.println("We now check whether or not the formula" +
-            // formula.toString() + " is entailed by " + combinedRankedKB.toString());
             if (classicalReasoner.query(combinedRankedKB, defeasibleImplication)) {
                 return true;
             } else {
                 return false;
             }
         } else {
-            // System.out.println("There would then be no ranks remaining, which means the
-            // knowledge base entails " + negationOfAntecedent.toString() + ", and thus it
-            // entails " + formula.toString() + ", so we know the defeasible counterpart of
-            // this implication is also entailed!");
             return true;
         }
     }
 
+    /**
+     * Query a propositional formula
+     *
+     * @param formula The formula to query
+     * @return Whether the query is entailed
+     */
     @Override
     public boolean queryPropositional(PlFormula formula){
         if(this.baseRank == null) throw new MissingRanking("Base rank has not been constructed.");
