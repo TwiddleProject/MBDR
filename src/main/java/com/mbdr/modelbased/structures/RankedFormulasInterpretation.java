@@ -11,12 +11,21 @@ import com.mbdr.formulabased.Utils;
 
 public class RankedFormulasInterpretation {
 
+    // The RankedFormulasInterpretation itself is stored in terms of an ArrayList of TweetyProject PlFormulas
     private ArrayList<PlFormula> ranks;
 
+    /**
+     * Default constructor
+     */
     public RankedFormulasInterpretation() {
         this(1);
     }
 
+    /**
+     * Constructor to allow specification of number of ranks - all of which default to null since no representative
+     * formulas have yet been assigned
+     * @param ranks
+     */
     public RankedFormulasInterpretation(int ranks) {
         this.ranks = new ArrayList<>();
         for (int index = 0; index <= ranks; ++index) {
@@ -24,6 +33,10 @@ public class RankedFormulasInterpretation {
         }
     }
 
+    /**
+     * Constructor to allow the flexible assignment of the entire ArrayList of ranks as part of initialisation
+     * @param ranks
+     */
     public RankedFormulasInterpretation(ArrayList<PlFormula> ranks) {
         this.ranks = new ArrayList<>(ranks);
     }
@@ -130,10 +143,19 @@ public class RankedFormulasInterpretation {
         this.ranks.add(index, rankFormula);
     }
 
+    /**
+     * Get all the formulas contained in the entire RankedFormulasInterpretation in the form of a TweetyProject
+     * PlBeliefSet.
+     * @return PlBeliefSet
+     */
     public PlBeliefSet getAllFormulas(){
         return new PlBeliefSet(this.ranks);
     }
 
+    /**
+     * Generate the corresponding world-based RankedInterpretation for the given RankedFormulasInterpretation.
+     * @return RankedInterpretation
+     */
     public RankedInterpretation getRankedInterpretation(){
         RankedInterpretation rankedInterpretation = new RankedInterpretation(0);
         PlSignature signature = getAllFormulas().getMinimalSignature();
@@ -148,6 +170,11 @@ public class RankedFormulasInterpretation {
         return rankedInterpretation;
     }
 
+    /**
+     * Returns the string representation of the RankedFormulasInterpretation in the usual format - a number of discrete
+     * levels or ranks.
+     * @return
+     */
     public String toString() {
         String template = "%-3s:\t%s\n";
         String output = String.format(template, "∞", this.getInfiniteRank());
