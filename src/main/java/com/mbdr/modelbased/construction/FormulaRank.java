@@ -15,6 +15,10 @@ import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.modelbased.structures.RankedFormulasInterpretation;
 
+
+/**
+ * Implementation of FormulaRank algorithm in Rational Closure Model-Based Defeasible Reasoning
+ */
 public class FormulaRank implements RankConstructor<RankedFormulasInterpretation> {
     /**
      * Constructs the ranked formula interpretation for a given knowledge base.
