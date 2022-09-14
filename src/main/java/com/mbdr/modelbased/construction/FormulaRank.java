@@ -29,51 +29,40 @@ public class FormulaRank implements RankConstructor<RankedFormulasInterpretation
     public RankedFormulasInterpretation construct(DefeasibleKnowledgeBase knowledge) {
 
         RankedFormulasInterpretation rankedModel = new RankedFormulasInterpretation(0);
-
         Sat4jSolver solver = new Sat4jSolver();
-
         PlFormula classicalKnowledgeFormula = new Conjunction(knowledge.getPropositionalKnowledge());
-
         PlBeliefSet remainingDefeasibleFormulas = knowledge.getDefeasibleKnowledge();
-
         PlFormula F0Defeasible = new Conjunction(knowledge.getDefeasibleKnowledge());
-
         PlFormula currentRankFormula = new Conjunction(classicalKnowledgeFormula, F0Defeasible);
 
         // Check whether the materialised knowledge base is consistent
         if (solver.isSatisfiable(knowledge.union())) {
-
             int rankIndex = rankedModel.addRank(currentRankFormula);
-
             int numPreviousRemainingDefeasibleFormulas = -1;
-
             while (!remainingDefeasibleFormulas.isEmpty()
                     && numPreviousRemainingDefeasibleFormulas != remainingDefeasibleFormulas.size()) {
-                // Find the defeasible formulas whose antecedents are consistent with the
-                // current rank formula
+                // Find the defeasible formulas whose antecedents are consistent with the current rank formula
                 PlBeliefSet checkedFormulas = new PlBeliefSet();
                 for (PlFormula formula : remainingDefeasibleFormulas) {
                     PlFormula antecedent = ((Implication) formula).getFirstFormula();
-
                     if (solver.isSatisfiable(Arrays.asList(currentRankFormula, antecedent))) {
                         checkedFormulas.add(formula);
+                        //Add the formula to be removed since its antecedent is consistent with the current rank formula
                     }
-
                 }
-
                 numPreviousRemainingDefeasibleFormulas = remainingDefeasibleFormulas.size();
+                //Remove all the formulas whose antecedents are consistent with the current rank formula
                 remainingDefeasibleFormulas.removeAll(checkedFormulas);
-
                 PlFormula remainingDefeasibleConjunction = new Conjunction(remainingDefeasibleFormulas);
-
                 ArrayList<PlFormula> negatedPreviousRanks = new ArrayList<>();
-
+                // Get an ArrayList of all the negated previous rank formulas - used to construct the current rank formula
                 for (int i = 0; i <= rankIndex; i++) {
                     negatedPreviousRanks.add(new Negation(rankedModel.getRank(i)));
                 }
 
+                // Form the conjunction of the negations of all the previous rank formulas
                 PlFormula negatedPreviousRanksConjunction = new Conjunction(negatedPreviousRanks);
-
+                // Construct current rank formula
                 currentRankFormula = new Conjunction(Arrays.asList(
                         classicalKnowledgeFormula,
                         negatedPreviousRanksConjunction,
