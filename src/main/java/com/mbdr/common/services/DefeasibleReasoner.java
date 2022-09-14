@@ -47,7 +47,7 @@ public interface DefeasibleReasoner {
     /**
      * Query a defeasible implication
      * 
-     * @param formula The defeasible implication
+     * @param defeasibleImplication The defeasible implication
      * @return The query result
      */
     boolean queryDefeasible(Implication defeasibleImplication);
