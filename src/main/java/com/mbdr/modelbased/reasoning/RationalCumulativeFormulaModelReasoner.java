@@ -9,6 +9,9 @@ import com.mbdr.modelbased.construction.CumulativeFormulaRank;
  */
 public class RationalCumulativeFormulaModelReasoner extends MinimalRankedEntailmentCumulativeFormulaReasoner {
 
+    /**
+     * Default constructor
+     */
     public RationalCumulativeFormulaModelReasoner() {
         super(new CumulativeFormulaRank());
     }
