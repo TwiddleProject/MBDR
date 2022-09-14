@@ -23,23 +23,43 @@ import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.reasoner.*;
 
+/**
+ * Implementation of RationalClosure algorithm from SCADR (2021) that utilises
+ * Binary Search to find the rank from which all ranks need to be removed, as
+ * opposed to iterating linearly from the top, downwards, as in RationalClosure.
+ */
 public class RationalBinaryReasoner implements DefeasibleReasoner {
     
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
+    /**
+     * Default constructor
+     */
     public RationalBinaryReasoner(){
         this(new BaseRank());
     }
 
+    /**
+     * Parameterised constructor
+     * @param constructor
+     */
     public RationalBinaryReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.constructor = constructor;
     }
 
+    /**
+     * Parameterised constructor
+     * @param baseRank
+     */
     public RationalBinaryReasoner(ArrayList<PlBeliefSet> baseRank){
         this.baseRank = baseRank;
     }
 
+    /**
+     * Gets the base ranking of the knowledge base using BaseRank implementation
+     * @param knowledge - defeasible knowledge base
+     */
     @Override
     public void build(DefeasibleKnowledgeBase knowledge){
         if(this.constructor == null) throw new MissingRankConstructor("Cannot construct base rank without RankConstructor.");
@@ -47,15 +67,10 @@ public class RationalBinaryReasoner implements DefeasibleReasoner {
     }
 
     /**
-     * Implementation of Joel's RationalClosure algorithm that utilises
-     * Binary Search to find the rank from which all ranks need to be removed, as
-     * opposed to iterating linearly from the top, downwards, as in RationalClosure.
-     * 
-     * @param originalRankedKB
-     * @param rawQuery
-     * @return
-     * @throws IOException
-     * @throws ParserException
+     * Answers defeasible query using rational closure with a binary search optimisation.
+     * Code from SCADR (2021).
+     * @param defeasibleImplication - defeasible query
+     * @return entailment true/false answer
      */
     public boolean queryDefeasible(Implication defeasibleImplication){
         if(this.baseRank == null) throw new MissingRanking("Cannot perform query without both base rank and knowledge base.");
