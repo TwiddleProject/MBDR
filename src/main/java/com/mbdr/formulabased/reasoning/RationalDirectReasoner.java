@@ -87,6 +87,12 @@ public class RationalDirectReasoner implements DefeasibleReasoner{
         return reasoner.query(DefeasibleKnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), defeasibleImplication);
     }
 
+    /**
+     * Query a propositional formula
+     *
+     * @param formula The formula to query
+     * @return Whether the query is entailed
+     */
     @Override
     public boolean queryPropositional(PlFormula formula){
         if(this.baseRank == null) throw new MissingRanking("Base rank has not been constructed.");
