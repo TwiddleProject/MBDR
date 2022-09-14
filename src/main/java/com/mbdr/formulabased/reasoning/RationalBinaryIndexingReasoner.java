@@ -74,19 +74,6 @@ public class RationalBinaryIndexingReasoner implements DefeasibleReasoner{
     }
 
     /**
-     * Implementation of Joel's modified RationalClosure algorithm that utilises
-     * Binary Search to find the rank from which all ranks need to be removed, as
-     * opposed to iterating linearly from the top, downwards, as in RationalClosure
-     * as well as indexing of previous query antecedents.
-     * 
-     * @param originalRankedKB
-     * @param rawQuery
-     * @return
-     * @throws IOException
-     * @throws ParserException
-     */
-
-    /**
      * Answers defeasible query using rational closure with binary search and antecedent indexing optimisations.
      * Code from SCADR (2021).
      * @param defeasibleImplication - defeasible query
@@ -136,6 +123,12 @@ public class RationalBinaryIndexingReasoner implements DefeasibleReasoner{
         }
     }
 
+    /**
+     * Query a propositional formula
+     *
+     * @param formula The formula to query
+     * @return Whether the query is entailed
+     */
     @Override
     public boolean queryPropositional(PlFormula formula){
         if(this.baseRank == null) throw new MissingRanking("Base rank has not been constructed.");
