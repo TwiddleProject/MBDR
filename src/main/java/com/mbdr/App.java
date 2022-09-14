@@ -40,12 +40,21 @@ import com.mbdr.modelbased.structures.RankedInterpretation;
 import com.mbdr.utils.parsing.KnowledgeBaseReader;
 import com.mbdr.utils.parsing.Parsing;
 
+/**
+ * Main application for checking entailment of a query given a knowledge base
+ * for all reasoners (rational closure, Lehmann lexicographic closure, and count-based
+ * lexicographic closure)
+ */
 public class App {
 
         public final static String KNOWLEDGE_BASE_DIR = "data/";
 
+        /**
+         * Main method for testing query
+         * 
+         * @param args Command line arguments
+         */
         public static void main(String[] args) {
-                // TODO: Need to investigate normalising knowledge bases as twiddle statements
 
                 String fileName = args.length >= 1 ? args[0] : "penguins.txt";
                 String rawQuery = args.length == 2 ? args[1] : "p|~w";
@@ -152,26 +161,6 @@ public class App {
                                                                 checker.getClass().getSimpleName(),
                                                                 checker.queryDefeasible(query)));
                         }
-
-                        System.out.println("----------------------------");
-                        System.out.println("Playing around:");
-                        System.out.println("----------------------------");
-                        // // Set of all possible worlds w.r.t. atoms
-                        // Set<NicePossibleWorld> KB_U = NicePossibleWorld.getAllPossibleWorlds(
-                        // knowledgeBase.union().getMinimalSignature().toCollection());
-                        // System.out.println("KB_U:\t" + KB_U);
-                        // int numRanks = rationalClosureCumulativeFormulaModel.getRankCount();
-                        // System.out.println("num ranks:\t" + numRanks);
-                        // for (int i = 0; i < numRanks; i++) {
-                        // PlFormula currentRankFormula =
-                        // rationalClosureCumulativeFormulaModel.getRank(i);
-                        // System.out.println(currentRankFormula);
-                        // for (NicePossibleWorld nicePossibleWorld : KB_U) {
-                        // if (nicePossibleWorld.satisfies(currentRankFormula)) {
-                        // System.out.println(nicePossibleWorld);
-                        // }
-                        // }
-                        // }
 
                 } catch (FileNotFoundException e) {
                         System.out.println("Could not find knowledge base file!");
