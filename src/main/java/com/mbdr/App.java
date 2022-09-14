@@ -86,6 +86,7 @@ public class App {
 
                         System.out.println("----------------------------");
 
+                        // Construct backend representations
                         RankedInterpretation rationalClosureModel = new ModelRank()
                                         .construct(knowledgeBase);
                         RankedInterpretation rationalClosureModelBaseRank = new ModelBaseRank()
@@ -134,6 +135,7 @@ public class App {
 
                         System.out.println("Query Results:");
 
+                        // Create reasoners
                         DefeasibleReasoner[] checkers = {
                                         new RationalDirectReasoner(ranked_KB, knowledgeBase),
                                         new RationalRegularReasoner(ranked_KB),
@@ -154,6 +156,7 @@ public class App {
                                         new MinimalRankedEntailmentFormulaReasoner(lexicographicClosureCumulativeFormulaModel)
                         };
 
+                        // Query each reasoner
                         for (DefeasibleReasoner checker : checkers) {
                                 String template = "%-40s%s";
                                 System.out.println(
