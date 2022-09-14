@@ -65,21 +65,8 @@ public class Server {
 
             String result = "";
 
-            // for (Set<NicePossibleWorld> rank : rankedModel) {
-            // for (NicePossibleWorld w : rank) {
-            // result += w;
-            // }
-            // result += "\n";
-            // }
-
             result += rankedModel.toString();
-
-            // ctx.result(rankedModel.toString());
-            // ctx.result("{data:" + rankedModel.toString() + " }");
-            // ctx.result("{data:" + result + " }");
-            // String resultString = rankedModel.toString();
-            // ctx.header("rankedModel", rankedModel.toString());
-            // ctx.result("'" + resultString + "'");
+            
             ctx.result(result);
         });
     }
