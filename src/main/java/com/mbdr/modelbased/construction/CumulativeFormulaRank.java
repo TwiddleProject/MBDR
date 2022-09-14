@@ -15,6 +15,9 @@ import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.modelbased.structures.RankedFormulasInterpretation;
 
+/**
+ * Implementation of CumulativeFormulaRank algorithm in Rational Closure Model-Based Defeasible Reasoning
+ */
 public class CumulativeFormulaRank implements RankConstructor<RankedFormulasInterpretation> {
     /**
      * Constructs the cumulative ranked formula interpretation for a given knowledge base.
