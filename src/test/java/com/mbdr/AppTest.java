@@ -36,14 +36,18 @@ import com.mbdr.formulabased.reasoning.RationalRegularReasoner;
 
 public class AppTest 
 {
-    // TODO Make checkers global (so only need to add new methods in one place e.g. App)
 
     private static final String TEST_DIR_ROOT = "test_files/";
     private static final String TEST_KNOWLEDGE_BASES = TEST_DIR_ROOT + "knowledge_bases/";
     private static final String TEST_QUERIES = TEST_DIR_ROOT + "query_sets/";
-    private static final String TEST_MODELS = TEST_DIR_ROOT + "models/";
-    private static final String TEST_BASE_RANKS = TEST_DIR_ROOT + "base_ranks/";
 
+    /**
+     * Test entailment of all reasoners
+     * 
+     * @throws ParserException
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     @Test
     public void testEntailment() throws ParserException, FileNotFoundException, IOException
     {
@@ -101,13 +105,12 @@ public class AppTest
                         );
                         System.out.println(checker.getClass().getSimpleName() + ": " + results.get(results.size()-1));
                     }
-                    // assertTrue(allEntriesEqual(results));
                 }
             }
 
         }
     }
-
+    
     private static <T> boolean allEntriesEqual(ArrayList<T> list){
         T first = list.get(0);
         for(T item : list){

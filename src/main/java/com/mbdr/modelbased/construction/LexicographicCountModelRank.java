@@ -10,22 +10,48 @@ import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
 import com.mbdr.modelbased.structures.RankedInterpretation;
 
+/**
+ * Implementation of the LexicographicModelRank algorithm in Lexicographic 
+ * Model-based Defeasible Reasoning Paper
+ */
 public class LexicographicCountModelRank implements RankConstructor<RankedInterpretation>{
 
     private RankedInterpretation rationalClosureModel;
 
+    /**
+     * Default constructor
+     */
     public LexicographicCountModelRank(){
         this.rationalClosureModel = null;
     }
 
+    /**
+     * Parameterized constructor 
+     * 
+     * @param rationalClosureModel The ranked model to refine
+     */
     public LexicographicCountModelRank(RankedInterpretation rationalClosureModel){
         this.rationalClosureModel = rationalClosureModel;
     }
 
+    
+    /** 
+     * Setter for rational closure model
+     * 
+     * @param rationalClosureModel The ranked model to refine
+     */
     public void setRationalClosureModel(RankedInterpretation rationalClosureModel){
         this.rationalClosureModel = rationalClosureModel;
     }
 
+    
+    /** 
+     * Determines the number of formulas a valuation satisfies
+     * 
+     * @param world The valuation
+     * @param formulas The set of formulas
+     * @return The number of formulas satisfied
+     */
     private int countSatisfied(NicePossibleWorld world, PlBeliefSet formulas) {
         int count = 0;
         for (PlFormula formula : formulas) {
@@ -42,7 +68,7 @@ public class LexicographicCountModelRank implements RankConstructor<RankedInterp
      * @param world The world to insert
      * @param array The list of counted worlds
      * @param start The start index (inclusive)
-     * @param end   The end index (inclusive)
+     * @param end The end index (inclusive)
      */
     private void insert(CountedWorld world, ArrayList<CountedWorld> array, int start, int end) {
         if (start == end) {
@@ -57,6 +83,11 @@ public class LexicographicCountModelRank implements RankConstructor<RankedInterp
         }
     }
 
+    
+    /** 
+     * @param world
+     * @param array
+     */
     private void insert(CountedWorld world, ArrayList<CountedWorld> array) {
         insert(world, array, 0, array.size());
     }
@@ -64,7 +95,7 @@ public class LexicographicCountModelRank implements RankConstructor<RankedInterp
     /**
      * Refines rational closure model to produce lexicographic model
      * 
-     * @param knowledge            The knowledge base
+     * @param knowledge The knowledge base
      * @return The model for lexicographic closure
      */
     public RankedInterpretation construct(DefeasibleKnowledgeBase knowledge) {
@@ -107,14 +138,30 @@ public class LexicographicCountModelRank implements RankConstructor<RankedInterp
      */
     private static class CountedWorld extends org.tweetyproject.commons.util.Pair<NicePossibleWorld, Integer> {
 
+        /**
+         * Parameterized constructor
+         * 
+         * @param world The valuation
+         * @param count The number of formulas satisfied
+         */
         public CountedWorld(NicePossibleWorld world, int count) {
             super(world, count);
         }
 
+        /**
+         * Valuation getter
+         * 
+         * @return The valuation
+         */
         public NicePossibleWorld getWorld() {
             return getFirst();
         }
 
+        /**
+         * Count getter
+         * 
+         * @return The satisfaction count
+         */
         public int getCount() {
             return getSecond();
         }
