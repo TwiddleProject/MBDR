@@ -42,9 +42,11 @@ public class CumulativeFormulaRank implements RankConstructor<RankedFormulasInte
 
             int numPreviousRemainingDefeasibleFormulas = -1;
 
+
             while (!remainingDefeasibleFormulas.isEmpty()
                     && numPreviousRemainingDefeasibleFormulas != remainingDefeasibleFormulas.size()) {
-
+                // Find the defeasible formulas whose antecedents are consistent with the
+                // current rank formula
                 PlBeliefSet checkedFormulas = new PlBeliefSet();
                 for (PlFormula formula : remainingDefeasibleFormulas) {
                     PlFormula antecedent = ((Implication) formula).getFirstFormula();
