@@ -21,29 +21,54 @@ import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.logics.pl.reasoner.*;
 
+
+/**
+ * Implementation of standard, unoptimised RationalClosure algorithm from SCADR (2021).
+ */
 public class RationalRegularReasoner implements DefeasibleReasoner{
 
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
+    /**
+     * Default constructor
+     */
     public RationalRegularReasoner(){
         this(new BaseRank());
     }
 
+    /**
+     * Parameterised constructor
+     * @param constructor
+     */
     public RationalRegularReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.constructor = constructor;
     }
 
+    /**
+     * Parameterised constructor
+     * @param baseRank
+     */
     public RationalRegularReasoner(ArrayList<PlBeliefSet> baseRank){
         this.baseRank = baseRank;
     }
 
+    /**
+     * Gets the base ranking of the knowledge base using BaseRank implementation
+     * @param knowledge - defeasible knowledge base
+     */
     @Override
     public void build(DefeasibleKnowledgeBase knowledge){
         if(this.constructor == null) throw new MissingRankConstructor("Cannot construct base rank without RankConstructor.");
         this.baseRank = this.constructor.construct(knowledge);
     }
 
+    /**
+     * Answers defeasible query using standard, unoptimised RationalClosure algorithm.
+     * Code from SCADR (2021).
+     * @param defeasibleImplication - defeasible query
+     * @return entailment true/false answer
+     */
     @Override
     public boolean queryDefeasible(Implication defeasibleImplication){
         if(this.baseRank == null) throw new MissingRanking("Cannot perform query without both base rank and knowledge base.");

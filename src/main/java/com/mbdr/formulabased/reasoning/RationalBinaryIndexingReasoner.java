@@ -23,6 +23,12 @@ import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.reasoner.*;
 
+/**
+ * Implementation of Joel's modified RationalClosure algorithm that utilises
+ * Binary Search to find the rank from which all ranks need to be removed, as
+ * opposed to iterating linearly from the top, downwards, as in RationalClosure
+ * as well as indexing of previous query antecedents.
+ */
 public class RationalBinaryIndexingReasoner implements DefeasibleReasoner{
 
     // (For use with Joel's indexing algorithms) Used to store the rank at which a
@@ -31,20 +37,35 @@ public class RationalBinaryIndexingReasoner implements DefeasibleReasoner{
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
+    /**
+     * Default constructor
+     */
     public RationalBinaryIndexingReasoner(){
         this(new BaseRank());
     }
 
+    /**
+     * Parameterised constructor
+     * @param constructor
+     */
     public RationalBinaryIndexingReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.antecedentNegationRanksToRemoveFrom = new HashMap<PlFormula, Integer>();
         this.constructor = constructor;
     }
 
+    /**
+     * Parameterised constructor
+     * @param baseRank
+     */
     public RationalBinaryIndexingReasoner(ArrayList<PlBeliefSet> baseRank){
         this.antecedentNegationRanksToRemoveFrom = new HashMap<PlFormula, Integer>();
         this.baseRank = baseRank;
     }
 
+    /**
+     * Gets the base ranking of the knowledge base using BaseRank implementation
+     * @param knowledge - defeasible knowledge base
+     */
     @Override
     public void build(DefeasibleKnowledgeBase knowledge){
         if(this.constructor == null) throw new MissingRankConstructor("Cannot construct base rank without RankConstructor.");
@@ -63,6 +84,13 @@ public class RationalBinaryIndexingReasoner implements DefeasibleReasoner{
      * @return
      * @throws IOException
      * @throws ParserException
+     */
+
+    /**
+     * Answers defeasible query using rational closure with binary search and antecedent indexing optimisations.
+     * Code from SCADR (2021).
+     * @param defeasibleImplication - defeasible query
+     * @return entailment true/false answer
      */
     public boolean queryDefeasible(Implication defeasibleImplication){
         if(this.baseRank == null) throw new MissingRanking("Base rank has not been constructed.");

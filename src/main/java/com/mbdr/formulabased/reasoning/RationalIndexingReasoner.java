@@ -23,45 +23,60 @@ import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.commons.ParserException;
 import org.tweetyproject.logics.pl.reasoner.*;
 
+/**
+ * Implementation of modified RationalClosure algorithm from SCADR (2021) that utilises
+ * indexing to store ranks at which antecedents are no longer exceptional across
+ * multiple queries.
+ */
 public class RationalIndexingReasoner implements DefeasibleReasoner {
     
 
-    // (For use with Joel's indexing algorithms) Used to store the rank at which a
-    // given query is no longer exceptional with the knowledge base
+    // Used to store the rank at which a given query is no longer exceptional with the knowledge base
     private HashMap<PlFormula, Integer> antecedentNegationRanksToRemoveFrom;
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
+    /**
+     * Default constructor
+     */
     public RationalIndexingReasoner(){
         this(new BaseRank());
     }
 
+    /**
+     * Parameterised constructor
+     * @param constructor
+     */
     public RationalIndexingReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.antecedentNegationRanksToRemoveFrom = new HashMap<PlFormula, Integer>();
         this.constructor = constructor;
     }
 
+    /**
+     * Parameterised constructor
+     * @param baseRank
+     */
     public RationalIndexingReasoner(ArrayList<PlBeliefSet> baseRank){
         this.antecedentNegationRanksToRemoveFrom = new HashMap<PlFormula, Integer>();
         this.baseRank = baseRank;
     }
 
+    /**
+     * Gets the base ranking of the knowledge base using BaseRank implementation
+     * @param knowledge - defeasible knowledge base
+     */
     @Override
     public void build(DefeasibleKnowledgeBase knowledge){
         if(this.constructor == null) throw new MissingRankConstructor("Cannot construct base rank without RankConstructor.");
         this.baseRank = this.constructor.construct(knowledge);
     }
 
+
     /**
-     * Joel's implementation of modified RationalClosure algorithm that utilises
-     * indexing to store ranks at which antecedents are no longer exceptional across
-     * multiple queries
-     * 
-     * @param originalRankedKB
-     * @param rawQuery
-     * @return
-     * @throws IOException
-     * @throws ParserException
+     * Answers defeasible query using modified RationalClosure algorithm that indexes ranks of previously found antecedents.
+     * Code from SCADR (2021).
+     * @param defeasibleImplication - defeasible query
+     * @return entailment true/false answer
      */
     @Override
     public boolean queryDefeasible(Implication defeasibleImplication){
