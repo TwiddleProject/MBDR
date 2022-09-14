@@ -13,6 +13,11 @@ import com.mbdr.modelbased.structures.RankedInterpretation;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
+
+/**
+ * Implementation of an algorithm based on the ModelRank algorithm (in Rational Closure Model-Based Defeasible Reasoning)
+ * that uses the BaseRank algorithm as part of the construction process.
+ */
 public class ModelBaseRank implements RankConstructor<RankedInterpretation> {
 
     /**
