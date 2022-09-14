@@ -20,12 +20,18 @@ import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.logics.pl.reasoner.*;
 
+/**
+ * Standard, unoptimised RationalClosure algorithm implementation that directly resembles abstract algorithm definition.
+ */
 public class RationalDirectReasoner implements DefeasibleReasoner{
 
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
     private DefeasibleKnowledgeBase knowledge;
 
+    /**
+     * Default constructor
+     */
     public RationalDirectReasoner(){
         this(new BaseRank());
     }
@@ -39,6 +45,10 @@ public class RationalDirectReasoner implements DefeasibleReasoner{
         this.knowledge = knowledge;
     }
 
+    /**
+     * Gets the base ranking of the knowledge base using BaseRank implementation
+     * @param knowledge - defeasible knowledge base
+     */
     @Override
     public void build(DefeasibleKnowledgeBase knowledge){
         if(this.constructor == null) throw new MissingRankConstructor("Cannot construct base rank without RankConstructor.");
@@ -47,14 +57,9 @@ public class RationalDirectReasoner implements DefeasibleReasoner{
     }
 
     /**
-     * Standard, unoptimised RationalClosure algorithm implementation
-     * 
-     * @param KB_C     - Knowledge base containing all the purely classical formulas
-     *                 of the given knowledge base
-     * @param KB_D     - Knowledge base containing all the DIs of the given
-     *                 knowledge base
-     * @param defeasibleImplication - query to check
-     * @return
+     * Answers defeasible query using RationalClosure algorithm
+     * @param defeasibleImplication - defeasible query
+     * @return entailment true/false answer
      */
     public boolean queryDefeasible(Implication defeasibleImplication) {
         if(this.baseRank == null || this.knowledge == null) throw new MissingRanking("Cannot perform query without both base rank and knowledge base.");
@@ -78,30 +83,4 @@ public class RationalDirectReasoner implements DefeasibleReasoner{
         if(this.baseRank == null) throw new MissingRanking("Base rank has not been constructed.");
         return queryDefeasible(Parsing.normalizePropositionalFormula(formula));
     }
-
-    // public static boolean RationalClosureDirectImplementation_Benchmarking(ArrayList<PlBeliefSet> ranked_KB,
-    //         DefeasibleKnowledgeBase knowledge,
-    //         String rawQuery) throws ParserException, IOException {
-
-    //     PlParser parser = new PlParser();
-
-    //     Implication defeasibleImplication = (Implication) parser
-    //             .parseFormula(Parser.materialiseDefeasibleImplication(rawQuery));
-
-    //     SatSolver.setDefaultSolver(new Sat4jSolver());
-    //     SatReasoner reasoner = new SatReasoner();
-
-    //     PlBeliefSet R = knowledge.getDefeasibleKnowledge();
-    //     Negation query_negated_antecedent = new Negation(defeasibleImplication.getFirstFormula());
-
-    //     int i = 0;
-    //     while (reasoner.query(DefeasibleKnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), query_negated_antecedent)
-    //             && !R.isEmpty()) {
-    //         R.removeAll(ranked_KB.get(i));
-    //         i++;
-    //     }
-
-    //     return reasoner.query(DefeasibleKnowledgeBase.union(knowledge.getPropositionalKnowledge(), R), defeasibleImplication);
-    // }
-
 }
