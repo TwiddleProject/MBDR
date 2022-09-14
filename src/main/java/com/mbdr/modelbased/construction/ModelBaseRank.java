@@ -13,15 +13,14 @@ import com.mbdr.modelbased.structures.RankedInterpretation;
 
 import org.tweetyproject.logics.pl.semantics.NicePossibleWorld;
 
-//TODO Refactor to be RankConstructor<RankedInterpretation>
 public class ModelBaseRank implements RankConstructor<RankedInterpretation> {
 
     /**
      * Constructs the ranked model used to define Rational Closure for a given
      * knowledge base using BaseRank to facilitate its construction
      * 
-     * @param knowledge
-     * @return
+     * @param knowledge - DefeasibleKnowledgeBase
+     * @return RankedInterpretation
      */
     @Override
     public RankedInterpretation construct(DefeasibleKnowledgeBase knowledge) {
@@ -82,7 +81,7 @@ public class ModelBaseRank implements RankConstructor<RankedInterpretation> {
                     int rankIndex = RankedModel.addRank();
                     RankedModel.addToRank(rankIndex, pWorld); // Add rank at correct rank index
                 } else {
-                    // Otherwise add the world to its correct rank in the ranked model
+                    // Otherwise, add the world to its correct rank in the ranked model
                     RankedModel.addToRank(tempMaxRank, pWorld);
                 }
             }
