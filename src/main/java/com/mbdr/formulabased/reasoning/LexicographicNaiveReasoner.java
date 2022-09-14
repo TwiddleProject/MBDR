@@ -22,30 +22,57 @@ import com.mbdr.formulabased.Utils;
 import com.mbdr.formulabased.construction.BaseRank;
 import com.mbdr.utils.parsing.Parsing;
 
+/**
+ * Basis lexicographic algorithm.
+ * Implementation from SCADR project (2021).
+ */
 public class LexicographicNaiveReasoner implements DefeasibleReasoner{
 
-    //TODO Create class for this
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
+    /**
+     * Default constructor
+     */
     public LexicographicNaiveReasoner(){
         this(new BaseRank());
     }
 
+    /**
+     * Parameterized constructor
+     * 
+     * @param baseRank The base rank of the knowledge
+     */
     public LexicographicNaiveReasoner(ArrayList<PlBeliefSet> baseRank){
         this.baseRank = new ArrayList<>(baseRank);
     }
 
+    /**
+     * Parameterized constructor
+     * 
+     * @param constructor The base rank constructor
+     */
     public LexicographicNaiveReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.constructor = constructor;
     }
 
+    /**
+     * Build reasoner backend (base rank)
+     * 
+     * @param knowledge The knowledge base
+     */
     @Override
     public void build(DefeasibleKnowledgeBase knowledge){
         if(this.constructor == null) throw new MissingRankConstructor("Cannot build base rank without RankConstructor");
         this.baseRank = constructor.construct(knowledge);
     }
 
+    /**
+     * Query a defeasible implication
+     * 
+     * @param formula The defeasible implication
+     * @return Whether the query is entailed
+     */
     @Override
     public boolean queryDefeasible(Implication formula){
         if(this.baseRank == null) throw new MissingRanking("Base rank of formulas has not been constructed.");
@@ -53,19 +80,9 @@ public class LexicographicNaiveReasoner implements DefeasibleReasoner{
         PlParser parser = new PlParser();
         SatSolver.setDefaultSolver(new Sat4jSolver());
         while (this.baseRank.size() > 1) {
-            // System.out.println("We are checking whether or not "
-            // + (new Negation(((Implication) formula).getFormulas().getFirst())).toString()
-            // + " is entailed by: "
-            // + combine(this.baseRank).toString());
             if (classicalReasoner.query(Utils.combine(this.baseRank),
                     new Negation(formula.getFormulas().getFirst()))) {
                 if (this.baseRank.get(0).size() > 1) {
-                    // System.out.println("It does!");
-                    // System.out.println(
-                    // "Each possible refinement's first formula is subject to removal, and at each
-                    // check each subsequent formula is removed until no more removals can be made.
-                    // The refinements contain:"
-                    // + this.baseRank.get(0).toString());
                     Object[] c = this.baseRank.get(0).toArray();
                     ArrayList<ArrayList<Object>> rankSet = new ArrayList<>();
 
@@ -97,15 +114,8 @@ public class LexicographicNaiveReasoner implements DefeasibleReasoner{
                                 }
                             }
                             this.baseRank.set(0, tempSet);
-                            // System.out.println("tempSet"+tempSet.toString());
                             if (!classicalReasoner.query(Utils.combine(this.baseRank),
                                     new Negation(formula.getFormulas().getFirst()))) {
-                                // System.out.println(
-                                // (new Negation(((Implication) formula).getFormulas().getFirst())).toString()
-                                // + " is not entailed by this refinement.");
-                                // System.out.println("We now check whether or not the formula" +
-                                // formula.toString()
-                                // + " is entailed by " + combine(this.baseRank).toString());
                                 if (classicalReasoner.query(Utils.combine(this.baseRank), formula)) {
                                     return true;
                                 } else {
@@ -115,45 +125,31 @@ public class LexicographicNaiveReasoner implements DefeasibleReasoner{
                             }
                         }
                     }
-                    // System.out.println("The remaining statements in our refined ranking do entail
-                    // "
-                    // + (new Negation(((Implication) formula).getFormulas().getFirst())).toString()
-                    // + ". We carry on by removing the top rank.");
                     this.baseRank.remove(0);
                 } else {
-                    // System.out.println("It does! So we remove the top rank.");
                     this.baseRank.remove(0);
                 }
             } else {
-                // System.out.println("It does not!");
-                // System.out.println("We now check whether or not the formula " +
-                // formula.toString() + " is entailed by "
-                // + combine(this.baseRank).toString());
                 if (classicalReasoner.query(Utils.combine(this.baseRank), formula)) {
                     return true;
                 } else {
-                    // System.out.println("The formula " + formula.toString() + " is not entailed by
-                    // "
-                    // + combine(this.baseRank).toString());
                     return false;
                 }
             }
         }
-        // Since we do not check the refinements of the infinite rank
-        // System.out.println("We now check whether or not the formula " +
-        // formula.toString() + " is entailed by "
-        // + combine(this.baseRank).toString());
         if (classicalReasoner.query(Utils.combine(this.baseRank), formula)) {
             return true;
         } else {
-            // System.out.println(
-            // "The formula " + formula.toString() + " is not entailed by " +
-            // combine(this.baseRank).toString());
             return false;
         }
-
     }
 
+    /**
+     * Query a propositional formula
+     * 
+     * @param formula The formula to query
+     * @return Whether the query is entailed
+     */
     @Override
     public boolean queryPropositional(PlFormula formula){
         if(this.baseRank == null) throw new MissingRanking("Base rank has not been constructed.");

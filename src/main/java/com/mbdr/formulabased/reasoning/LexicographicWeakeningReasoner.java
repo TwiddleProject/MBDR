@@ -1,21 +1,14 @@
 package com.mbdr.formulabased.reasoning;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.tweetyproject.logics.pl.parser.PlParser;
 import org.tweetyproject.logics.pl.reasoner.SatReasoner;
 import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.logics.pl.syntax.Negation;
-import org.tweetyproject.logics.pl.syntax.Contradiction;
 import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.syntax.Conjunction;
 import org.tweetyproject.logics.pl.syntax.Disjunction;
@@ -31,35 +24,68 @@ import com.mbdr.formulabased.Utils;
 import com.mbdr.formulabased.construction.BaseRank;
 import com.mbdr.utils.parsing.Parsing;
 
+/**
+ * Lexicographic weakening algorithm in Lexicographic Model-based Defeasible Reasoning
+ */
 public class LexicographicWeakeningReasoner implements DefeasibleReasoner{
 
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
+    /**
+     * Default constructor
+     */
     public LexicographicWeakeningReasoner(){
         this(new BaseRank());
     }
 
+    /**
+     * Parameterized constructor
+     * 
+     * @param baseRank The base rank of the knowledge
+     */
     public LexicographicWeakeningReasoner(ArrayList<PlBeliefSet> baseRank){
         this.baseRank = new ArrayList<>(baseRank);
     }
 
+    /**
+     * Parameterized constructor
+     * 
+     * @param constructor The base rank constructor
+     */
     public LexicographicWeakeningReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.constructor = constructor;
     }
 
+    /**
+     * Build reasoner backend (base rank)
+     * 
+     * @param knowledge The knowledge base
+     */
     @Override
     public void build(DefeasibleKnowledgeBase knowledge){
         if(this.constructor == null) throw new MissingRankConstructor("Cannot build base rank without RankConstructor.");
         this.baseRank = constructor.construct(knowledge);
     }
 
+    /**
+     * Query a propositional formula
+     * 
+     * @param formula The formula to query
+     * @return Whether the query is entailed
+     */
     @Override
     public boolean queryPropositional(PlFormula formula){
         if(this.baseRank == null) throw new MissingRanking("Base rank has not been constructed.");
         return queryDefeasible(Parsing.normalizePropositionalFormula(formula));
     }
 
+    /**
+     * Query a defeasible implication
+     * 
+     * @param formula The defeasible implication
+     * @return Whether the query is entailed
+     */
     @Override
     public boolean queryDefeasible(Implication formula){
         if(this.baseRank == null) throw new MissingRanking("Base rank has not been constructed.");
@@ -89,6 +115,13 @@ public class LexicographicWeakeningReasoner implements DefeasibleReasoner{
         return classicalReasoner.query(weakenedSet, formula);
     }
 
+    /**
+     * Creates a formula consisting of the disjunction of the conjuction of elements
+     * in each subset
+     * 
+     * @param subsets The subsets to combine
+     * @return The combined formula
+     */
     public static PlFormula conjunctionDisjunction(Set<PlBeliefSet> subsets){
         Set<PlFormula> conjunctions = new HashSet<>();
         for(PlBeliefSet subset : subsets){
@@ -97,6 +130,12 @@ public class LexicographicWeakeningReasoner implements DefeasibleReasoner{
         return new Disjunction(conjunctions);
     }
 
+    /**
+     * Generates all subsets of knowledge ordered by size descending
+     * 
+     * @param defeasibleKnowledge The knowledge
+     * @return The ordered subsets
+     */
     public static ArrayList<Set<PlBeliefSet>> orderedSubsets(PlBeliefSet defeasibleKnowledge){
         int n = defeasibleKnowledge.size();
         ArrayList<Set<PlBeliefSet>> subsets = new ArrayList<>(n-1);
@@ -122,6 +161,12 @@ public class LexicographicWeakeningReasoner implements DefeasibleReasoner{
         return subsets;
     }
 
+    /**
+     * Wrapper for ordered subsets of a defeasible knowledge base
+     * 
+     * @param knowledge The knowledge base
+     * @return The ordered subsets of defeasible implications
+     */
     public static ArrayList<Set<PlBeliefSet>> orderedSubsets(DefeasibleKnowledgeBase knowledge){
         return orderedSubsets(knowledge.getDefeasibleKnowledge());
     }
