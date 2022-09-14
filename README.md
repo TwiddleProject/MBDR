@@ -47,6 +47,11 @@ Scripts for graphing construction and entailment results are included in the `sc
 Install the required modules before running:
 `pip install -r requirement.txt`
 
+### Javadoc Generation
+
+To generate the javadocs, run the following command in a Linux terminal/shell:
+`javadoc -sourcepath ./src/main/java/com/mbdr -d ./docs -classpath target/MBDR-1.0.0-jar-with-dependencies.jar $(find ./src/main/java/com/mbdr/ -name *.java)`
+
 ## More Information
 
 Visit the project website: https://twiddleproject.com, for more information.
