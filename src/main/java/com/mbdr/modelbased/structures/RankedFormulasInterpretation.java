@@ -29,7 +29,8 @@ public class RankedFormulasInterpretation {
     /**
      * Constructor to allow specification of number of ranks - all of which default to null since no representative
      * formulas have yet been assigned
-     * @param ranks
+     * 
+     * @param ranks The number of ranks
      */
     public RankedFormulasInterpretation(int ranks) {
         this.ranks = new ArrayList<>();
@@ -40,7 +41,8 @@ public class RankedFormulasInterpretation {
 
     /**
      * Constructor to allow the flexible assignment of the entire ArrayList of ranks as part of initialisation
-     * @param ranks
+     * 
+     * @param ranks The list of ranks
      */
     public RankedFormulasInterpretation(ArrayList<PlFormula> ranks) {
         this.ranks = new ArrayList<>(ranks);
@@ -49,7 +51,7 @@ public class RankedFormulasInterpretation {
     /**
      * Get the number of finite ranks
      * 
-     * @return
+     * @return The number of finite ranks
      */
     public int getRankCount() {
         return this.ranks.size() - 1;
@@ -58,8 +60,8 @@ public class RankedFormulasInterpretation {
     /**
      * Get the formula on the specified finite rank index
      * 
-     * @param index - the finite rank index
-     * @return
+     * @param index The finite rank index
+     * @return The rank
      */
     public PlFormula getRank(int index) {
         if (index >= this.ranks.size() - 1 || index < 0) {
@@ -71,8 +73,8 @@ public class RankedFormulasInterpretation {
     /**
      * Set the formula for the specified finite rank index
      * 
-     * @param index       - the finite rank index
-     * @param rankFormula - the rank formula
+     * @param index The finite rank index
+     * @param rankFormula The rank formula
      */
     public void setRank(int index, PlFormula rankFormula) {
         if (index >= this.ranks.size() - 1 || index < 0) {
@@ -84,7 +86,7 @@ public class RankedFormulasInterpretation {
     /**
      * Get the formula on the infinite rank
      * 
-     * @return
+     * @return The infinite rank
      */
     public PlFormula getInfiniteRank() {
         return this.ranks.get(this.ranks.size() - 1);
@@ -93,7 +95,7 @@ public class RankedFormulasInterpretation {
     /**
      * Set the formula for the infinite rank
      * 
-     * @param rankFormula
+     * @param rankFormula The formula
      */
     public void setInfiniteRank(PlFormula rankFormula) {
         this.ranks.set(this.ranks.size() - 1, rankFormula);
@@ -102,7 +104,7 @@ public class RankedFormulasInterpretation {
     /**
      * Add a new empty (null) finite rank below the infinite rank
      * 
-     * @return
+     * @return The index of the empty rank
      */
     public int addRank() {
         int position = this.getRankCount();
@@ -114,8 +116,8 @@ public class RankedFormulasInterpretation {
      * Add a new finite rank below the infinite rank containing the specified
      * formula
      * 
-     * @param rankFormula
-     * @return
+     * @param rankFormula The formula
+     * @return The index at which the formula was inserted
      */
     public int addRank(PlFormula rankFormula) {
         int position = this.getRankCount();
@@ -126,7 +128,7 @@ public class RankedFormulasInterpretation {
     /**
      * Add a new empty (null) finite rank at the specified index
      * 
-     * @param index
+     * @param index The index
      */
     public void addRank(int index) {
         if (index >= this.ranks.size() - 1 || index < 0) {
@@ -138,8 +140,8 @@ public class RankedFormulasInterpretation {
     /**
      * Add new rank containing the specified formula at the specified index
      * 
-     * @param index
-     * @param rankFormula
+     * @param index The index
+     * @param rankFormula The formula
      */
     public void addRank(int index, PlFormula rankFormula) {
         if (index >= this.ranks.size() - 1 || index < 0) {
@@ -178,7 +180,7 @@ public class RankedFormulasInterpretation {
     /**
      * Returns the string representation of the RankedFormulasInterpretation in the usual format - a number of discrete
      * levels or ranks.
-     * @return
+     * @return The string representation
      */
     public String toString() {
         String template = "%-3s:\t%s\n";
