@@ -14,14 +14,16 @@ import org.tweetyproject.logics.pl.sat.Sat4jSolver;
 import org.tweetyproject.logics.pl.sat.SatSolver;
 import org.tweetyproject.logics.pl.reasoner.*;
 
+/**
+ * This is an implementation of the BaseRank algorithm.
+ */
 public class BaseRank implements RankConstructor<ArrayList<PlBeliefSet>> {
 
+
     /**
-     * Standard, unoptimised BaseRank algorithm implementation
-     * 
-     * @param KB_C
-     * @param KB_D
-     * @return
+     * Constructs the base ranking of a given defeasible knowledge base.
+     * @param knowledge - defeasible knowledge base
+     * @return base ranking of the knowledge base formulas in the form of an ArrayList of TweetProject PlBeliefSets
      */
     public ArrayList<PlBeliefSet> construct(DefeasibleKnowledgeBase knowledge) {
         SatSolver.setDefaultSolver(new Sat4jSolver());
