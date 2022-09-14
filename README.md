@@ -1,6 +1,6 @@
-# Model-based Defeasible Reasoner
+# Model-based Defeasible Reasoning Platform
 
-Provides entailment checking services for Rational and Lexicographic Closure of a knowledge base using ranked models. Construction of these models and entailment checking is benchmarked against exisiting formula-based approaches.
+A platform for implementing and benchmarking defeasible reasoning algorithms, including current approaches for rational and lexicographic closure and new model-based implementations for rational closure, Lehmann's lexicographic closure, and Casini et al.'s count-based lexicographic closure.
 
 ## Requirements
 
@@ -14,16 +14,29 @@ To build the project, run:
 
 ## Usage
 
-To execute the application, run:
+*Note*: Knowledge bases should be placed in the `data/` directory.
+
+### Testing
+
+To run queries on knowledge bases using all the built-in reasoning services, excute the following command:
 ```java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.App <filename> <query>```
 
-To execute the benchmarks, run:
+E.g.
+```java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.App "penguins.txt" "p|~f"```
+
+### Benchmarking
+
+To run benchmarks for the implemented algorithms, run the following commands:
 
 Construction:
 ```java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.benchmarking.BenchmarkConstruction```
 
 Entailment:
 ```java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.benchmarking.BenchmarkEntailment```
+
+## More Information
+
+Visit the project website: https://twiddleproject.com, for more information.
 
 ## Authors
 - Jaron Cohen
