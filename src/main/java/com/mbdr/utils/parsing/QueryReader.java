@@ -9,8 +9,6 @@ import org.tweetyproject.commons.ParserException;
 import com.mbdr.common.structures.DefeasibleFormulaCollection;
 import com.mbdr.common.structures.DefeasibleQuerySet;
 
-//TODO: refactor to no longer require fixed path to allow for reading from different directories - e.g. KB files and query files may be in different directories
-
 /**
  * Class used for reading in query set files in which each line of the text file is expected to contain a query in the
  * form of a single formula
