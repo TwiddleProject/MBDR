@@ -36,10 +36,19 @@ public class RationalDirectReasoner implements DefeasibleReasoner{
         this(new BaseRank());
     }
 
+    /**
+     * Parameterised constructor
+     * @param constructor
+     */
     public RationalDirectReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.constructor = constructor;
     }
 
+    /**
+     * Parameterised constructor
+     * @param baseRank
+     * @param knowledge
+     */
     public RationalDirectReasoner(ArrayList<PlBeliefSet> baseRank, DefeasibleKnowledgeBase knowledge){
         this.baseRank = baseRank;
         this.knowledge = knowledge;
