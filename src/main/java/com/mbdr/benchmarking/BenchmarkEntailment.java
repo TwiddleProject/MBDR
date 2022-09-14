@@ -121,20 +121,14 @@ public class BenchmarkEntailment {
         System.out.println("-----------------------------------------");
 
         String[] reasonerClassNames = {
-                // Formula-based
-                // "com.mbdr.formulabased.reasoning.RationalRegularReasoner",
-                "com.mbdr.formulabased.reasoning.RationalDirectReasoner",
-                // "com.mbdr.formulabased.reasoning.RationalIndexingReasoner",
-                // "com.mbdr.formulabased.reasoning.RationalBinaryReasoner",
-                // "com.mbdr.formulabased.reasoning.RationalBinaryIndexingReasoner",
-                // "com.mbdr.formulabased.reasoning.LexicographicNaiveReasoner",
-                // "com.mbdr.formulabased.reasoning.LexicographicPowersetReasoner",
-                // "com.mbdr.formulabased.reasoning.LexicographicBinaryReasoner",
-                // "com.mbdr.formulabased.reasoning.LexicographicTernaryReasoner",
-                // "com.mbdr.modelbased.reasoning.RationalModelReasoner",
-                // "com.mbdr.modelbased.reasoning."
-                // "com.mbdr.modelbased.reasoning.LexicographicModelReasoner",
-                "com.mbdr.modelbased.reasoning.RationalCumulativeFormulaModelReasoner"
+                "com.mbdr.formulabased.reasoning.LexicographicNaiveReasoner",
+                "com.mbdr.formulabased.reasoning.LexicographicPowersetReasoner",
+                "com.mbdr.formulabased.reasoning.LexicographicBinaryReasoner",
+                "com.mbdr.formulabased.reasoning.LexicographicTernaryReasoner",
+                "com.mbdr.formulabased.reasoning.LexicographicWeakeningReasoner",
+                "com.mbdr.modelbased.reasoning.LexicographicCountModelRank",
+                "com.mbdr.modelbased.reasoning.LexicographicCountFormulaRank",
+                "com.mbdr.modelbased.reasoning.LexicographicCountCumulativeFormulaRank"
         };
 
         String[] knowledgeBaseFileNames = new String[0];

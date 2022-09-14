@@ -23,7 +23,7 @@ import com.mbdr.common.structures.*;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class BenchmarkConstruction {
 
-    public final static String knowledgeBaseDir = "data/benchmarking/cumulative/knowledge_bases/";
+    public final static String knowledgeBaseDir = "data/benchmarking/cumulative_lexicographic";
 
     @State(Scope.Benchmark) // all threads running the benchmark share the same state object.
     public static class BenchmarkState {
@@ -93,8 +93,9 @@ public class BenchmarkConstruction {
         System.out.println("-----------------------------------------");
 
         String[] constructorClassNames = {
-                "com.mbdr.formulabased.construction.BaseRank",
-                "com.mbdr.modelbased.construction.CumulativeFormulaRank"
+                "com.mbdr.modelbased.construction.LexicographicCountModelRank",
+                "com.mbdr.modelbased.construction.LexicographicCountFormulaRank",
+                "com.mbdr.modelbased.construction.LexicographicCountCumulativeFormulaRank",
         };
 
         String[] knowledgeBaseFileNames = new String[0];
@@ -107,7 +108,7 @@ public class BenchmarkConstruction {
                 .param("constructorClassName", constructorClassNames)
                 .param("knowledgeBaseFileName", knowledgeBaseFileNames)
                 .resultFormat(ResultFormatType.CSV)
-                .result("results/construction.csv")
+                .result("results/lexicographic_construction.csv")
                 .build();
 
         Collection<RunResult> results = new Runner(benchmarkOptions).run();
