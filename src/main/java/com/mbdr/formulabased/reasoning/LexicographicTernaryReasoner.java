@@ -23,6 +23,10 @@ import org.tweetyproject.logics.pl.reasoner.*;
 
 import java.util.*;
 
+/**
+ * Weakening lexicographic algorithm with ternary search optimization.
+ * Implementation from SCADR project (2021).
+ */
 public class LexicographicTernaryReasoner implements DefeasibleReasoner{
 
     private static SatReasoner classicalReasoner = new SatReasoner();
@@ -33,26 +37,50 @@ public class LexicographicTernaryReasoner implements DefeasibleReasoner{
     private ArrayList<PlBeliefSet> baseRank;
     private RankConstructor<ArrayList<PlBeliefSet>> constructor;
 
+    /**
+     * Default constructor
+     */
     public LexicographicTernaryReasoner(){
         this(new BaseRank());
     }
 
+    /**
+     * Parameterized constructor
+     * 
+     * @param baseRank The base rank of the knowledge
+     */
     public LexicographicTernaryReasoner(ArrayList<PlBeliefSet> baseRank){
         this.baseRank = baseRank;
         this.constructor = null;
     }
 
+    /**
+     * Parameterized constructor
+     * 
+     * @param constructor The base rank constructor
+     */
     public LexicographicTernaryReasoner(RankConstructor<ArrayList<PlBeliefSet>> constructor){
         this.baseRank = null;
         this.constructor = constructor;
     }
 
+    /**
+     * Build reasoner backend (base rank)
+     * 
+     * @param knowledge The knowledge base
+     */
     @Override
     public void build(DefeasibleKnowledgeBase knowledge){
         if(this.constructor == null) throw new MissingRankConstructor("Cannot build base rank without RankConstructor");
         this.baseRank = constructor.construct(knowledge);
     }
 
+    /**
+     * Query a defeasible implication
+     * 
+     * @param defeasibleImplication The defeasible implication
+     * @return Whether the query is entailed
+     */
     @Override
     public boolean queryDefeasible(Implication defeasibleImplication){
         if(this.baseRank == null) throw new MissingRanking("Base rank of formulas has not been constructed.");
@@ -61,6 +89,12 @@ public class LexicographicTernaryReasoner implements DefeasibleReasoner{
         return this.queryDefeasibleTernary(baseRankCopy, defeasibleImplication, 0, baseRankCopy.length);
     }
 
+    /**
+     * Query a propositional formula
+     * 
+     * @param formula The formula to query
+     * @return Whether the query is entailed
+     */
     @Override
     public boolean queryPropositional(PlFormula formula){
         if(this.baseRank == null) throw new MissingRanking("Base rank has not been constructed.");
@@ -134,8 +168,6 @@ public class LexicographicTernaryReasoner implements DefeasibleReasoner{
      
             Object[] rank = rankedKB[rankFromWhichToRemove].toArray();
           
-            // LexicographicClosurePowerset p = new LexicographicClosurePowerset();
-
             List<Set<Object>> sortedRank = LexicographicPowersetReasoner.sortList(rank);
 
             ArrayList<String> refinements = new ArrayList<>(LexicographicPowersetReasoner.combineRefine(sortedRank));
@@ -154,12 +186,6 @@ public class LexicographicTernaryReasoner implements DefeasibleReasoner{
                 if (!classicalReasoner.query(
                         Utils.combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)),
                         new Negation(implication.getFormulas().getFirst()))) {
-                           
-               //     System.out.println((new Negation(((Implication) formula).getFormulas().getFirst())).toString()
-                 //           + " is not entailed by this refinement.");
-                  //  System.out.println("We now check whether or not the formula" + formula.toString()
-                  //          + " is entailed by "
-                   //         + combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)).toString());
                    counter++;
                     if (classicalReasoner.query(
                             Utils.combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)), implication)) {
@@ -176,11 +202,6 @@ public class LexicographicTernaryReasoner implements DefeasibleReasoner{
             return true;
             //Since we do not check the refinements of the infinite rank
         } else if (rankFromWhichToRemove + 1 == rankedKB.length) {
-
-         //   System.out.println("There would then be no ranks remaining other than the infinite rank.");
-          //  System.out.println("We now check whether or not the formula " + formula.toString() + " is entailed by "
-             //       + combine(rankedKB).toString());
-   
             counter++;
             if (classicalReasoner.query(Utils.combine(Arrays.copyOfRange(rankedKB, rankFromWhichToRemove, rankedKB.length)),
                     implication)) {
