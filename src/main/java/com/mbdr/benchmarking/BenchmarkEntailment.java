@@ -131,13 +131,11 @@ public class BenchmarkEntailment {
                 // "com.mbdr.formulabased.reasoning.LexicographicPowersetReasoner",
                 // "com.mbdr.formulabased.reasoning.LexicographicBinaryReasoner",
                 // "com.mbdr.formulabased.reasoning.LexicographicTernaryReasoner",
-                // Model-based
                 // "com.mbdr.modelbased.reasoning.RationalModelReasoner",
+                // "com.mbdr.modelbased.reasoning."
                 // "com.mbdr.modelbased.reasoning.LexicographicModelReasoner",
                 "com.mbdr.modelbased.reasoning.RationalCumulativeFormulaModelReasoner"
         };
-
-        // TODO Add default constructors (engines) for each reasoner
 
         String[] knowledgeBaseFileNames = new String[0];
         knowledgeBaseFileNames = new FileReader(knowledgeBaseDir)
