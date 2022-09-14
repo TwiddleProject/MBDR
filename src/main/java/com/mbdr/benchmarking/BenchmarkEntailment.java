@@ -41,8 +41,8 @@ import com.mbdr.modelbased.structures.RankedInterpretation;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class BenchmarkEntailment {
 
-    public final static String knowledgeBaseDir = "data/benchmarking/knowledge_bases/";
-    public final static String querySetDir = "data/benchmarking/query_sets/";
+    public final static String knowledgeBaseDir = "data/benchmarking/cumulative/knowledge_bases/";
+    public final static String querySetDir = "data/benchmarking/cumulative/query_sets/";
 
     @State(Scope.Benchmark) // all threads running the benchmark share the same state object.
     public static class BenchmarkState {
@@ -57,7 +57,7 @@ public class BenchmarkEntailment {
         DefeasibleQuerySet querySet;
         DefeasibleReasoner reasoner;
 
-        @Setup(Level.Trial) //The method is called once for each full run of the benchmark
+        @Setup(Level.Trial) // The method is called once for each full run of the benchmark
         public void setup() {
             System.out.println("***** State initialization for benchmark trial *****");
 
@@ -96,17 +96,17 @@ public class BenchmarkEntailment {
      * surrounding infrastructure is provided by the harness itself.
      */
 
-    
     @Benchmark
-    @Fork(value = 2) // 2 trials in total
-    @Measurement(iterations = 10, time = 1) // 10 iterations
-    @Warmup(iterations = 5, time = 1) // 5 iterations of warmup
-    public void entailment(BenchmarkState benchmarkState, Blackhole blackhole){
+    @Fork(value = 1) // 2 trials in total
+    @Measurement(iterations = 2, time = 1) // 10 iterations
+    @Warmup(iterations = 1, time = 1) // 5 iterations of warmup
+    public void entailment(BenchmarkState benchmarkState, Blackhole blackhole) {
 
         for (PlFormula query : benchmarkState.querySet.getDefeasibleKnowledge()) {
             boolean queryAnswer = benchmarkState.reasoner.queryDefeasible((Implication) query);
             blackhole.consume(queryAnswer);
         }
+
         for (PlFormula query : benchmarkState.querySet.getPropositionalKnowledge()) {
             boolean queryAnswer = benchmarkState.reasoner.queryPropositional(query);
             blackhole.consume(queryAnswer);
@@ -120,28 +120,29 @@ public class BenchmarkEntailment {
         System.out.println("Running benchmark harness...");
         System.out.println("-----------------------------------------");
 
-        String[] reasonerClassNames={
-            //Formula-based
-            "com.mbdr.formulabased.reasoning.RationalRegularReasoner",
-            "com.mbdr.formulabased.reasoning.RationalDirectReasoner",
-            "com.mbdr.formulabased.reasoning.RationalIndexingReasoner",
-            "com.mbdr.formulabased.reasoning.RationalBinaryReasoner",
-            "com.mbdr.formulabased.reasoning.RationalBinaryIndexingReasoner",
-            "com.mbdr.formulabased.reasoning.LexicographicNaiveReasoner",
-            "com.mbdr.formulabased.reasoning.LexicographicPowersetReasoner",
-            "com.mbdr.formulabased.reasoning.LexicographicBinaryReasoner",
-            "com.mbdr.formulabased.reasoning.LexicographicTernaryReasoner",
-            // Model-based
-            "com.mbdr.modelbased.reasoning.RationalModelReasoner",
-            "com.mbdr.modelbased.reasoning.LexicographicModelReasoner"
+        String[] reasonerClassNames = {
+                // Formula-based
+                // "com.mbdr.formulabased.reasoning.RationalRegularReasoner",
+                "com.mbdr.formulabased.reasoning.RationalDirectReasoner",
+                // "com.mbdr.formulabased.reasoning.RationalIndexingReasoner",
+                // "com.mbdr.formulabased.reasoning.RationalBinaryReasoner",
+                // "com.mbdr.formulabased.reasoning.RationalBinaryIndexingReasoner",
+                // "com.mbdr.formulabased.reasoning.LexicographicNaiveReasoner",
+                // "com.mbdr.formulabased.reasoning.LexicographicPowersetReasoner",
+                // "com.mbdr.formulabased.reasoning.LexicographicBinaryReasoner",
+                // "com.mbdr.formulabased.reasoning.LexicographicTernaryReasoner",
+                // Model-based
+                // "com.mbdr.modelbased.reasoning.RationalModelReasoner",
+                // "com.mbdr.modelbased.reasoning.LexicographicModelReasoner",
+                "com.mbdr.modelbased.reasoning.RationalCumulativeFormulaModelReasoner"
         };
 
         // TODO Add default constructors (engines) for each reasoner
 
         String[] knowledgeBaseFileNames = new String[0];
         knowledgeBaseFileNames = new FileReader(knowledgeBaseDir)
-                                .getFileNames()
-                                .toArray(knowledgeBaseFileNames);
+                .getFileNames()
+                .toArray(knowledgeBaseFileNames);
 
         Options benchmarkOptions = new OptionsBuilder()
                 .include("^com.mbdr.benchmarking.BenchmarkEntailment.*")
