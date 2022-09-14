@@ -15,7 +15,9 @@ import com.mbdr.modelbased.*;
 import com.mbdr.modelbased.construction.LexicographicCountModelRank;
 import com.mbdr.modelbased.construction.LexicographicCountFormulaRank;
 import com.mbdr.modelbased.construction.ModelRank;
+import com.mbdr.modelbased.construction.CumulativeFormulaRank;
 import com.mbdr.modelbased.construction.FormulaRank;
+import com.mbdr.modelbased.construction.LexicographicCountCumulativeFormulaRank;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentFormulaReasoner;
 import com.mbdr.modelbased.reasoning.MinimalRankedEntailmentReasoner;
 import com.mbdr.modelbased.structures.RankedFormulasInterpretation;
@@ -69,6 +71,8 @@ public class AppTest
             RankedInterpretation lexicographicClosureModel = new LexicographicCountModelRank().construct(knowledgeBase);
             RankedFormulasInterpretation rationalClosureFormulaModel = new FormulaRank().construct(knowledgeBase);
             RankedFormulasInterpretation lexicographicClosureFormulaModel = new LexicographicCountFormulaRank().construct(knowledgeBase);
+            RankedFormulasInterpretation rationalClosureCumulativeFormulaModel = new CumulativeFormulaRank().construct(knowledgeBase);
+            RankedFormulasInterpretation lexicographicClosureCumulativeFormulaModel = new LexicographicCountCumulativeFormulaRank().construct(knowledgeBase);
 
             DefeasibleReasoner[] rationalClosureCheckers = {
                 new RationalDirectReasoner(baseRank, knowledgeBase),
@@ -77,7 +81,8 @@ public class AppTest
                 new RationalBinaryReasoner(baseRank),
                 new RationalBinaryIndexingReasoner(baseRank),
                 new MinimalRankedEntailmentReasoner(rationalClosureModel),
-                new MinimalRankedEntailmentFormulaReasoner(rationalClosureFormulaModel)
+                new MinimalRankedEntailmentFormulaReasoner(rationalClosureFormulaModel),
+                new MinimalRankedEntailmentFormulaReasoner(rationalClosureCumulativeFormulaModel)
             };
 
             DefeasibleReasoner[] lexicographicClosureCheckers = {
@@ -86,7 +91,8 @@ public class AppTest
                 new LexicographicBinaryReasoner(baseRank),
                 new LexicographicTernaryReasoner(baseRank),
                 new MinimalRankedEntailmentReasoner(lexicographicClosureModel),
-                new MinimalRankedEntailmentFormulaReasoner(lexicographicClosureFormulaModel)
+                new MinimalRankedEntailmentFormulaReasoner(lexicographicClosureFormulaModel),
+                new MinimalRankedEntailmentFormulaReasoner(lexicographicClosureCumulativeFormulaModel)
             };
 
             // For each type of entailment checker
