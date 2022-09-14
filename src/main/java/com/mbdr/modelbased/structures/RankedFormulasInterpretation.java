@@ -9,6 +9,11 @@ import org.tweetyproject.logics.pl.syntax.PlSignature;
 import com.mbdr.common.exceptions.RankOutOfBounds;
 import com.mbdr.formulabased.Utils;
 
+
+/**
+ * This class represents a ranked formulas interpretation, which we refer to within our respective papers. Each rank
+ * now contains a representative formula instead of propositional worlds/valuations.
+ */
 public class RankedFormulasInterpretation {
 
     // The RankedFormulasInterpretation itself is stored in terms of an ArrayList of TweetyProject PlFormulas
