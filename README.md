@@ -34,6 +34,19 @@ Construction:
 Entailment:
 ```java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.benchmarking.BenchmarkEntailment```
 
+### Knowledge Base Generation
+
+Knowledge base generation requires the latest version of scala.
+
+The benchmarking data set was generated using the Knowledge Base Generation tool from SCADR (2021). It can be generated using `KBGenerationScript.sh` in the `scripts/knowledge_base_generation/` directory.
+
+### Graphing
+
+Scripts for graphing construction and entailment results are included in the `scripts/graphing/` directory.
+
+Install the required modules before running:
+`pip install -r requirement.txt`
+
 ## More Information
 
 Visit the project website: https://twiddleproject.com, for more information.
