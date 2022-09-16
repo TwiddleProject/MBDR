@@ -27,6 +27,10 @@ public class Server {
             config.enableCorsForAllOrigins();
         }).start(getHerokuAssignedPort());
 
+        app.get("/api", ctx -> {
+            ctx.html("TwiddleProject API");
+        });
+
         app.post("/rankedmodelrc", ctx -> {
             System.out.println("Body:" + ctx.body());
             String data = "";
@@ -76,7 +80,7 @@ public class Server {
         if (herokuPort != null) {
             return Integer.parseInt(herokuPort);
         }
-        return 8080;
+        return 5000;
     }
 
 }
