@@ -20,7 +20,7 @@ jobs:
         run: mvn assembly:assembly -DdescriptorId=jar-with-dependencies
   deploy:
     needs: build
-    name: Deploy
+    name: deploy
     runs-on: ubuntu-latest
 
     steps:
