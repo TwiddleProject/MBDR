@@ -22,10 +22,24 @@ import org.json.*;
 
 public class Server {
 
+    private static final int DEFAULT_PORT = 5000;
+    
+    private static int getPort() {
+        String envPort = System.getenv("PORT");
+        if (envPort != null) {
+            return Integer.parseInt(envPort);
+        }
+        return DEFAULT_PORT;
+    }
+
     public static void main(String[] args) {
         Javalin app = Javalin.create(config -> {
             config.enableCorsForAllOrigins();
-        }).start(getHerokuAssignedPort());
+        }).start(getPort());
+
+        app.get("/", ctx -> {
+            ctx.html("TwiddleProject Home");
+        });
 
         app.get("/api", ctx -> {
             ctx.html("TwiddleProject API");
@@ -73,14 +87,6 @@ public class Server {
             
             ctx.result(result);
         });
-    }
-
-    private static int getHerokuAssignedPort() {
-        String herokuPort = System.getenv("PORT");
-        if (herokuPort != null) {
-            return Integer.parseInt(herokuPort);
-        }
-        return 5000;
     }
 
 }
