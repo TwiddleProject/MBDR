@@ -1,1 +1,1 @@
-web: java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.web.Server
+web: java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.web.WebApp
