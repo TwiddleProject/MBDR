@@ -34,6 +34,13 @@ Construction:
 Entailment:
 ```java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.benchmarking.BenchmarkEntailment```
 
+
+### Web Server
+
+To run the Javalin web application:
+
+```java -cp target/MBDR-1.0.0-jar-with-dependencies.jar com.mbdr.web.WebApp```
+
 ### Knowledge Base Generation
 
 Knowledge base generation requires the latest version of scala.
