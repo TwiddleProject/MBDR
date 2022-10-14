@@ -44,11 +44,11 @@
           <h1>Model Based Defeasible Reasoning</h1>
           <p  style="background: rgb(42,85,136);background: linear-gradient(162deg, rgba(42,85,136,1) 35%, rgba(57,123,180,1) 100%); -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;">
-            An investigation of model-based algorithms for formalizing human reasoning patterns.
+            <b>An investigation of model-based algorithms for formalizing human reasoning patterns.</b>
           </p>
           <ul class="actions">
-            <li><a href="#overview" class="button primary scrolly "><i class="fa fa-arrow-circle-down" style="color: White; margin-right: 1em;"></i>Learn More</a></li>
-            <li><a href="/" class="button scrolly"><i class="fa fa-globe" style="color: Black; margin-right: 1em;"></i>Live Demo</a></li>
+            <li><a href="#overview" class="button scrolly primary hvr-icon-hang"><i class="fa fa-arrow-circle-down hvr-icon" style="color: White; margin-right: 1em;"></i>Learn More</a></li>
+            <li><a href="/" class="button scrolly hvr-icon-grow"><i class="fa fa-globe hvr-icon" style="color: Black; margin-right: 1em;"></i>Live Demo</a></li>
           </ul>
         </div>
       </section>
@@ -134,12 +134,18 @@
           <div class="row">
             <div class="">
               <p>
-                Some aims.
+                The project attempts to address the gap in existing literature pertaining to the lack of algorithms, based on ranked-model semantics, for computing the rational and lexicographic closure of knowledge bases.
               </p>
 
             <div class="">
               <p>
-                blah blah
+                Hence, for both rational and lexicographic closure our aims were to define abstract <b>model representations</b>, <b>construction algorithms</b> for constructing such representations for given knowledge bases and <b></b>, which use the constrcuted models to answer entailment queries.
+              </p>
+            </div>
+
+            <div class="">
+              <p>
+                Furthermore, we aimed to analyse and compare the algorithms' theoretical and execution time performance with that of existing ranked-formula based approaches in the literature.
               </p>
             </div>
           </div>
@@ -151,14 +157,58 @@
         <div class="inner">
           <h2 >Rational Closure</h2>
           <div class="row">
-            <div class="">
-              <p>
-                Some aims.
-              </p>
 
             <div class="">
               <p>
-                blah blah
+                Three new algorithms for constructing representations of the rational closure ranked models of a given defeasible knowledge base are defined.
+              </p>
+            </div>
+
+            <div class="">
+              <p>
+                The first algorithm, <b>ModelRank</b>, constructs a representation consistent with the abstract definition of ranked models in the literature. 
+              </p>
+            </div>
+
+            <div class="">
+              <p>
+                The second and third algorithms, <b>FormulaRank</b> and <b>CumulativeFormulaRank</b>, construct new compact representations for the ranked models using representative formulas.
+              </p>
+            </div>
+
+            <div class="">
+              <p>
+                Furthermore, as its name suggests, <b>CumulativeFormulaRank</b> produces a new class of representation that we term cumulative due to the nature in which worlds are associated with each rank. <b>CumulativeFormulaRank</b> also links an existing algorithm, <b>RationalClosure</b>, and model-based approaches.
+              </p>
+            </div>
+
+            <div class="">
+              <p>
+                All three algorithms are proven to produce the desired ranked models for computing the rational closure of a given knowledge base.
+              </p>
+            </div>
+
+            <div class="">
+              <p>
+                All three algorithms are implemented, and their execution-time performance is benchmarked against implementations of existing algorithms. 
+              </p>
+            </div>
+
+            <div class="">
+              <p>
+                <b>ModelRank</b> allows for approximately constant time defeasible entailment query checking at the expense of exponential space complexity. 
+              </p>
+            </div>
+
+            <div class="">
+              <p>
+                <b>FormulaRank</b> is shown to be intractable when paired with SAT solver that underlies the library used in the software implementation.
+              </p>
+            </div>
+
+            <div class="">
+              <p>
+                <b>CumulativeFormulaRank</b> shows slightly worse performance than existing algorithms, but this was unexpected and suggested representing ranks as conjunctions of formulas instead of sets may hinder performance.
               </p>
             </div>
           </div>
@@ -169,18 +219,6 @@
       <section id="lexicographicclosure" class="wrapper style1 fade-up">
         <div class="inner">
           <h2 >Lexicographic Closure</h2>
-          <div class="row">
-            <div class="">
-              <p>
-                Some aims.
-              </p>
-
-            <div class="">
-              <p>
-                blah blah
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
