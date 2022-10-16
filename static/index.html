@@ -284,7 +284,69 @@
       <!-- Lexicographic Closure -->
       <section id="lexicographicclosure" class="wrapper style1 fade-up">
         <div class="inner">
-          <h2 >Lexicographic Closure</h2>
+          <h2>Lexicographic Closure</h2>
+          <div class="row">
+            <h3>Introduction</h3>
+            <p>
+              Lexicographic closure is one of many forms of defeasible entailment. It corresponds to a presumptive pattern of reasoning. This philosophical pattern of reasoning is more adventurous in its conclusions than rational closure. 
+            </p>
+            <p>
+              For example, we know that platypuses are an exceptional kind of mammal but lexicographic closure will still allow platypuses to inherit most of the typical properties of mammals while rational closure does not.
+            </p>
+            <p>
+              There are currently two equivalent model-based definitions of lexicographic closure. Both specify how to rank <b>valuations</b>/<b>worlds</b> to produce a specific <b>ranked model</b> of the knowledge base.
+            </p>
+            <h3>
+              Algorithms
+            </h3>
+            <p>
+              As is the case for our rational closure algorithms, we similarly produce 3 algorithms for constructing 3 different representations of the lexicographic ranked model that use the same 2 entailment algorithms as the rational closure representations.
+            </p>
+            <p>
+              The <i>LexicographicModelRank</i> algorithm produces the ranked model directly and is compatible with the <i>ModelSatisfaction</i> algorithm.
+            </p>
+            <p>
+              The <i>LexicographicFormulaRank</i> algorithm uses formulas to represent the worlds on each rank. We adapt the <i>ModelSatisfaction</i> algorithm to produce the <i>FormulaModelSatisfaction</i> algorithm, which uses this new representation. 
+            </p>
+            <p>
+              Finally, the <i>LexicographicCumulativeFormulaRank</i> algorithm constructs a cumulative representation of the ranked worlds using formulas. This representation is compatible with the <i>FormulaModelSatisfaction</i> algorithm.
+            </p>
+            <h3>
+              An Undiscovered Lexicographic Closure
+            </h3>
+            <p>
+              While formulating the cumulative lexicographic closure algorithm, we expected the results to bear close resemblance to the original formula-based algorithm for lexicographic closure, as this was the case for rational closure and its corresponding formula-based algorithm. 
+            </p>
+            <p>
+              However, we notice that the more recent model-based characterization of lexicographic closure, upon which our algorithms are based, is in fact not equivalent to the original lexicographic closure definition. We thus prove that there are <b>two different definitions of lexicographic closure</b> in the literature. 
+            </p>
+            <p>
+              Our algorithms, therefore, correspond to a new count-based form of lexicographic closure. Both definitions constitute refinements of rational closure in that the resulting ranked models preserve the order of the rational closure ranked model but refine preference within ranks. 
+            </p>
+            <div class="flex-container">
+              <div class="flex-item column">
+                <img class="flex-image" style="max-width: 900px;" src="assets/images/lexicographic_different.svg" alt="Different Lexicographic Closures."/>
+              </div>
+            </div>
+            <p>
+              The two distinct definitions correspond to separate patterns of reasoning. While much research has been conducted on the original definition and associated presumptive reasoning pattern, the more recent definition has not been explored at all. 
+            </p>
+            <h3>
+              Results and Future Work
+            </h3>
+            <p>
+              We have produced 3 new algorithms for computing an undiscovered form of lexicographic closure in the literature.
+            </p>
+            <p>
+              While all algorithms belong to the same time complexity class of O(n<sup>2</sup>) in classical entailment checks, <i>LexicographicModelRank</i> is most practical when it comes to space efficiency, requiring the storage of all valuations, while the other algorithms belong to super-exponential space complexity classes. 
+            </p>
+            <p>
+              We prove that the two model-based definitions of lexicographic closure in the literature are in fact not equivalent.
+            </p>
+            <p>
+              Our future work could include the development of similar algorithms for the original lexicographic closure definition. Additionally, we may further explore the newly-discovered lexicographic closure. 
+            </p>
+          </div>
         </div>
       </section>
 
