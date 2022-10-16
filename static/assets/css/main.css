@@ -1,6 +1,33 @@
 @import url(fontawesome-all.min.css);
 @import url("hover-min.css");
 
+:root {
+	--blue: #0BAFF9;
+	--orange: #FF7A00;
+	--red:  #EB5D2D;
+	--purple: #7B61FF;
+}
+
+span.highlight-blue{
+	color: var(--blue);
+	font-weight: bold;
+}
+
+span.highlight-orange{
+	color: var(--orange);
+	font-weight: bold;
+}
+
+span.highlight-red{
+	color: var(--red);
+	font-weight: bold;
+}
+
+span.highlight-purple{
+	color: var(--purple);
+	font-weight: bold;
+}
+
 @font-face {
 	font-family: "Lato";
 	src: url("../webfonts/Lato-Regular.ttf") format('truetype');
@@ -10,8 +37,6 @@
 	font-family: "Inter";
 	src: url("../webfonts/Inter-SemiBold.ttf") format('truetype');
 }
-
-
 
 .flex-container {
     display: flex;
