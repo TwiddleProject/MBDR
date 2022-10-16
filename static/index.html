@@ -71,15 +71,15 @@
               </p>
             <div class="flex-container">
               <div class="flex-item column">
-                <img class="flex-image" src="assets/images/knowledge.svg" alt="Knowledge Example."/>
+                <img class="flex-image" src="assets/images/overview_knowledge.svg" alt="Knowledge Example."/>
                 <i>Knowledge</i>
               </div>
               <div class="flex-item column">
-                <img class="flex-image" src="assets/images/representation.svg" alt="Representation Example."/>
+                <img class="flex-image" src="assets/images/overview_representation.svg" alt="Representation Example."/>
                 <i>Representation</i>
               </div>
               <div class="flex-item column">
-                <img class="flex-image" src="assets/images/reasoning.svg" alt="Reasoning Example."/>
+                <img class="flex-image" src="assets/images/overview_reasoning.svg" alt="Reasoning Example."/>
                 <i>Reasoning</i>
               </div>
             </div>
@@ -96,8 +96,9 @@
           <h2>Background</h2>
           <div class="row">
             <h3>Classical Reasoning</h3>
+            <div>
               <p>
-                Knowledge representation and reasoning is concerned with representing information about the world through formalisms like mathematical logic. We focus on a foundational logic referred to as classical propositional logic.
+                <b>Knowledge representation and reasoning</b> is concerned with representing information about the world through formalisms like mathematical logic. We focus on a foundational logic referred to as <b>classical propositional logic</b>.
               </p>
               <p>
                 Using propositional logic, we can encode the following knowledge:
@@ -106,15 +107,88 @@
                 <ul>
                   <li><span class="highlight-red">mammals give birth to live young</span>,</li>
                   <li><span class="highlight-orange">platypuses are mammals</span> and</li>
-                  <li><span class="highlight-blue">platypuses do not give birth to live young</span>, in a knowledge base.</li>
+                  <li><span class="highlight-blue">platypuses do not give birth to live young</span>, in a <b>knowledge base</b>.</li>
                 </ul>
               </p>
+            </div>
               <div class="flex-container">
                 <div class="flex-item column">
-                  <img class="flex-image" src="assets/images/background_knowledge.svg" alt="Knowledge Base Example."/>
+                  <img class="flex-image" style="max-width: 800px;" src="assets/images/background_knowledge.svg" alt="Knowledge Base Example."/>
                   <i>Platypus Knowledge Base</i>
                 </div>
               </div>
+              <div>
+              <p>
+                But since we know that:
+              </p>
+              <ul>
+                <li><span class="highlight-orange">platypuses are mammals</span> and</li>
+                <li><span class="highlight-red">mammals give birth to live young</span>,</li>
+              </ul>
+              <p>
+                using <b>classical entailment</b> we can conclude from this knowledge that:
+              </p>
+                <ul>
+                  <li><span class="highlight-purple">platypuses give birth to live young</span>!</li>
+                </ul>
+            </div>
+            <div class="flex-container">
+              <div class="flex-item column">
+                <img class="flex-image" style="max-width: 350px;" src="assets/images/background_strange_conclusion.svg" alt="Contradictory Conclusion."/>
+                <i>A Contradictory Conclusion</i>
+              </div>
+            </div>
+            <p>
+              This is a contradiction, as we explicitly state that <span class="highlight-blue">platypuses do not give birth to live young</span>. The only way to resolve this is to conclude that platypuses don’t exist at all (despite the fact that we know they do exist)!
+            </p>
+            <h3>Defeasible Reasoning</h3>
+            <p>
+              It is clear that propositional logic doesn’t always behave in a manner consistent with how we reason as humans. It cannot express <b>typicality</b> where implications are usually true but may have exceptions. Conclusions cannot be <b>retracted</b> even with the addition of new conflicting knowledge (for example, we would not be able to add any statement about platypuses to resolve the above contradiction).
+            </p>
+            <p>
+              <b>Defeasible</b> extensions of propositional logic and classical entailment address these shortcomings and allow for more human-like forms of reasoning. There are two key changes that defeasible reasoning introduces.  
+            </p>
+            <p>
+              First is a new logical operator, similar to classical implications, called <b>twiddle</b>. It is used to convey typical implications, which permit exceptions to the rule.  
+            </p>
+            <div class="flex-container">
+              <div class="flex-item column">
+                <img class="flex-image" style="max-width: 400px;" src="assets/images/background_implication_example.svg" alt="Classical Implication Example."/>
+                <i>Classical Implication</i>
+              </div>
+              <div class="flex-item column">
+                <img class="flex-image" style="max-width: 400px;" src="assets/images/background_twiddle_example.svg" alt="Defeasible Implication Example."/>
+                <i>Defeasible Implication</i>
+              </div>
+            </div>
+            <p>
+              Second is are new definitions of entailment termed <b>defeasible entailment relations</b>. These define how consequences should be derived from a defeasible knowledge base. Unlike classical entailment, there is not an obvious way to define defeasible entailment. Instead, many forms of defeasible entailment are defined to represent several distinct but valid patterns of reasoning. 
+            </p>
+            <p>
+              We can now reformulate our knowledge about platypuses to produce more reasonable conclusions by specifying that <span class="highlight-red">mammals typically give birth to live young</span>.
+            </p>
+            <div class="flex-container">
+              <div class="flex-item column">
+                <img class="flex-image" style="max-width: 800px;" src="assets/images/background_defeasible_knowledge.svg" alt="Updated Knowledge Base Example using Defeasible Knowledge."/>
+                <i>Modified Knowledge Base</i>
+              </div>
+            </div>
+            <p>
+              With this change, most forms of defeasible entailment will no longer conclude that platypuses give birth to live young. Instead, the stronger statement that <span class="highlight-blue">platypuses do not give birth to live young</span> causes such a conclusion to be retracted/revised.
+            </p>
+            <div class="flex-container">
+              <div class="flex-item column">
+                <img class="flex-image" style="max-width: 400px;" src="assets/images/background_entail_example.svg" alt="Original Contradictory Conclusion."/>
+                <i>Classical Entailment</i>
+              </div>
+              <div class="flex-item column">
+                <img class="flex-image" style="max-width: 400px;" src="assets/images/background_defeasible_entail_example.svg" alt="Not Defeasibly Entailed."/>
+                <i>Defeasible Entailment</i>
+              </div>
+            </div>
+            <p>
+              In this project, we consider two forms of defeasible entailment called <b>rational closure</b> and <b>lexicographic closure</b>. Both forms of entailment have algorithms that manipulate formulas in the knowledge base when answering entailment queries (i.e. whether a statement is a valid conclusion). While there are also equivalent model-based definitions, these have no corresponding algorithms. 
+            </p>
           </div>
         </div>
       </section>
