@@ -223,60 +223,92 @@
         <div class="inner">
           <h2 >Rational Closure</h2>
           <div class="row">
+            <h3>Introduction</h3>
+            <p> 
+              Rational closure is consistent with a conservative form of reasoning known as prototypical reasoning, where in linguistic terms, objects that are typical examples inherit properties by default.
+            </p>
+            <p>
+              For example, since platypuses are atypical mammals, rational closure is not willing to allow platypuses to inherit most of the typical properties of mammals.
+            </p>
+            <p>
+              While entailment algorithms based on syntactic characterisations of rational closure have been developed, algorithms that directly manipulate the underlying models have not been explored. Thus, we investigate the development of model-based algorithms for computing rational entailment queries to close the literature gap and reap potential efficiency benefits.
+            </p>
+            <h3>Algorithms</h3>
+            <p>
+              Three new algorithms for constructing representations of the rational closure ranked models of a given defeasible knowledge base are defined:
+            </p>
 
-            <div class="">
-              <p>
-                Three new algorithms for constructing representations of the rational closure ranked models of a given defeasible knowledge base are defined.
-              </p>
-            </div>
+            <ol class="ol-styled">
+              <li class="li-styled">
+                <p>
+                  The first algorithm, <b>ModelRank</b>, constructs a representation consistent with the abstract definition of ranked models in the literature. 
+                </p>
+                <div class="flex-container">
+                  <div class="flex-item column">
+                    <img class="flex-image" style="max-width: 800px;" src="assets/images/modelrank_example.png" alt="Ranked model for example knowledge base produced by ModelRank"/>
+                    <i>Ranked model for example knowledge base produced by ModelRank</i>
+                  </div>
+                </div>
+              </li>
 
-            <div class="">
-              <p>
-                The first algorithm, <b>ModelRank</b>, constructs a representation consistent with the abstract definition of ranked models in the literature. 
-              </p>
-            </div>
+              <li class="li-styled">
+                <p>
+                  The second algorithm, <b>FormulaRank</b>, constructs new compact representations for the ranked models using representative formulas. Each representative formula corresponds precisely with the worlds situated on the corresponding level in the minimal ranked interpretation produced by ModelRank.
+                </p>
+                <div class="flex-container">
+                  <div class="flex-item column">
+                    <img class="flex-image" style="max-width: 800px;" src="assets/images/formularank_example.png" alt="Ranked model for example knowledge base produced by FormulaRank"/>
+                    <i>Ranked model for example knowledge base produced by FormulaRank</i>
+                  </div>
+                </div>
+              </li>
 
-            <div class="">
-              <p>
-                The second and third algorithms, <b>FormulaRank</b> and <b>CumulativeFormulaRank</b>, construct new compact representations for the ranked models using representative formulas.
-              </p>
-            </div>
+              <li class="li-styled">
+                <p>
+                  Finally, the <b>CumulativeFormulaRank</b> algorithm also constructs new compact representations using representative formulas. However, it produces a new class of representation that we term cumulative due to the nature in which worlds are associated with each rank. CumulativeFormulaRank also links an existing algorithm, RationalClosure, and model-based approaches.
+                </p>
+                
+                <div class="flex-container">
+                  <div class="flex-item column">
+                    <img class="flex-image" style="max-width: 800px;" src="assets/images/cumulativeformularank_example.png" alt="Ranked model for example knowledge base produced by CumulativeFormulaRank"/>
+                    <i>Ranked model for example knowledge base produced by CumulativeFormulaRank</i>
+                  </div>
+                </div>
+              </li>
+            </ol>
 
-            <div class="">
-              <p>
-                Furthermore, as its name suggests, <b>CumulativeFormulaRank</b> produces a new class of representation that we term cumulative due to the nature in which worlds are associated with each rank. <b>CumulativeFormulaRank</b> also links an existing algorithm, <b>RationalClosure</b>, and model-based approaches.
-              </p>
-            </div>
+            <h3>Implementations</h3>
 
-            <div class="">
-              <p>
-                All three algorithms are proven to produce the desired ranked models for computing the rational closure of a given knowledge base.
-              </p>
-            </div>
+            <p>
+              Although the contributions of this work are primarily theoretical, we felt there was merit in developing a cohesive minor software component that could aid not only the conceptual development of the algorithms presented within this paper but also assist future researchers within this area. 
+            </p>
+            <p>
+              The software developed, therefore, primarily performed the role of a companion testing ground for the ideas we explored during the algorithms' development. The secondary role being to acquire baseline performance comparisons between the newly developed algorithms' mentioned above and pre-existing ranked-formula-based approaches in the literature.
+            </p>
 
-            <div class="">
-              <p>
-                All three algorithms are implemented, and their execution-time performance is benchmarked against implementations of existing algorithms. 
-              </p>
-            </div>
+            <h3>
+              Results and Future Work
+            </h3>
 
-            <div class="">
-              <p>
-                <b>ModelRank</b> allows for approximately constant time defeasible entailment query checking at the expense of exponential space complexity. 
-              </p>
-            </div>
+            <p>
+              We have defined three new algorithms for constructing ranked model representations to compute the rational closure of a given knowledge base. 
+            </p>
 
-            <div class="">
-              <p>
-                <b>FormulaRank</b> is shown to be intractable when paired with the SAT solver that underlies the library used in the software implementation.
-              </p>
-            </div>
+            <p>
+              All three algorithms are proven to produce the desired ranked models for computing the rational closure of a given knowledge base.
+            </p>
 
-            <div class="">
-              <p>
-                <b>CumulativeFormulaRank</b> shows slightly worse performance than existing algorithms, but this was unexpected and suggests representing ranks as conjunctions of formulas instead of sets may hinder performance.
-              </p>
-            </div>
+            <p>
+              Time complexity results show that all algorithms perform in the order of n<sup>2</sup> classical entailment checks and are thus not much more complex than the problem of boolean satisfiability for propositional logic (solvable in non-deterministic polynomial time).
+            </p>
+
+            <p>
+              All three algorithms are implemented, and their execution-time performance is benchmarked against implementations of existing algorithms. In practice, ModelRank allows for approximately constant time defeasible entailment query checking at the expense of exponential space complexity. FormulaRank is shown to be intractable when paired with the SAT solver that underlies the library used in the software implementation. CumulativeFormulaRank shows slightly worse performance than existing algorithms, but this was unexpected and suggests representing ranks as conjunctions of formulas instead of sets may hinder performance.
+            </p>
+
+            <p>
+              Future work includes extending these results to general forms of rational defeasible entailment and considering forms of entailment that allow for syntax-splitting, which refers to the restriction of attention to only the parts of the knowledge base that share atoms with a given query.  
+            </p>
           </div>
         </div>
       </section>
