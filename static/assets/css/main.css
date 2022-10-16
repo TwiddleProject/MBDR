@@ -20,7 +20,7 @@
 	src: url("../webfonts/Inter-SemiBold.ttf") format('truetype');
 }
 
-.ol-styled {
+/* .ol-styled {
 	list-style: none;
 	counter-reset: item;	
 }
@@ -28,11 +28,8 @@
 	margin: 0 0 0.5rem 0;
 	counter-increment: item;
 	position: relative;
-	
-	/* margin-bottom: 5px; */
 }
 .li-styled:before {
-	/* margin-right: 10px; */
 	content: counter(item);
 	background: rgb(255,131,40);
 	color: white;
@@ -45,7 +42,35 @@
 	width: var(--size);
 	height: var(--size);
 	top: 0;
-	/* transform: rotate(-10deg); */
+	border-radius: 50%;
+	text-align: center;
+	box-shadow: 1px 1px 0 #999;
+} */
+
+ol.numbered {
+	list-style: none;
+	counter-reset: item;
+}
+
+ol.numbered li {
+	margin: 0 0 0.5rem 0;
+	counter-increment: item;
+	position: relative;
+}
+
+ol.numbered li:before {
+	content: counter(item);
+	background: rgb(255,131,40);
+	color: white;
+	font-size: 1.5rem;
+	font-weight: bold;
+	position: absolute;
+	--size: 32px;
+	left: calc(-1 * var(--size) - 10px);
+	line-height: var(--size);
+	width: var(--size);
+	height: var(--size);
+	top: 0;
 	border-radius: 50%;
 	text-align: center;
 	box-shadow: 1px 1px 0 #999;
@@ -104,28 +129,6 @@ img.flex-image{
     justify-content: space-between; 
     align-items: center; 
     flex-direction: column; 
-}
-
-ol.numbered {
-	list-style: none;
-	counter-reset: item;
-}
-
-ol.numbered li {
-	counter-increment: item;
-	margin-bottom: 5px;
-}
-
-ol.numbered li:before {
-	margin-right: 20px;
-	content: counter(item);
-	background: var(--dark-dark-blue);
-	border-radius: 100%;
-	color: white;
-	width: 1.7em;
-	height: 1.7em;
-	text-align: center;
-	display: inline-block;
 }
 
 @media screen and (max-width: 1680px) {
