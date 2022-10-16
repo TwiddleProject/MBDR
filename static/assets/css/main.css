@@ -4021,7 +4021,7 @@ input, select, textarea {
 			}
 
 			#sidebar nav a:before {
-				background: #12264e;
+				/* background: #12264e; */
 			}
 
 			#sidebar nav a:after {
