@@ -44,7 +44,7 @@ span.highlight-purple{
     align-items: center; 
     /* flex-flow: row wrap; */ 
     flex-direction: row; 
-    flex-wrap: wrap; 
+    /* flex-wrap: wrap;  */
     align-content: stretch;
     height: 100%;
     padding: 15px;
@@ -62,13 +62,14 @@ span.highlight-purple{
 img.flex-image{
 	padding: 2em;
 	width:100%; 
-	max-width: 60vw;
+	min-width: 200px;
+	max-width: max(60vw, 500px);
 }
 
 .column {
 	display: flex;
     justify-content: space-between; 
-    align-items: stretch; 
+    align-items: center; 
     flex-direction: column; 
 }
 
