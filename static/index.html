@@ -104,11 +104,11 @@
                 Using propositional logic, we can encode the following knowledge:
               </p>
               <p>
-                <ul>
+                <ol class="numbered">
                   <li><span class="highlight-red">mammals give birth to live young</span>,</li>
                   <li><span class="highlight-orange">platypuses are mammals</span> and</li>
                   <li><span class="highlight-blue">platypuses do not give birth to live young</span>, in a <b>knowledge base</b>.</li>
-                </ul>
+                </ol>
               </p>
             </div>
               <div class="flex-container">
@@ -121,10 +121,10 @@
               <p>
                 But since we know that:
               </p>
-              <ul>
+              <ol class="numbered">
                 <li><span class="highlight-orange">platypuses are mammals</span> and</li>
                 <li><span class="highlight-red">mammals give birth to live young</span>,</li>
-              </ul>
+              </ol>
               <p>
                 using <b>classical entailment</b> we can conclude from this knowledge that:
               </p>
@@ -302,15 +302,11 @@
             <p>
               As is the case for our rational closure algorithms, we similarly produce 3 algorithms for constructing 3 different representations of the lexicographic ranked model that use the same 2 entailment algorithms as the rational closure representations.
             </p>
-            <p>
-              The <i>LexicographicModelRank</i> algorithm produces the ranked model directly and is compatible with the <i>ModelSatisfaction</i> algorithm.
-            </p>
-            <p>
-              The <i>LexicographicFormulaRank</i> algorithm uses formulas to represent the worlds on each rank. We adapt the <i>ModelSatisfaction</i> algorithm to produce the <i>FormulaModelSatisfaction</i> algorithm, which uses this new representation. 
-            </p>
-            <p>
-              Finally, the <i>LexicographicCumulativeFormulaRank</i> algorithm constructs a cumulative representation of the ranked worlds using formulas. This representation is compatible with the <i>FormulaModelSatisfaction</i> algorithm.
-            </p>
+            <ol class="numbered">
+              <li>The <i>LexicographicModelRank</i> algorithm produces the ranked model directly and is compatible with the <i>ModelSatisfaction</i> algorithm.</li>
+              <li>The <i>LexicographicFormulaRank</i> algorithm uses formulas to represent the worlds on each rank. We adapt the <i>ModelSatisfaction</i> algorithm to produce the <i>FormulaModelSatisfaction</i> algorithm, which uses this new representation.</li>
+              <li>Finally, the <i>LexicographicCumulativeFormulaRank</i> algorithm constructs a cumulative representation of the ranked worlds using formulas. This representation is compatible with the <i>FormulaModelSatisfaction</i> algorithm.</li>
+            </ol>
             <h3>
               An Undiscovered Lexicographic Closure
             </h3>
