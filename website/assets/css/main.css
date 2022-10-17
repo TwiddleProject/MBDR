@@ -67,12 +67,11 @@ ol.numbered li {
 
 ol.numbered li:before {
 	content: counter(item);
-	background: var(--dark-dark-blue);
+	background: var(--orange);
 	color: white;
 	font-size: 1.5rem;
-	font-weight: bold;
 	position: absolute;
-	--size: 32px;
+	--size: 42px;
 	left: calc(-1 * var(--size) - 10px);
 	line-height: var(--size);
 	width: var(--size);
@@ -174,6 +173,11 @@ img.flex-image{
 
 @media screen and (max-width: 1680px) {
 
+	ol.numbered li:before{
+		--size: 32px;
+		font-size: 1.2rem;
+	}
+
 	.flex-container {
 		flex-direction: row; 
 	}
@@ -229,6 +233,11 @@ img.flex-image{
 }
 
 @media screen and (max-width: 736px) {
+
+	ol.numbered li:before{
+		--size: 26px;
+		font-size: 1rem;
+	}
 
 	.flex-container {
 		flex-direction: column; 
