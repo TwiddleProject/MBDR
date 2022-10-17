@@ -177,7 +177,6 @@ img.flex-image{
 
 i.nav-icon{
 	display: none;
-	min-width: 27px;
 }
 
 @media screen and (max-width: 1680px) {
@@ -249,6 +248,7 @@ i.nav-icon{
 
 	i.nav-icon{
 		display: inline-block;
+		min-width: 35px;
 	}
 
 	ol.numbered li:before{
@@ -292,6 +292,11 @@ i.nav-icon{
 
 
 @media screen and (max-width: 480px) {
+
+	i.nav-icon{
+		display: inline-block;
+		min-width: 20px;
+	}
 
 	.flex-container {
 		flex-direction: column; 
