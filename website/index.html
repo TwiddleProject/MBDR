@@ -324,9 +324,9 @@
               As is the case for our rational closure algorithms, we similarly produce 3 algorithms for constructing 3 different representations of the lexicographic ranked model that use the same 2 entailment algorithms as the rational closure representations.
             </p>
             <ol class="numbered">
-              <li>The <i>LexicographicModelRank</i> algorithm produces the ranked model directly and is compatible with the <i>ModelSatisfaction</i> algorithm.</li>
-              <li>The <i>LexicographicFormulaRank</i> algorithm uses formulas to represent the worlds on each rank. We adapt the <i>ModelSatisfaction</i> algorithm to produce the <i>FormulaModelSatisfaction</i> algorithm, which uses this new representation.</li>
-              <li>Finally, the <i>LexicographicCumulativeFormulaRank</i> algorithm constructs a cumulative representation of the ranked worlds using formulas. This representation is compatible with the <i>FormulaModelSatisfaction</i> algorithm.</li>
+              <li>The <i>LexicographicModelRank</i> algorithm produces the ranked model directly and is compatible with the <i>ModelSatisfaction</i> algorithm. Like the <i>ModelRank</i> algorithm, <i>LexicographicModelRank</i> places valuations incrementally to construct the desired model.</li>
+              <li>The <i>LexicographicFormulaRank</i> algorithm uses formulas to represent the worlds on each rank. We adapt the <i>ModelSatisfaction</i> algorithm to produce the <i>FormulaModelSatisfaction</i> algorithm, which uses this new representation. While producing the correct ordering in the first algorithm was fairly straight-forward, the formula approach is trickier as we must use formulas to express counts (not something easily done using propositional logic). This inherent difficuly produces lengthy formulas in the representation.</li>
+              <li>Finally, the <i>LexicographicCumulativeFormulaRank</i> algorithm constructs a cumulative representation of the ranked worlds using formulas. This representation is compatible with the <i>FormulaModelSatisfaction</i> algorithm. While the resulting formulas are more compact, directly listing the worlds, as in the <i>LexicographicModelRank</i> algorithm, is still more space efficient.</li>
             </ol>
             <h3>
               An Undiscovered Lexicographic Closure
