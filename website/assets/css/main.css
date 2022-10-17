@@ -175,6 +175,11 @@ img.flex-image{
 	max-width: min(900px, 65vw);
 }
 
+#footer {
+	z-index: 10;
+	position: relative;
+}
+
 #footer-logos{
 	justify-content: center;
 	align-items: center;
@@ -186,6 +191,14 @@ img.flex-image{
 
 #footer-logos > a > img{
 	width: 100%;
+}
+
+#perry {
+	max-width: 100px; 
+	position: absolute; 
+	z-index: 9;
+	top:0; 
+	right:0;
 }
 
 i.nav-icon{
@@ -301,6 +314,10 @@ i.nav-icon{
 		max-width: 500px;
 	}
 
+	#perry {
+		max-width: 75px;
+	}
+
 }
 
 
@@ -341,6 +358,10 @@ i.nav-icon{
 
 	#rc-formularank, #rc-cumulativeformularank{
 		max-width: 300px;
+	}
+
+	#perry {
+		max-width: 50px;
 	}
 
 }
