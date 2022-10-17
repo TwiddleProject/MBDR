@@ -20,7 +20,7 @@ public class WebApp {
         }).start(getPort());
 
         app.get("/", ctx -> {
-            ctx.html("TwiddleProject Home");
+            ctx.redirect("/app");
         });
 
         app.routes(() -> {
