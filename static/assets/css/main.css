@@ -139,10 +139,26 @@ img.flex-image{
     flex-direction: column; 
 }
 
+#overview-knowledge{
+	max-width: 400px;
+}
+
+#overview-reasoning, #overview-representation{
+	max-width: 325px;
+}
+
 @media screen and (max-width: 1680px) {
 
 	.flex-container {
 		flex-direction: row; 
+	}
+
+	#overview-knowledge{
+		max-width: 350px;
+	}
+
+	#overview-reasoning, #overview-representation{
+		max-width: 300px;
 	}
 
 }
@@ -164,10 +180,18 @@ img.flex-image{
 }
 
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 480px) {
 
 	.flex-container {
 		flex-direction: column; 
+	}
+
+	#overview-knowledge{
+		max-width: 300px;
+	}
+
+	#overview-reasoning, #overview-representation{
+		max-width: 250px;
 	}
 
 }
