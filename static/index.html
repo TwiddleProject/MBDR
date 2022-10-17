@@ -196,25 +196,25 @@
                 The project attempts to address the gap in existing literature pertaining to the lack of algorithms, based on ranked-model semantics, for computing the rational and lexicographic closure of knowledge bases.
               </p>
               <p>
-                Hence, for both rational and lexicographic closure our aims were to define abstract <b>model representations</b>, <b>construction algorithms</b> for constructing such representations for given knowledge bases and <b></b>, which use the constrcuted models to answer entailment queries.
+                Hence, for both rational and lexicographic closure our aims were to define abstract <b>model representations</b>, <b>construction algorithms</b> for constructing such representations for given knowledge bases and <b>entailment algorithms</b> that use the constructed models to answer entailment queries.
               </p>
+              <div class="flex-container">
+                <div class="flex-item column">
+                  <img class="flex-image" src="assets/images/representation.svg" alt="Graphic to illustrate concept of representation.">
+                  <i>Representation</i>
+                </div>
+                <div class="flex-item column">
+                  <img class="flex-image" src="assets/images/construction.svg" alt="Graphic to illustrate concept of construction.">
+                  <i>Construction</i>
+                </div>
+                <div class="flex-item column">
+                  <img class="flex-image" src="assets/images/entailment.svg" alt="Graphic to illustrate concept of entailment.">
+                  <i>Entailment</i>
+                </div>
+              </div>
               <p>
                 Furthermore, we aimed to analyse and compare the algorithms' theoretical and execution time performance with that of existing ranked-formula based approaches in the literature.
               </p>
-          <div class="flex-container">
-            <div class="flex-item column">
-              <img class="flex-image" src="assets/images/representation.svg" alt="Graphic to illustrate concept of representation.">
-              <i>Representation</i>
-            </div>
-            <div class="flex-item column">
-              <img class="flex-image" src="assets/images/construction.svg" alt="Graphic to illustrate concept of construction.">
-              <i>Construction</i>
-            </div>
-            <div class="flex-item column">
-              <img class="flex-image" src="assets/images/entailment.svg" alt="Graphic to illustrate concept of entailment.">
-              <i>Entailment</i>
-            </div>
-          </div>
           </div>
         </div>
       </section>
@@ -300,7 +300,7 @@
             </p>
 
             <p>
-              Time complexity results show that all algorithms perform in the order of n<sup>2</sup> classical entailment checks and are thus not much more complex than the problem of boolean satisfiability for propositional logic (solvable in non-deterministic polynomial time).
+              Time complexity results show that all algorithms perform O(n<sup>2</sup>) classical entailment checks and are thus not much more complex than the problem of boolean satisfiability for propositional logic (solvable in non-deterministic polynomial time).
             </p>
 
             <p>
