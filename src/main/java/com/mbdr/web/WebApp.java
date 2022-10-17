@@ -17,6 +17,11 @@ public class WebApp {
 
     public static void main(String[] args) {
         Javalin app = Javalin.create(config -> {
+            config.plugins.enableCors(cors -> {
+                cors.add(it -> {
+                    it.allowHost("http://app.twiddleproject.com", "https://app.twiddleproject.com");
+                });
+            });
         }).start(getPort());
 
         app.get("/", ctx -> {
