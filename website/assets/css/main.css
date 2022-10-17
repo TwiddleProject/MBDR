@@ -102,6 +102,10 @@ span.highlight-purple{
 	font-weight: bold;
 }
 
+i.light{
+	color: white;
+}
+
 .flex-container {
     display: flex;
     justify-content: space-evenly; 
@@ -171,6 +175,11 @@ img.flex-image{
 	max-width: min(900px, 65vw);
 }
 
+i.nav-icon{
+	display: none;
+	min-width: 30px;
+}
+
 @media screen and (max-width: 1680px) {
 
 	ol.numbered li:before{
@@ -233,6 +242,14 @@ img.flex-image{
 }
 
 @media screen and (max-width: 736px) {
+
+	span.nav-text{
+		display: none;
+	}
+
+	i.nav-icon{
+		display: inline-block;
+	}
 
 	ol.numbered li:before{
 		--size: 26px;
@@ -4147,7 +4164,15 @@ input, select, textarea {
 					transition-delay: 4.25s;
 				}
 
-		#sidebar nav a {
+				#sidebar nav a span.nav-text{
+					color:inherit;
+				}
+
+				#sidebar nav a i.nav-icon{
+					color:inherit;
+				}
+		
+		#sidebar nav a{
 			-moz-transition: color 0.2s ease;
 			-webkit-transition: color 0.2s ease;
 			-ms-transition: color 0.2s ease;
@@ -4196,7 +4221,7 @@ input, select, textarea {
 			}
 
 			#sidebar nav a:hover {
-				color: rgba(255, 255, 255, 0.55);
+				color: rgba(255, 255, 255, 0.8);
 			}
 
 			#sidebar nav a.active {
@@ -4270,7 +4295,7 @@ input, select, textarea {
 							display: block;
 							height: inherit;
 							line-height: inherit;
-							margin: 0 0 0 2em;
+							margin: 0 0 0 1.5em;
 							padding: 0;
 							background: transparent;
 						}
@@ -4286,14 +4311,6 @@ input, select, textarea {
 							background-image: none;
 							background-color: #0f43a5;
 						}
-
-		}
-
-		@media screen and (max-width: 736px) {
-
-			#sidebar {
-				display: none;
-			}
 
 		}
 
