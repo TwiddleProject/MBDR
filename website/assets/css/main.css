@@ -205,7 +205,15 @@ i.nav-icon{
 	display: none;
 }
 
+h3{
+	padding-left: 2rem !important;
+}
+
 @media screen and (max-width: 1680px) {
+
+	h3{
+		padding-left: 1.5rem !important;
+	}
 
 	ol.numbered li:before{
 		--size: 32px;
@@ -617,11 +625,11 @@ input, select, textarea {
 			}
 
 	h2 {
-		font-size: 1.75em;
+		font-size: 2.25em;
 	}
 
 	h3 {
-		font-size: 1.1em;
+		font-size: 1.5em;
 	}
 
 	h4 {
@@ -643,11 +651,11 @@ input, select, textarea {
 		}
 
 		h2 {
-			font-size: 1.25em;
+			font-size: 2.5em;
 		}
-
+	
 		h3 {
-			font-size: 1em;
+			font-size: 1.5em;
 		}
 
 		h4 {
@@ -662,6 +670,16 @@ input, select, textarea {
 			font-size: 0.6em;
 		}
 
+	}
+
+	@media screen and (max-width: 736px) {
+		h2 {
+			font-size: 1.75em;
+		}
+
+		h3 {
+			font-size: 1.25em;
+		}
 	}
 
 	sub {
@@ -4395,6 +4413,11 @@ body {
 	font-family: 'Lato', sans-serif;
 }
 
-h1,h2 {
+h1,h2,h3 {
 	font-family: 'Open Sans', sans-serif;
 }
+
+h3{
+	color: var(--dark-dark-blue);
+}
+
