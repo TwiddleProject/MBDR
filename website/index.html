@@ -230,7 +230,7 @@
             <ol class="numbered">
               <li>
                 <p>
-                  The first algorithm, <b>ModelRank</b>, constructs a representation consistent with the abstract definition of ranked models in the literature. 
+                  The first algorithm, <i>ModelRank</i>, constructs a representation consistent with the abstract definition of ranked models in the literature. 
                 </p>
                 <div class="flex-container">
                   <div class="flex-item column">
@@ -242,7 +242,7 @@
 
               <li>
                 <p>
-                  The second algorithm, <b>FormulaRank</b>, constructs new compact representations for the ranked models using representative formulas. Each representative formula corresponds precisely with the worlds situated on the corresponding level in the minimal ranked interpretation produced by ModelRank.
+                  The second algorithm, <i>FormulaRank</i>, constructs new compact representations for the ranked models using representative formulas. Each representative formula corresponds precisely with the worlds situated on the corresponding level in the minimal ranked interpretation produced by <i>ModelRank</i>.
                 </p>
                 <div class="flex-container">
                   <div class="flex-item column">
@@ -254,7 +254,7 @@
 
               <li>
                 <p>
-                  Finally, the <b>CumulativeFormulaRank</b> algorithm also constructs new compact representations using representative formulas. However, it produces a new class of representation that we term cumulative due to the nature in which worlds are associated with each rank. CumulativeFormulaRank also links an existing algorithm, RationalClosure, and model-based approaches.
+                  Finally, the <i>CumulativeFormulaRank</i> algorithm also constructs new compact representations using representative formulas. However, it produces a new class of representation that we term cumulative due to the nature in which worlds are associated with each rank. <i>CumulativeFormulaRank</i> also links an existing algorithm, <i>RationalClosure</i>, and model-based approaches.
                 </p>
                 
                 <div class="flex-container">
@@ -292,7 +292,7 @@
             </p>
 
             <p>
-              All three algorithms are implemented, and their execution-time performance is benchmarked against implementations of existing algorithms. In practice, ModelRank allows for approximately constant time defeasible entailment query checking at the expense of exponential space complexity. FormulaRank is shown to be intractable when paired with the SAT solver that underlies the library used in the software implementation. CumulativeFormulaRank shows slightly worse performance than existing algorithms, but this was unexpected and suggests representing ranks as conjunctions of formulas instead of sets may hinder performance.
+              All three algorithms are implemented, and their execution-time performance is benchmarked against implementations of existing algorithms. In practice, <i>ModelRank</i> allows for approximately constant time defeasible entailment query checking at the expense of exponential space complexity. <i>FormulaRank</i> is shown to be intractable when paired with the SAT solver that underlies the library used in the software implementation. <i>CumulativeFormulaRank</i> shows slightly worse performance than existing algorithms, but this was unexpected and suggests representing ranks as conjunctions of formulas instead of sets may hinder performance.
             </p>
 
             <p>
@@ -605,7 +605,7 @@
                       ><b>Center for Artificial Intelligence Research</b></a
                     >
                   </div>
-                  <div class="flex-container row">
+                  <div id="footer-logos" class="flex-container row">
                       <a class="flex-item" href="https://www.uct.ac.za/">
                         <img style="max-width: 200px;" src="assets/images/uct_circular_logo.svg" alt="UCT Logo.">
                       </a>

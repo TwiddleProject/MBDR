@@ -175,6 +175,19 @@ img.flex-image{
 	max-width: min(900px, 65vw);
 }
 
+#footer-logos{
+	justify-content: center;
+	align-items: center;
+}
+
+#footer-logos > a {
+	width: 100%;
+}
+
+#footer-logos > a > img{
+	width: 100%;
+}
+
 i.nav-icon{
 	display: none;
 }
