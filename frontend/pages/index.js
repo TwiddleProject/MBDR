@@ -44,7 +44,7 @@ export default function Home() {
       <Head>
         <title>MBDR</title>
         <meta name="description" content="Project investigating model-based approaches to computing defeasible entailment." />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/static/favicon.ico" />
       </Head>
       <Center h='100vh' >
         <Box w="xl" borderWidth='2px' borderRadius='lg' p="4" >
