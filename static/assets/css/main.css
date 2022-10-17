@@ -128,7 +128,7 @@ span.highlight-purple{
 img.flex-image{
 	padding: 2em;
 	width:100%; 
-	min-width: 200px;
+	min-width: 100px;
 	max-width: max(60vw, 500px);
 }
 
@@ -147,6 +147,18 @@ img.flex-image{
 	max-width: 325px;
 }
 
+#background-knowledge, #background-updated-knowledge{
+	max-width: 800px;
+}
+
+#background-contradiction, #background-entail, #background-dentail{
+	max-width: 350px;
+}
+
+#background-implication, #background-dimplication{
+	max-width: 525px;
+}
+
 @media screen and (max-width: 1680px) {
 
 	.flex-container {
@@ -161,12 +173,36 @@ img.flex-image{
 		max-width: 300px;
 	}
 
+	#background-knowledge, #background-updated-knowledge{
+		max-width: 700px;
+	}
+
+	#background-contradiction, #background-entail, #background-dentail{
+		max-width: 300px;
+	}
+
+	#background-implication, #background-dimplication{
+		max-width: 500px;
+	}
+
 }
 
 @media screen and (max-width: 1280px) {
 
 	.flex-container {
 		flex-direction: row; 
+	}
+
+	#background-knowledge, #background-updated-knowledge{
+		max-width: 600px;
+	}
+
+	#background-contradiction, #background-entail, #background-dentail{
+		max-width: 250px;
+	}
+
+	#background-implication, #background-dimplication{
+		max-width: 400px;
 	}
 
 }
@@ -177,6 +213,17 @@ img.flex-image{
 		flex-direction: column; 
 	}
 
+	#background-knowledge, #background-updated-knowledge{
+		max-width: 500px;
+	}
+
+	#background-contradiction, #background-entail, #background-dentail{
+		max-width: 225px;
+	}
+
+	#background-implication, #background-dimplication{
+		max-width: 300px;
+	}
 }
 
 
@@ -191,6 +238,18 @@ img.flex-image{
 	}
 
 	#overview-reasoning, #overview-representation{
+		max-width: 250px;
+	}
+
+	#background-knowledge, #background-updated-knowledge{
+		max-width: 400px;
+	}
+
+	#background-contradiction, #background-entail, #background-dentail{
+		max-width: 175px;
+	}
+
+	#background-implication, #background-dimplication{
 		max-width: 250px;
 	}
 

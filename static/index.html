@@ -95,40 +95,28 @@
             <div>
               <p>
                 <b>Knowledge representation and reasoning</b> is concerned with representing information about the world through formalisms like mathematical logic. We focus on a foundational logic referred to as <b>classical propositional logic</b>.
+                Using propositional logic, we can encode the following knowledge:<br> 
+                <span class="highlight-red">mammals give birth to live young</span>, <span class="highlight-orange">platypuses are mammals</span> and <span class="highlight-blue">platypuses do not give birth to live young</span>, in a <b>knowledge base</b>.
               </p>
-              <p>
-                Using propositional logic, we can encode the following knowledge:
-              </p>
-              <ol class="numbered">
-                <li><span class="highlight-red">mammals give birth to live young</span>,</li>
-                <li><span class="highlight-orange">platypuses are mammals</span> and</li>
-                <li><span class="highlight-blue">platypuses do not give birth to live young</span>, in a <b>knowledge base</b>.</li>
-              </ol>
             </div>
               <div class="flex-container">
                 <div class="flex-item column">
-                  <img class="flex-image" style="max-width: 800px;" src="assets/images/background_knowledge.svg" alt="Knowledge Base Example.">
+                  <img id="background-knowledge" class="flex-image" src="assets/images/background_knowledge.svg" alt="Knowledge Base Example.">
                   <i>Platypus Knowledge Base</i>
                 </div>
               </div>
               <div>
               <p>
-                But since we know that:
+                But since we know that
+                <span class="highlight-orange">platypuses are mammals</span> and
+                <span class="highlight-red">mammals give birth to live young</span>,
+                using <b>classical entailment</b> we can conclude from this knowledge that
+                <span class="highlight-purple">platypuses give birth to live young</span>!
               </p>
-              <ol class="numbered">
-                <li><span class="highlight-orange">platypuses are mammals</span> and</li>
-                <li><span class="highlight-red">mammals give birth to live young</span>,</li>
-              </ol>
-              <p>
-                using <b>classical entailment</b> we can conclude from this knowledge that:
-              </p>
-                <ul>
-                  <li><span class="highlight-purple">platypuses give birth to live young</span>!</li>
-                </ul>
             </div>
             <div class="flex-container">
               <div class="flex-item column">
-                <img class="flex-image" style="max-width: 350px;" src="assets/images/background_strange_conclusion.svg" alt="Contradictory Conclusion.">
+                <img id="background-contradiction" class="flex-image" src="assets/images/background_strange_conclusion.svg" alt="Contradictory Conclusion.">
                 <i>A Contradictory Conclusion</i>
               </div>
             </div>
@@ -147,11 +135,11 @@
             </p>
             <div class="flex-container">
               <div class="flex-item column">
-                <img class="flex-image" style="max-width: 400px;" src="assets/images/background_implication_example.svg" alt="Classical Implication Example.">
+                <img id="background-implication" class="flex-image" src="assets/images/background_implication_example.svg" alt="Classical Implication Example.">
                 <i>Classical Implication</i>
               </div>
               <div class="flex-item column">
-                <img class="flex-image" style="max-width: 400px;" src="assets/images/background_twiddle_example.svg" alt="Defeasible Implication Example.">
+                <img id="background-dimplication" class="flex-image" src="assets/images/background_twiddle_example.svg" alt="Defeasible Implication Example.">
                 <i>Defeasible Implication</i>
               </div>
             </div>
@@ -163,7 +151,7 @@
             </p>
             <div class="flex-container">
               <div class="flex-item column">
-                <img class="flex-image" style="max-width: 800px;" src="assets/images/background_defeasible_knowledge.svg" alt="Updated Knowledge Base Example using Defeasible Knowledge.">
+                <img id="background-updated-knowledge" class="flex-image" src="assets/images/background_defeasible_knowledge.svg" alt="Updated Knowledge Base Example using Defeasible Knowledge.">
                 <i>Modified Knowledge Base</i>
               </div>
             </div>
@@ -172,11 +160,11 @@
             </p>
             <div class="flex-container">
               <div class="flex-item column">
-                <img class="flex-image" style="max-width: 400px;" src="assets/images/background_entail_example.svg" alt="Original Contradictory Conclusion.">
+                <img id="background-entail" class="flex-image" src="assets/images/background_entail_example.svg" alt="Original Contradictory Conclusion.">
                 <i>Classical Entailment</i>
               </div>
               <div class="flex-item column">
-                <img class="flex-image" style="max-width: 400px;" src="assets/images/background_defeasible_entail_example.svg" alt="Not Defeasibly Entailed.">
+                <img id="background-dentail" class="flex-image" src="assets/images/background_defeasible_entail_example.svg" alt="Not Defeasibly Entailed.">
                 <i>Defeasible Entailment</i>
               </div>
             </div>
