@@ -9,8 +9,8 @@ import reactDom from 'react-dom'
 import axios from "axios";
 import { responseSymbol } from "next/dist/server/web/spec-compliant/fetch-event";
 
-const baseURL = "https://mbdr.herokuapp.com";
-// const baseURL = "http://localhost:8080";
+const baseURL = "https://app.twiddleproject.com/api";
+
 export default function Home() {
   let [value, setValue] = React.useState('p => b\nb |~ f\np |~ !f')
   let [result, setResult] = React.useState(null)
@@ -23,7 +23,7 @@ export default function Home() {
 
   let handleGetRankedModel = () => {
     setLoading(true);
-    axios.post(baseURL + "/rankedmodelrc", {
+    axios.post(baseURL + "/construction/modelrank", {
       data: value, headers: {
         "Access-Control-Allow-Origin": "*", 'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>MBDR</title>
+        <title>Twiddle App</title>
         <meta name="description" content="Project investigating model-based approaches to computing defeasible entailment." />
         <link rel="icon" href="/static/favicon.ico" />
       </Head>
@@ -61,7 +61,7 @@ export default function Home() {
                 mb="2"
                 flex="1"
               />
-              <Button colorScheme='teal' variant='solid' onClick={handleGetRankedModel}>
+              <Button colorScheme='blue' variant='solid' onClick={handleGetRankedModel}>
                 Construct Rational Closure Ranked Model
               </Button>
             </Flex>
