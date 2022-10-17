@@ -160,6 +160,18 @@ img.flex-image{
 	max-width: 525px;
 }
 
+#rc-modelrank{
+	max-width: 400px;
+}
+
+#rc-formularank, #rc-cumulativeformularank{
+	max-width: 625px;
+}
+
+#lc-different{
+	max-width: min(900px, 65vw);
+}
+
 @media screen and (max-width: 1680px) {
 
 	.flex-container {
@@ -187,6 +199,13 @@ img.flex-image{
 		max-width: 500px;
 	}
 
+	#rc-modelrank{
+		max-width: 325px;
+	}
+	
+	#rc-formularank, #rc-cumulativeformularank{
+		max-width: 500px;
+	}
 }
 
 @media screen and (max-width: 1280px) {
@@ -230,6 +249,19 @@ img.flex-image{
 	#aims-representation, #aims-construction, #aims-entailment{
 		max-width: 225px;
 	}
+
+	#rc-modelrank{
+		max-width: 230px;
+	}
+
+	#rc-formularank, #rc-cumulativeformularank{
+		max-width: 350px;
+	}
+
+	#lc-different{
+		max-width: 500px;
+	}
+
 }
 
 
@@ -257,6 +289,14 @@ img.flex-image{
 
 	#background-implication, #background-dimplication{
 		max-width: 250px;
+	}
+
+	#rc-modelrank{
+		max-width: 200px;
+	}
+
+	#rc-formularank, #rc-cumulativeformularank{
+		max-width: 300px;
 	}
 
 }
