@@ -177,7 +177,7 @@ img.flex-image{
 
 i.nav-icon{
 	display: none;
-	min-width: 30px;
+	min-width: 27px;
 }
 
 @media screen and (max-width: 1680px) {
