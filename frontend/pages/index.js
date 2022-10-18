@@ -63,7 +63,7 @@ export default function Home() {
                 Knowledge Base Model Generator
               </Heading>
             </Box>
-            <Box w={[null, "sm", "lg"]} borderWidth='2px' borderRadius='lg' p="4" >
+            <Box w={["xs", "sm", "lg"]} borderWidth='2px' borderRadius='lg' p="4" >
               <Flex direction="column" h="xl" gap='2'>
                 <Flex flex='1' direction="column" align="center">
                   <Heading as='h4' size='md' mb="2">
