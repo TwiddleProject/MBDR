@@ -10,6 +10,7 @@ import axios from "axios";
 import { responseSymbol } from "next/dist/server/web/spec-compliant/fetch-event";
 
 import Navbar from "../components/navbar/Navbar"
+import { MdBuild } from "react-icons/md"
 
 const baseURL = "https://app.twiddleproject.com/api";
 
@@ -64,28 +65,34 @@ export default function Home() {
             </Box>
             <Box w={[null, "sm", "lg"]} borderWidth='2px' borderRadius='lg' p="4" >
               <Flex direction="column" h="xl" gap='2'>
-                <Flex flex='1' direction="column">
+                <Flex flex='1' direction="column" align="center">
                   <Heading as='h4' size='md' mb="2">
-                    Enter Knowledge Base:
+                    Knowledge Base
                   </Heading>
                   <Textarea
                     value={value}
                     onChange={handleInputChange}
                     // placeholder='p => b&#10;b |~ f&#10;p |~ !f&#10;'
+                    fontFamily="monospace"
                     size='sm'
                     mb="2"
                     flex="1"
                   />
-                  <Button colorScheme='blue' variant='solid' onClick={handleGetRankedModel}>
+                  <Button my="2" leftIcon={<MdBuild />} 
+                    colorScheme="twitter"
+                    color='white'
+                    borderRadius="140px"
+                    w={["100px", "200px"]}
+                    variant='solid' onClick={handleGetRankedModel}>
                     Construct
                   </Button>
                 </Flex>
-                <Flex flex='1' direction="column" >
+                <Flex flex='1' direction="column" align="center">
                   {loading && <Center h='100%'>
                     <Spinner size='xl' />
                   </Center>}
                   {result && !loading && <><Heading as='h4' size='md' mb="2">
-                    Ranked Model:
+                    Rational Closure Model
                   </Heading>
                     <Textarea
                       value={result}
