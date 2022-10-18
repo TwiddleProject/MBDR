@@ -82,7 +82,7 @@ export default function Home() {
                     colorScheme="twitter"
                     color='white'
                     borderRadius="140px"
-                    w={["100px", "200px"]}
+                    w={["150px", "200px"]}
                     variant='solid' onClick={handleGetRankedModel}>
                     Construct
                   </Button>
