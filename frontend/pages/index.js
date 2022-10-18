@@ -9,6 +9,8 @@ import reactDom from 'react-dom'
 import axios from "axios";
 import { responseSymbol } from "next/dist/server/web/spec-compliant/fetch-event";
 
+import Navbar from "../components/navbar/Navbar"
+
 const baseURL = "https://app.twiddleproject.com/api";
 
 export default function Home() {
@@ -45,50 +47,58 @@ export default function Home() {
   }
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Twiddle App</title>
-        <meta name="description" content="Project investigating model-based approaches to computing defeasible entailment." />
-        <link rel="icon" href="/static/favicon.ico" />
-      </Head>
-      <Center h='100vh' >
-        <Box w="xl" borderWidth='2px' borderRadius='lg' p="4" >
-          <Flex direction="column" h="xl" gap='2'>
-            <Flex flex='1' direction="column">
-              <Heading as='h4' size='md' mb="2">
-                Enter Knowledge Base:
+      <>
+        <Head>
+          <title>Twiddle App</title>
+          <meta name="description" content="Project investigating model-based approaches to computing defeasible entailment." />
+          <link rel="icon" href="/static/img/favicon.ico" />
+        </Head>
+        <Navbar w="100vw"></Navbar>
+        <div className={styles.container}>
+        <Center mt='16'>
+          <Flex flex='1' direction="column" alignItems="center">
+            <Box>
+              <Heading size='lg' mb="10" noOfLines={2}>
+                Knowledge Base Model Generator
               </Heading>
-              <Textarea
-                value={value}
-                onChange={handleInputChange}
-                // placeholder='p => b&#10;b |~ f&#10;p |~ !f&#10;'
-                size='sm'
-                mb="2"
-                flex="1"
-              />
-              <Button colorScheme='blue' variant='solid' onClick={handleGetRankedModel}>
-                Construct Rational Closure Ranked Model
-              </Button>
-            </Flex>
-            <Flex flex='1' direction="column" >
-              {loading && <Center h='100%'>
-                <Spinner size='xl' />
-              </Center>}
-              {result && !loading && <><Heading as='h4' size='md' mb="2">
-                Ranked Model:
-              </Heading>
-                <Textarea
-                  value={result}
-                  // placeholder='p => b&#10;b |~ f&#10;p |~ !f&#10;'
-                  size='sm'
-                  flex='1'
-                /></>}
-            </Flex>
+            </Box>
+            <Box w={[null, "sm", "lg"]} borderWidth='2px' borderRadius='lg' p="4" >
+              <Flex direction="column" h="xl" gap='2'>
+                <Flex flex='1' direction="column">
+                  <Heading as='h4' size='md' mb="2">
+                    Enter Knowledge Base:
+                  </Heading>
+                  <Textarea
+                    value={value}
+                    onChange={handleInputChange}
+                    // placeholder='p => b&#10;b |~ f&#10;p |~ !f&#10;'
+                    size='sm'
+                    mb="2"
+                    flex="1"
+                  />
+                  <Button colorScheme='blue' variant='solid' onClick={handleGetRankedModel}>
+                    Construct
+                  </Button>
+                </Flex>
+                <Flex flex='1' direction="column" >
+                  {loading && <Center h='100%'>
+                    <Spinner size='xl' />
+                  </Center>}
+                  {result && !loading && <><Heading as='h4' size='md' mb="2">
+                    Ranked Model:
+                  </Heading>
+                    <Textarea
+                      value={result}
+                      // placeholder='p => b&#10;b |~ f&#10;p |~ !f&#10;'
+                      size='sm'
+                      flex='1'
+                    /></>}
+                </Flex>
+              </Flex>
+            </Box>
           </Flex>
-
-        </Box>
-
-      </Center>
-    </div >
+        </Center>
+      </div >
+    </>
   )
 }
