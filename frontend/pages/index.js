@@ -13,7 +13,7 @@ const baseURL = "https://app.twiddleproject.com/api";
 
 export default function Home() {
   let [value, setValue] = React.useState('p => b\nb |~ f\np |~ !f')
-  let [result, setResult] = React.useState(null)
+  let [result, setResult] = React.useState(null);
   let [loading, setLoading] = React.useState(false);
 
   let handleInputChange = (e) => {
@@ -34,7 +34,12 @@ export default function Home() {
         console.log(response);
         setResult(response.data);
       }
-
+    ).catch(
+      (error) => {
+        setLoading(false);
+        console.log(error);
+        setResult(error);
+      }
     );
 
   }
