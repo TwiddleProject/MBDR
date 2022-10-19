@@ -2,7 +2,7 @@ import React from "react";
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import { Center, Text, Textarea, Box } from '@chakra-ui/react'
+import { Center, Text, Textarea, Box, Select } from '@chakra-ui/react'
 import { Stack, HStack, VStack, Flex, Square, Spinner } from '@chakra-ui/react'
 import { Heading, Button } from '@chakra-ui/react'
 import reactDom from 'react-dom'
@@ -13,6 +13,27 @@ import Navbar from "../components/navbar/Navbar"
 import { MdBuild } from "react-icons/md"
 
 const baseURL = "https://app.twiddleproject.com/api";
+
+const CONSTRUCTION_ALGORITHMS = [
+  {
+    "value" : "modelrank", 
+    "name" : "Rational Closure Model"},
+  // {
+  //   "value" : "formularank", 
+  //   "name" : "Rational Closure Formula Rank"},
+  // {
+  //   "value" : "cumulativeformularank", 
+  //   "name" : "Rational Closure Cumulative Formula Rank"},
+  // {
+  //   "value" : "lexicographicmodelrank",
+  //   "name" : "Lexicographic Closure Model"},
+  // {
+  //   "value" : "lexicographicformularank", 
+  //   "name" : "Lexicographic Closure Formula Model"},
+  // {
+  //   "value" : "lexicographiccumulativeformularank", 
+  //   "name" : "Lexicographic Closure Cumulative Formula Model"},
+]
 
 export default function Home() {
   let [value, setValue] = React.useState('p => b\nb |~ f\np |~ !f')
@@ -78,14 +99,21 @@ export default function Home() {
                     mb="2"
                     flex="1"
                   />
-                  <Button my="2" leftIcon={<MdBuild />} 
-                    colorScheme="twitter"
-                    color='white'
-                    borderRadius="140px"
-                    w={["150px", "200px"]}
-                    variant='solid' onClick={handleGetRankedModel}>
-                    Construct
-                  </Button>
+                  <Flex align='center' justify="center" direction={['column', null, 'row']}>
+                    <Select pr="2">
+                      {CONSTRUCTION_ALGORITHMS.map(opt => 
+                        <option key={opt.value} value={opt.value}>{opt.name}</option>
+                      )}
+                    </Select>
+                    <Button my="2" leftIcon={<MdBuild />} 
+                      colorScheme="twitter"
+                      color='white'
+                      borderRadius="140px"
+                      w={["150px", "200px"]}
+                      variant='solid' onClick={handleGetRankedModel}>
+                      Construct
+                    </Button>
+                  </Flex>
                 </Flex>
                 <Flex flex='1' direction="column" align="center">
                   {loading && <Center h='100%'>
@@ -96,6 +124,7 @@ export default function Home() {
                   </Heading>
                     <Textarea
                       value={result}
+                      fontFamily="monospace"
                       // placeholder='p => b&#10;b |~ f&#10;p |~ !f&#10;'
                       size='sm'
                       flex='1'
