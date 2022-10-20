@@ -1,60 +1,71 @@
 package com.mbdr.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tweetyproject.commons.ParserException;
 
+import com.mbdr.common.services.RankConstructor;
 import com.mbdr.common.structures.DefeasibleFormulaCollection;
 import com.mbdr.common.structures.DefeasibleKnowledgeBase;
-import com.mbdr.modelbased.construction.ModelRank;
+import com.mbdr.modelbased.construction.*;
 import com.mbdr.modelbased.structures.RankedInterpretation;
 import com.mbdr.utils.parsing.Parsing;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
+ 
 import io.javalin.http.Context;
 
 public class ConstructionController {
 
-    public static void getRankedRCModel(Context ctx){
-        System.out.println("Body:" + ctx.body());
-        String data = "";
+    private static Map<String, Class<? extends RankConstructor<? extends Object>>> constructors = Map.ofEntries(
+        Map.entry("modelrank", ModelRank.class),
+        Map.entry("formularank", FormulaRank.class),
+        Map.entry("cumulativeformularank", CumulativeFormulaRank.class),
+        Map.entry("lexicographicmodelrank", LexicographicCountModelRank.class),
+        Map.entry("lexicographicformularank", LexicographicCountFormulaRank.class),
+        Map.entry("lexicographiccumulativeformularank", LexicographicCountCumulativeFormulaRank.class)
+    );
 
+    public static void getModel(Context ctx){
+        System.out.println("GET MODEL CALLED");
+        String data = "";
         try {
             JSONObject jsonObject = new JSONObject(ctx.body());
-            System.out.println("jsonObject:\t" + jsonObject);
             data = jsonObject.getString("data");
-            System.out.println("data:\t" + data);
-
-        } catch (JSONException err) {
-            err.printStackTrace();
+        } 
+        catch (JSONException err) {
+            ctx.result("Could not parse JSON data!");
+            return;
         }
 
-        RankedInterpretation rankedModel = new RankedInterpretation();
+        if (!constructors.containsKey(ctx.pathParam("algorithm"))){
+            ctx.result("No such algorithm!");
+            return;
+        }
+
+        Object model = null;
 
         try {
             ArrayList<String> rawFormulas = Parsing.readFormulasFromString(data);
-
-            for (String raw : rawFormulas) {
-                System.out.println(raw);
-            }
-
             DefeasibleFormulaCollection knowledge = Parsing.parseFormulas(rawFormulas);
-
-            System.out.println("----------------------------");
-            System.out.println("KB_C:\t" + knowledge.getPropositionalKnowledge());
-            System.out.println("KB_D:\t" + knowledge.getDefeasibleKnowledge());
-            System.out.println("----------------------------");
-
-            rankedModel = new ModelRank().construct(new DefeasibleKnowledgeBase(knowledge));
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            RankConstructor<?> rankConstructor = (RankConstructor<?>) constructors
+                .get(ctx.pathParam("algorithm"))
+                .getConstructor()
+                .newInstance();
+            model = rankConstructor.construct(new DefeasibleKnowledgeBase(knowledge));
+        } 
+        catch(ParserException | IOException e){
+            ctx.result("Invalid knowledge base!\nMake sure each line is a valid formula.");
+            return;
         }
-
-        String result = "";
-
-        result += rankedModel.toString();
-        
-        ctx.result(result);
+        catch (Exception e) {
+            ctx.result("Could not construct model!");
+            return;
+        }
+        ctx.result(model.toString());
     }
 }

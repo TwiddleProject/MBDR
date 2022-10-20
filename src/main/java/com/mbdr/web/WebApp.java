@@ -32,12 +32,9 @@ public class WebApp {
 
         app.routes(() -> {
             path("api", () -> {
-                get(ctx -> {
-                    ctx.html("TwiddleProject API");
-                });
                 path("construction", () -> {
                     path("{algorithm}", () -> {
-                        post(ConstructionController::getRankedRCModel);
+                        post(ConstructionController::getModel);
                     });
                 });
             });
