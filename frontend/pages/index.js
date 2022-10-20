@@ -54,6 +54,11 @@ function getRepresentations(value){
   return [];
 }
 
+function getFirstOption(closure){
+  let options = getRepresentations(closure);
+  return options.length === 0 ? "" : options[0].value;
+}
+
 export default function Home() {
   let [knowledgeBase, setKnowledgeBase] = React.useState('p => b\nb |~ f\np |~ !f');
   let [{closure, model}, setAlgorithm] = React.useState(
@@ -72,7 +77,7 @@ export default function Home() {
 
   let handleGetRankedModel = () => {
     setLoading(true);
-    axios.post(baseURL + "/construction/modelrank", {
+    axios.post(baseURL + "/construction/" + model, {
       data: knowledgeBase, headers: {
         "Access-Control-Allow-Origin": "*", 'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -95,7 +100,7 @@ export default function Home() {
 
   let handleClosureChange = (event) => {
     setAlgorithm(last => (
-      {model: '', closure: event.target.value}
+      {model: getFirstOption(event.target.value), closure: event.target.value}
     ));
   }
 
@@ -121,7 +126,7 @@ export default function Home() {
                 Knowledge Base Model Generator
               </Heading>
             </Box>
-            <Box w={["xs", "sm", "lg"]} borderWidth='2px' borderRadius='lg' p="4" >
+            <Box w={["xs", "sm", "lg", "xl"]} borderWidth='2px' borderRadius='lg' p="4" >
               <Flex direction="column" h="xl" gap='2'>
                 <Flex flex='1' direction="column" align="center">
                   <Heading as='h4' size='md' mb="2">
@@ -130,23 +135,24 @@ export default function Home() {
                   <Textarea
                     value={knowledgeBase}
                     onChange={handleInputChange}
-                    // placeholder='p => b&#10;b |~ f&#10;p |~ !f&#10;'
                     fontFamily="monospace"
                     size='sm'
                     mb="2"
                     flex="1"
                   />
-                  <Flex align='center' justify="center" direction={['column', null, 'row']}>
-                    <Select pr="2" value={closure} onChange={handleClosureChange}>
-                      {CONSTRUCTION_ALGORITHMS.map(opt => 
-                        <option key={opt.value} value={opt.value}>{opt.name}</option>
-                      )}
-                    </Select>
-                    <Select pr="2" value={model} onChange={handleModelChange}>
-                      {getRepresentations(closure).map(opt => 
-                        <option key={opt.value} value={opt.value}>{opt.name}</option>
-                      )}
-                    </Select>
+                  <Flex align={['center']} justify={["center"]} direction={['column']}>
+                    <Flex direction={['column', null, 'row']}>
+                      <Select w={[null, null, null, '250px']} value={closure} onChange={handleClosureChange}>
+                        {CONSTRUCTION_ALGORITHMS.map(opt => 
+                          <option key={opt.value} value={opt.value}>{opt.name}</option>
+                        )}
+                      </Select>
+                      <Select w={[null, null, null, '250px']} value={model} onChange={handleModelChange}>
+                        {getRepresentations(closure).map(opt => 
+                          <option key={opt.value} value={opt.value}>{opt.name}</option>
+                        )}
+                      </Select>
+                    </Flex>
                     <Button my="2" leftIcon={<MdBuild />} 
                       colorScheme="twitter"
                       color='white'
