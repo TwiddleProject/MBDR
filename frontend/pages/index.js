@@ -15,40 +15,65 @@ import { MdBuild } from "react-icons/md"
 const baseURL = "https://app.twiddleproject.com/api";
 
 const CONSTRUCTION_ALGORITHMS = [
-  {
-    "value" : "modelrank", 
-    "name" : "Rational Closure Model"},
-  // {
-  //   "value" : "formularank", 
-  //   "name" : "Rational Closure Formula Rank"},
-  // {
-  //   "value" : "cumulativeformularank", 
-  //   "name" : "Rational Closure Cumulative Formula Rank"},
-  // {
-  //   "value" : "lexicographicmodelrank",
-  //   "name" : "Lexicographic Closure Model"},
-  // {
-  //   "value" : "lexicographicformularank", 
-  //   "name" : "Lexicographic Closure Formula Model"},
-  // {
-  //   "value" : "lexicographiccumulativeformularank", 
-  //   "name" : "Lexicographic Closure Cumulative Formula Model"},
+  { "value" : "rationalclosure",
+    "name" : "Rational Closure",
+    "representations" : [
+      {
+        "value" : "modelrank",
+        "name" : "Ranked Model"},
+      {
+        "value" : "formularank", 
+        "name" : "Formula Model"},
+      {
+        "value" : "cumulativeformularank", 
+        "name" : "Cumulative Formula Model"},
+    ]
+  },
+  { "value" : "lexicographicclosure",
+    "name" : "Lexicographic Closure",
+    "representations" : [
+      {
+        "value" : "lexicographicmodelrank",
+        "name" : "Ranked Model"},
+      {
+        "value" : "lexicographicformularank", 
+        "name" : "Formula Model"},
+      {
+        "value" : "lexicographiccumulativeformularank", 
+        "name" : "Cumulative Formula Model"},
+    ]
+  }
 ]
 
+function getRepresentations(value){
+  for(let closure of CONSTRUCTION_ALGORITHMS){
+    if(closure.value === value){
+      return closure.representations;
+    }
+  }
+  return [];
+}
+
 export default function Home() {
-  let [value, setValue] = React.useState('p => b\nb |~ f\np |~ !f')
+  let [knowledgeBase, setKnowledgeBase] = React.useState('p => b\nb |~ f\np |~ !f');
+  let [{closure, model}, setAlgorithm] = React.useState(
+    {
+      closure : CONSTRUCTION_ALGORITHMS[0].value,
+      model : CONSTRUCTION_ALGORITHMS[0].representations[0].value
+    }
+  );
   let [result, setResult] = React.useState(null);
   let [loading, setLoading] = React.useState(false);
 
   let handleInputChange = (e) => {
     let inputValue = e.target.value
-    setValue(inputValue)
+    setKnowledgeBase(inputValue)
   }
 
   let handleGetRankedModel = () => {
     setLoading(true);
     axios.post(baseURL + "/construction/modelrank", {
-      data: value, headers: {
+      data: knowledgeBase, headers: {
         "Access-Control-Allow-Origin": "*", 'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
@@ -66,6 +91,18 @@ export default function Home() {
       }
     );
 
+  }
+
+  let handleClosureChange = (event) => {
+    setAlgorithm(last => (
+      {model: '', closure: event.target.value}
+    ));
+  }
+
+  let handleModelChange = (event) => {
+    setAlgorithm(last => (
+      {...last, model: event.target.value}
+    ));
   }
 
   return (
@@ -91,7 +128,7 @@ export default function Home() {
                     Knowledge Base
                   </Heading>
                   <Textarea
-                    value={value}
+                    value={knowledgeBase}
                     onChange={handleInputChange}
                     // placeholder='p => b&#10;b |~ f&#10;p |~ !f&#10;'
                     fontFamily="monospace"
@@ -100,8 +137,13 @@ export default function Home() {
                     flex="1"
                   />
                   <Flex align='center' justify="center" direction={['column', null, 'row']}>
-                    <Select pr="2">
+                    <Select pr="2" value={closure} onChange={handleClosureChange}>
                       {CONSTRUCTION_ALGORITHMS.map(opt => 
+                        <option key={opt.value} value={opt.value}>{opt.name}</option>
+                      )}
+                    </Select>
+                    <Select pr="2" value={model} onChange={handleModelChange}>
+                      {getRepresentations(closure).map(opt => 
                         <option key={opt.value} value={opt.value}>{opt.name}</option>
                       )}
                     </Select>
