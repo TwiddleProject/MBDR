@@ -92,7 +92,7 @@ export default function Home() {
       (error) => {
         setLoading(false);
         console.log(error);
-        setResult(error);
+        setResult("Could not build model!");
       }
     );
 
