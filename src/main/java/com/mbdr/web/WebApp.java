@@ -1,7 +1,6 @@
 package com.mbdr.web;
 
 import io.javalin.Javalin;
-import io.javalin.http.staticfiles.Location;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -35,6 +34,11 @@ public class WebApp {
                 path("construction", () -> {
                     path("{algorithm}", () -> {
                         post(ConstructionController::getModel);
+                    });
+                });
+                path("entailment", () -> {
+                    path("{algorithm}", () -> {
+                        post(EntailmentController::getAnswers);
                     });
                 });
             });
