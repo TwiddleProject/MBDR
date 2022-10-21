@@ -31,7 +31,6 @@ public class ConstructionController {
     );
 
     public static void getModel(Context ctx){
-        System.out.println("GET MODEL CALLED");
         String data = "";
         try {
             JSONObject jsonObject = new JSONObject(ctx.body());
