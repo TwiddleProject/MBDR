@@ -87,8 +87,8 @@ public class Parsing {
     /**
      * Separates string of formulas into individual formulas.
      * Currently used for web interface.
-     * @param data
-     * @return
+     * @param data The string to parse
+     * @return Array of string formulas
      */
     public static ArrayList<String> readFormulasFromString(String data) {
         ArrayList<String> formulas = new ArrayList<String>();
@@ -113,8 +113,8 @@ public class Parsing {
      * Materialises given defeasible implication (changes twiddle to material
      * implication)
      * 
-     * @param DI
-     * @return
+     * @param DI The defeasible implication
+     * @return The materialized implication
      */
     public static String materialiseDefeasibleImplication(String DI) {
         return DI.replace(TWIDDLE, "=>");
