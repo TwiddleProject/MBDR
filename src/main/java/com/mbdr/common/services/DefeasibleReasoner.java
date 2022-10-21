@@ -1,5 +1,7 @@
 package com.mbdr.common.services;
 
+import java.util.List;
+
 import org.tweetyproject.logics.pl.syntax.Implication;
 import org.tweetyproject.logics.pl.syntax.PlFormula;
 
@@ -34,6 +36,25 @@ public interface DefeasibleReasoner {
                 throw new InvalidFormula("Invalid formula for propositional query.");
             }
         }
+    }
+
+    /**
+     * Query several unparsed string formulas
+     * 
+     * @param formulas The string representation of the formulas
+     * @return The formatted query results
+     */
+    default String queryAll(List<String> formulas){
+        int max = 0;
+        for(String formula : formulas){
+            max = formula.length() > max ? formula.length() : max;
+        }
+        String template = "%-" + max + "s : %s\n"; 
+        String result = "";
+        for(String formula : formulas){
+            result += String.format(template, formula, query(formula) ? "Yes" : "No");
+        }
+        return result.trim();
     }
 
     /**
