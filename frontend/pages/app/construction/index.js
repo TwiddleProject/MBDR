@@ -1,7 +1,7 @@
 import React from "react";
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import styles from '/styles/Home.module.css'
 import { Center, Text, Textarea, Box, Select } from '@chakra-ui/react'
 import { Stack, HStack, VStack, Flex, Square, Spinner } from '@chakra-ui/react'
 import { Heading, Button } from '@chakra-ui/react'
@@ -9,7 +9,7 @@ import reactDom from 'react-dom'
 import axios from "axios";
 import { responseSymbol } from "next/dist/server/web/spec-compliant/fetch-event";
 
-import Navbar from "../components/navbar/Navbar"
+import Navbar from "/components/navbar/Navbar"
 import { MdBuild } from "react-icons/md"
 
 const baseURL = "https://app.twiddleproject.com/api";
@@ -113,23 +113,23 @@ export default function Home() {
   return (
       <>
         <Head>
-          <title>Twiddle App</title>
+          <title>Twiddle App | Construction</title>
           <meta name="description" content="Project investigating model-based approaches to computing defeasible entailment." />
           <link rel="icon" href="/static/img/favicon.ico" />
         </Head>
-        <Navbar w="100vw"></Navbar>
+        <Navbar selected="Construction" w="100vw"></Navbar>
         <div className={styles.container}>
         <Center mt='16'>
           <Flex flex='1' direction="column" alignItems="center">
             <Box>
               <Heading size='lg' mb="10" noOfLines={2}>
-                Knowledge Base Model Generator
+                Model Constructor
               </Heading>
             </Box>
             <Box w={["xs", "sm", "lg", "xl"]} borderWidth='2px' borderRadius='lg' p="4" >
-              <Flex direction="column" h="xl" gap='2'>
+              <Flex direction="column" h="650px" gap='2'>
                 <Flex flex='1' direction="column" align="center">
-                  <Heading as='h4' size='md' mb="2">
+                  <Heading as='h4' size='sm' mb="2">
                     Knowledge Base
                   </Heading>
                   <Textarea
@@ -168,12 +168,11 @@ export default function Home() {
                     <Spinner size='xl' />
                   </Center>}
                   {result && !loading && <><Heading as='h4' size='md' mb="2">
-                    Rational Closure Model
+                    Model
                   </Heading>
                     <Textarea
                       value={result}
                       fontFamily="monospace"
-                      // placeholder='p => b&#10;b |~ f&#10;p |~ !f&#10;'
                       size='sm'
                       flex='1'
                     /></>}

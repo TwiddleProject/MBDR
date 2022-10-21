@@ -23,7 +23,7 @@ import {
     ChevronRightIcon,
   } from '@chakra-ui/icons';
   
-  export default function WithSubnavigation() {
+  export default function WithSubnavigation({ selected }) {
     const { isOpen, onToggle } = useDisclosure();
   
     return (
@@ -69,7 +69,7 @@ import {
             </Text>
             </Flex>
             <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-              <DesktopNav />
+              <DesktopNav selected={selected}/>
             </Flex>
           </Flex>
   
@@ -88,7 +88,7 @@ import {
                 "color": '#0BAFF9'
               }}
               href={'https://twiddleproject.com'}>
-              Return Home
+              Return
             </Button>
             {/* <Button
               display={{ base: 'none', md: 'inline-flex' }}
@@ -106,13 +106,13 @@ import {
         </Flex>
   
         <Collapse in={isOpen} animateOpacity>
-          <MobileNav />
+          <MobileNav/>
         </Collapse>
       </Box>
     );
   }
   
-  const DesktopNav = () => {
+  const DesktopNav = ({ selected }) => {
     const linkColor = useColorModeValue('gray.200', 'gray.200');
     const linkHoverColor = useColorModeValue('#0BAFF9', '#0BAFF9');
     const popoverContentBgColor = useColorModeValue('white', 'white');
@@ -128,7 +128,7 @@ import {
                   href={navItem.href ?? '#'}
                   fontSize={['sm', 'md']}
                   fontWeight={500}
-                  color={linkColor}
+                  color={navItem.label === selected ? linkHoverColor : linkColor}
                   _hover={{
                     textDecoration: 'none',
                     color: linkHoverColor,
@@ -265,8 +265,16 @@ import {
   
   const NAV_ITEMS = [
     {
+      label: 'Home',
+      href: '/app ',
+    },
+    {
       label: 'Construction',
-      href: '/',
+      href: '/app/construction',
+    },
+    {
+      label: 'Entailment',
+      href: '/app/entailment',
     }
     // {
     //   label: 'Construction'
